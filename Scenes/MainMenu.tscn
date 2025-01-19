@@ -1,3 +1,6 @@
-[gd_scene format=3 uid="uid://bboowfa1pm3ff"]
+[gd_scene load_steps=2 format=3 uid="uid://bboowfa1pm3ff"]
+
+[ext_resource type="Script" path="res://Scripts/MainMenu.cs" id="1_irrtc"]
 
 [node name="MainMenu" type="Node2D"]
+script = ExtResource("1_irrtc")
