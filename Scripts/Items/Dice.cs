@@ -3,8 +3,8 @@ using System;
 
 public partial class Dice : Node
 {
-	int Min;
-	int Max;
+	private int Min;
+	private int Max;
 	public Dice(int min, int max)
 	{
 		Min = min;
