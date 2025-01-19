@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxhb16b8m87xn"]
+
+[ext_resource type="Texture2D" uid="uid://c2jrg0p5ggowt" path="res://Assets/Boards/sketch1731796761909.png" id="1_romse"]
+
+[node name="Board" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("1_romse")
+expand_mode = 1
