@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://dxhb16b8m87xn"]
+[gd_scene load_steps=3 format=3 uid="uid://dxhb16b8m87xn"]
 
+[ext_resource type="Script" path="res://Scenes/Boards/Board1.cs" id="1_epi25"]
 [ext_resource type="Texture2D" uid="uid://c2jrg0p5ggowt" path="res://Assets/Boards/sketch1731796761909.png" id="1_romse"]
 
 [node name="Board" type="Node2D"]
+script = ExtResource("1_epi25")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_right = 1152.0
