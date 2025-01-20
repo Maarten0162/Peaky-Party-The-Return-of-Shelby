@@ -41,7 +41,7 @@ public partial class Board1 : Node2D
 			{
 				spacesInfo[x] = (marker.Position, x + 1, marker.Name, marker.Name);
 				GD.Print($"Point {x}: {spacesInfo[x].SpacePos}");
-				
+
 				x++;
 			}
 		}
@@ -62,10 +62,10 @@ public partial class Board1 : Node2D
 			GD.Print($"Space position: {space.SpacePos}, space Number: {space.Number} Name: {space.Name}, Original Name: {space.OriginalName}");
 		}
 		tempplayer.Position = spacesInfo[playerstartposition].SpacePos;
-		tempplayer.currSpace = playerstartposition+ 1;
+		tempplayer.currSpace = playerstartposition + 1;
 		GD.Print(tempplayer.Position);
 		tempplayer.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
-		
+
 		// Movement(4, tempplayer);
 	}
 
@@ -96,7 +96,7 @@ public partial class Board1 : Node2D
 					GD.Print(tempplayer.currSpace);
 					isMoving = false; // Stop moving after reaching the last marker
 					GD.Print($"Player Global Position: {tempplayer.GlobalPosition}");
-GD.Print($"Marker Global Position: {spacesInfo[tempplayer.currSpace -1 ].SpacePos}");
+					GD.Print($"Marker Global Position: {spacesInfo[tempplayer.currSpace - 1].SpacePos}");
 				}
 
 			}
@@ -108,17 +108,17 @@ GD.Print($"Marker Global Position: {spacesInfo[tempplayer.currSpace -1 ].SpacePo
 		target = player.currSpace + diceroll;
 	}
 	public override void _Input(InputEvent @event)
-{
-   // Check if the input event is a key press
-    if (@event is InputEventKey keyEvent)
-    {
-        // Check if the '1' key is pressed
-        if (keyEvent.Keycode == Key.Key1 && keyEvent.Pressed)
-        {
-            GD.Print("Key 1 Pressed");
-            // Call the movement function with a sample diceroll (e.g., 1)
-            Movement(1, tempplayer); 
-        }
-    }
-}
+	{
+		// Check if the input event is a key press
+		if (@event is InputEventKey keyEvent)
+		{
+			// Check if the '1' key is pressed
+			if (keyEvent.Keycode == Key.Key1 && keyEvent.Pressed)
+			{
+				GD.Print("Key 1 Pressed");
+				// Call the movement function with a sample diceroll (e.g., 1)
+				Movement(1, tempplayer);
+			}
+		}
+	}
 }

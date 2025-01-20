@@ -18,7 +18,6 @@ texture = ExtResource("1_romse")
 expand_mode = 1
 
 [node name="Path" type="Line2D" parent="."]
-position = Vector2(12, -2)
 points = PackedVector2Array(1, 1)
 width_curve = SubResource("Curve_u4wws")
 default_color = Color(0.823529, 0.027451, 0.215686, 1)
