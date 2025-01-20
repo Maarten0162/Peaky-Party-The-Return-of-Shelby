@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Player : CharacterBody2D
 {
@@ -13,7 +14,8 @@ public partial class Player : CharacterBody2D
 	public int currSpace;
 
 	//debuffs
-	private int rollAdjust;
+	public int rollAdjust;
+	private List<Item> itemList;
 
 	//stats
 	private int spacedMoved;
@@ -28,15 +30,18 @@ public partial class Player : CharacterBody2D
 
 	public Player(Sprite2D _skin)
 	{
+		BallAndChain BAC = new ();
 		Skin = _skin;
 		Currency = 100;
 		Health = 100;
 		isAlive = true;
 		SkipTurn = false;
+		itemList.Add(BAC);
 	}
+
 	public Player()
 	{
-
+		BallAndChain BAC = new ();
 		Currency = 100;
 		Health = 100;
 		isAlive = true;

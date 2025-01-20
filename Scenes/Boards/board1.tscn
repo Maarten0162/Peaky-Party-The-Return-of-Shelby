@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scenes/Boards/Board1.cs" id="1_epi25"]
 [ext_resource type="Texture2D" uid="uid://c2jrg0p5ggowt" path="res://Assets/Boards/sketch1731796761909.png" id="1_romse"]
 [ext_resource type="Texture2D" uid="uid://deuk381seydf7" path="res://Assets/Spaces/bluespace.png" id="3_ar3mf"]
-[ext_resource type="PackedScene" uid="uid://df4xx16f6sxyl" path="res://Scenes/Game Objects/player.tscn" id="4_je2pl"]
+[ext_resource type="PackedScene" uid="uid://df4xx16f6sxyl" path="res://Scenes/Game Objects/Player.tscn" id="4_je2pl"]
 
 [sub_resource type="Curve" id="Curve_u4wws"]
 
