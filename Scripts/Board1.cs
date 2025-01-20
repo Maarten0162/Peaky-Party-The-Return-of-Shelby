@@ -11,11 +11,14 @@ public partial class Board1 : Node2D
 	private float moveSpeed = 200f; // Movement speed (pixels per second)
 	private bool isMoving = false; // To control when to move the player
 	int target;
+	PackedScene Playerscene = (PackedScene)GD.Load("res://Scenes/Game Objects/player.tscn");
 	[Export]
 	int playerstartposition;
 	public override void _Ready()
 	{
-		tempplayer = GetNode<Player>("Player");
+
+		tempplayer = (Player)Playerscene.Instantiate();
+		AddChild(tempplayer);
 
 		path = GetNode<Line2D>("Path");
 		if (path != null)
@@ -39,7 +42,8 @@ public partial class Board1 : Node2D
 		{
 			if (Child is Marker2D marker)
 			{
-				spacesInfo[x] = (marker.Position, x + 1, marker.Name, marker.Name);
+				
+				spacesInfo[x] = (marker.Position, x + 1, Child.Name, Child.Name);
 				GD.Print($"Point {x}: {spacesInfo[x].SpacePos}");
 
 				x++;
@@ -61,12 +65,12 @@ public partial class Board1 : Node2D
 
 			GD.Print($"Space position: {space.SpacePos}, space Number: {space.Number} Name: {space.Name}, Original Name: {space.OriginalName}");
 		}
-		tempplayer.Position = spacesInfo[playerstartposition].SpacePos;
-		tempplayer.currSpace = playerstartposition + 1;
+		tempplayer.Position = spacesInfo[playerstartposition - 1].SpacePos;
+		tempplayer.currSpace = playerstartposition;
 		GD.Print(tempplayer.Position);
 		tempplayer.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
 
-		// Movement(4, tempplayer);
+		;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -86,17 +90,18 @@ public partial class Board1 : Node2D
 			}
 			else
 			{
-				// Once we reach the target marker, stop moving and update to the next marker
-				tempplayer.Position = targetPosition; // Correct any small offset
-				tempplayer.currSpace++; // Move to the next marker
+
+				tempplayer.Position = targetPosition;
+				tempplayer.currSpace++;
 				GD.Print("player current position is" + tempplayer.currSpace);
-				// If we reached the last marker, stop the movement
+
 				if (tempplayer.currSpace == target)
 				{
 					GD.Print(tempplayer.currSpace);
-					isMoving = false; // Stop moving after reaching the last marker
+					isMoving = false;
 					GD.Print($"Player Global Position: {tempplayer.GlobalPosition}");
 					GD.Print($"Marker Global Position: {spacesInfo[tempplayer.currSpace - 1].SpacePos}");
+
 				}
 
 			}
