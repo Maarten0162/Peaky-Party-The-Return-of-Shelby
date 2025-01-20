@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dxhb16b8m87xn"]
+[gd_scene load_steps=4 format=3 uid="uid://dxhb16b8m87xn"]
 
 [ext_resource type="Script" path="res://Scenes/Boards/Board1.cs" id="1_epi25"]
 [ext_resource type="Texture2D" uid="uid://c2jrg0p5ggowt" path="res://Assets/Boards/sketch1731796761909.png" id="1_romse"]
+[ext_resource type="Texture2D" uid="uid://deuk381seydf7" path="res://Assets/Spaces/bluespace.png" id="3_ar3mf"]
 
 [node name="Board" type="Node2D"]
 script = ExtResource("1_epi25")
@@ -11,3 +12,96 @@ offset_right = 1152.0
 offset_bottom = 648.0
 texture = ExtResource("1_romse")
 expand_mode = 1
+
+[node name="Path" type="Line2D" parent="."]
+
+[node name="Space1" type="Marker2D" parent="Path"]
+position = Vector2(203, 110)
+
+[node name="Sprite2D" type="Sprite2D" parent="Path/Space1"]
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("3_ar3mf")
+
+[node name="Space2" type="Marker2D" parent="Path"]
+position = Vector2(288, 96)
+
+[node name="Sprite2D" type="Sprite2D" parent="Path/Space2"]
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("3_ar3mf")
+
+[node name="Space3" type="Marker2D" parent="Path"]
+position = Vector2(366, 80)
+
+[node name="Sprite2D" type="Sprite2D" parent="Path/Space3"]
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("3_ar3mf")
+
+[node name="Space4" type="Marker2D" parent="Path"]
+position = Vector2(442, 57)
+
+[node name="Sprite2D" type="Sprite2D" parent="Path/Space4"]
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("3_ar3mf")
+
+[node name="Space5" type="Marker2D" parent="Path"]
+position = Vector2(500, 44)
+
+[node name="Sprite2D" type="Sprite2D" parent="Path/Space5"]
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("3_ar3mf")
+
+[node name="Space6" type="Marker2D" parent="Path"]
+position = Vector2(571, 63)
+
+[node name="Sprite2D" type="Sprite2D" parent="Path/Space6"]
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("3_ar3mf")
+
+[node name="Space7" type="Marker2D" parent="Path"]
+position = Vector2(708, 110)
+
+[node name="Sprite2D" type="Sprite2D" parent="Path/Space7"]
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("3_ar3mf")
+
+[node name="Space8" type="Marker2D" parent="Path"]
+position = Vector2(795, 113)
+
+[node name="Sprite2D" type="Sprite2D" parent="Path/Space8"]
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("3_ar3mf")
+
+[node name="Space9" type="Marker2D" parent="Path"]
+position = Vector2(875, 108)
+
+[node name="Sprite2D" type="Sprite2D" parent="Path/Space9"]
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("3_ar3mf")
+
+[node name="Space10" type="Marker2D" parent="Path"]
+position = Vector2(935, 101)
+
+[node name="Sprite2D" type="Sprite2D" parent="Path/Space10"]
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("3_ar3mf")
+
+[node name="Space11" type="Marker2D" parent="Path"]
+position = Vector2(992, 99)
+
+[node name="Sprite2D" type="Sprite2D" parent="Path/Space11"]
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("3_ar3mf")
+
+[node name="Space12" type="Marker2D" parent="Path"]
+position = Vector2(1014, 161)
+
+[node name="Sprite2D" type="Sprite2D" parent="Path/Space12"]
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("3_ar3mf")
+
+[node name="Space13" type="Marker2D" parent="Path"]
+position = Vector2(996, 214)
+
+[node name="Sprite2D" type="Sprite2D" parent="Path/Space13"]
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("3_ar3mf")

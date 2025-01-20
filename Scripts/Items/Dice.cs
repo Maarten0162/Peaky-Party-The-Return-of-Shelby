@@ -5,10 +5,10 @@ public partial class Dice : Node
 {
 	private int Min;
 	private int Max;
-	public Dice(int min, int max)
+	public Dice(int _min, int _max)
 	{
-		Min = min;
-		Max = max;
+		this.Min = _min;
+		this.Max = _max;
 	}
 	public int Roll()
 	{
