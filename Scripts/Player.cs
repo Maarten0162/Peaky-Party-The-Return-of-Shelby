@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Runtime;
+using System.Threading.Tasks;
 
 public partial class Player : CharacterBody2D
 {
@@ -10,8 +12,10 @@ public partial class Player : CharacterBody2D
 	private bool isAlive;
 	private bool SkipTurn;
 	private int Currency;
-	private Vector2 currPos;
 	public int currSpace;
+	private bool isMoving;
+	[Export]
+	private float moveSpeed = 200f; // Movement speed (pixels per second)
 
 	//debuffs
 	public int rollAdjust;
@@ -24,13 +28,14 @@ public partial class Player : CharacterBody2D
 	private int LostCurr;
 	private int DamageDealt;
 
-	
+
+
 	//public vars
 	public Sprite2D Skin;
 
 	public Player(Sprite2D _skin)
 	{
-		BallAndChain BAC = new ();
+		BallAndChain BAC = new();
 		Skin = _skin;
 		Currency = 100;
 		Health = 100;
@@ -41,7 +46,7 @@ public partial class Player : CharacterBody2D
 
 	public Player()
 	{
-		BallAndChain BAC = new ();
+		BallAndChain BAC = new();
 		Currency = 100;
 		Health = 100;
 		isAlive = true;
@@ -54,13 +59,47 @@ public partial class Player : CharacterBody2D
 		{
 			isAlive = false;
 		}
-		
+
 	}
 
-	public int Movement()
+	public bool Movement(Board board, int target)
 	{
-		return 1;
-	}	
+		for (int i = currSpace; i < target; i++)
+		{
+			isMoving = true;
+			if (isMoving && currSpace < target)
+			{
+
+
+				Vector2 targetPosition = board.spacesInfo[currSpace].SpacePos;
+
+				Vector2 direction = targetPosition - Position;
+				float distance = direction.Length();
+				if (distance > 1f) // Stop moving once we are close enough
+				{
+					Position += direction.Normalized() * moveSpeed * (float)GetProcessDeltaTime();
+				}
+				else
+				{
+
+					Position = targetPosition;
+					currSpace++;
+					GD.Print("player current position is" + currSpace);
+
+					if (currSpace == target)
+					{
+						GD.Print(currSpace);
+						isMoving = false;
+						GD.Print($"Player Global Position: {GlobalPosition}");
+						GD.Print($"Marker Global Position: {board.spacesInfo[currSpace - 1].SpacePos}");
+
+					}
+
+				}
+			}
+		}
+		return true;
+	}
 
 	public void Attack()
 	{
@@ -78,7 +117,7 @@ public partial class Player : CharacterBody2D
 		{
 			item.Use(player);
 		}
-		
+
 	}
-	
+
 }

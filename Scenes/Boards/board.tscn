@@ -1,14 +1,13 @@
 [gd_scene load_steps=5 format=3 uid="uid://cfxrb8rsnjvid"]
 
-[ext_resource type="Script" path="res://Scripts/Board1.cs" id="1_2pdqh"]
 [ext_resource type="Texture2D" uid="uid://c2jrg0p5ggowt" path="res://Assets/Boards/sketch1731796761909.png" id="1_romse"]
+[ext_resource type="Script" path="res://Scripts/Board.cs" id="1_sx40b"]
 [ext_resource type="PackedScene" uid="uid://kamfg16yw5do" path="res://Scenes/Game Objects/Genericspace.tscn" id="3_764oh"]
 
 [sub_resource type="Curve" id="Curve_u4wws"]
 
 [node name="Board" type="Node2D"]
-script = ExtResource("1_2pdqh")
-playerstartposition = 1
+script = ExtResource("1_sx40b")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_right = 1152.0
