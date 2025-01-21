@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 
 public partial class BallAndChain : Active
 {
-    Player player;
     public BallAndChain(string _name, string _desc, int _price)
     {
         itemName = _name;
@@ -17,7 +16,7 @@ public partial class BallAndChain : Active
         
     }
 
-    public override void Use()
+    public override void Use(Player player)
     {
         player.rollAdjust =+ 1;
     }

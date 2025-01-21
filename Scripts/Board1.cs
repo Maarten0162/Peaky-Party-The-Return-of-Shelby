@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public partial class Board1 : Node2D
 {
@@ -18,7 +19,7 @@ public partial class Board1 : Node2D
 	{
 
 		tempplayer = (Player)Playerscene.Instantiate();
-		AddChild(tempplayer);
+		this.AddChild(tempplayer);
 
 		path = GetNode<Line2D>("Path");
 		if (path != null)
@@ -42,7 +43,7 @@ public partial class Board1 : Node2D
 		{
 			if (Child is Marker2D marker)
 			{
-				
+
 				spacesInfo[x] = (marker.Position, x + 1, Child.Name, Child.Name);
 				GD.Print($"Point {x}: {spacesInfo[x].SpacePos}");
 
@@ -69,13 +70,17 @@ public partial class Board1 : Node2D
 		tempplayer.currSpace = playerstartposition;
 		GD.Print(tempplayer.Position);
 		tempplayer.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
-
-		;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _PhysicsProcess(double delta)
 	{
+		if (Input.IsActionJustPressed("Debug_key_1"))
+		{
+			GD.Print("Key 1 Pressed");
+			// Call the movement function with a sample diceroll (e.g., 1)
+			Movement(1, tempplayer);
+		}
 		if (isMoving && tempplayer.currSpace < target)
 		{
 
@@ -107,23 +112,10 @@ public partial class Board1 : Node2D
 			}
 		}
 	}
-	private void Movement(int diceroll, Player player)
+	private async void Movement(int diceroll, Player player)
 	{
 		isMoving = true;
 		target = player.currSpace + diceroll;
 	}
-	public override void _Input(InputEvent @event)
-	{
-		// Check if the input event is a key press
-		if (@event is InputEventKey keyEvent)
-		{
-			// Check if the '1' key is pressed
-			if (keyEvent.Keycode == Key.Key1 && keyEvent.Pressed)
-			{
-				GD.Print("Key 1 Pressed");
-				// Call the movement function with a sample diceroll (e.g., 1)
-				Movement(1, tempplayer);
-			}
-		}
-	}
+
 }

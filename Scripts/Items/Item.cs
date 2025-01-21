@@ -22,7 +22,7 @@ public partial class Item : Sprite2D
         BadMythical
     }
 
-    public virtual void Use()
+    public virtual void Use(Player player)
     {
 
     }

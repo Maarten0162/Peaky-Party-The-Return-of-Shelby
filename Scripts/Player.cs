@@ -71,5 +71,14 @@ public partial class Player : CharacterBody2D
 	{
 		//
 	}
+
+	private void useItem(Item item, Player player)
+	{
+		if (player.itemList.Contains(item))
+		{
+			item.Use(player);
+		}
+		
+	}
 	
 }
