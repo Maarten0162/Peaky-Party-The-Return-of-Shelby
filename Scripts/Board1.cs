@@ -8,7 +8,6 @@ public partial class Board1 : Node2D
 	private (Vector2 SpacePos, int Number, string Name, string OriginalName)[] spacesInfo;
 	private Line2D path;
 	private Player tempplayer;
-	private int currentSpaceIndex; // Track which marker the player is at
 	private float moveSpeed = 200f; // Movement speed (pixels per second)
 	private bool isMoving = false; // To control when to move the player
 	int target;

@@ -1,8 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dxhb16b8m87xn"]
+[gd_scene load_steps=5 format=3 uid="uid://cfxrb8rsnjvid"]
 
 [ext_resource type="Script" path="res://Scripts/Board1.cs" id="1_2pdqh"]
 [ext_resource type="Texture2D" uid="uid://c2jrg0p5ggowt" path="res://Assets/Boards/sketch1731796761909.png" id="1_romse"]
-[ext_resource type="Texture2D" uid="uid://deuk381seydf7" path="res://Assets/Spaces/bluespace.png" id="3_ar3mf"]
+[ext_resource type="PackedScene" uid="uid://kamfg16yw5do" path="res://Scenes/Game Objects/Genericspace.tscn" id="3_764oh"]
 
 [sub_resource type="Curve" id="Curve_u4wws"]
 
@@ -21,93 +21,382 @@ points = PackedVector2Array(1, 1)
 width_curve = SubResource("Curve_u4wws")
 default_color = Color(0.823529, 0.027451, 0.215686, 1)
 
-[node name="Space1" type="Marker2D" parent="Path"]
-position = Vector2(203, 110)
+[node name="GenericSpace1" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(131, 118)
 
-[node name="Sprite2D" type="Sprite2D" parent="Path/Space1"]
-scale = Vector2(0.01, 0.01)
-texture = ExtResource("3_ar3mf")
+[node name="GenericSpace2" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(175, 114)
 
-[node name="Space2" type="Marker2D" parent="Path"]
-position = Vector2(288, 96)
+[node name="GenericSpace3" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(225, 105)
 
-[node name="Sprite2D" type="Sprite2D" parent="Path/Space2"]
-scale = Vector2(0.01, 0.01)
-texture = ExtResource("3_ar3mf")
+[node name="GenericSpace4" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(270, 97)
 
-[node name="Space3" type="Marker2D" parent="Path"]
-position = Vector2(366, 80)
+[node name="GenericSpace5" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(314, 92)
 
-[node name="Sprite2D" type="Sprite2D" parent="Path/Space3"]
-scale = Vector2(0.01, 0.01)
-texture = ExtResource("3_ar3mf")
+[node name="GenericSpace6" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(352, 84)
 
-[node name="Space4" type="Marker2D" parent="Path"]
-position = Vector2(442, 57)
+[node name="GenericSpace7" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(392, 74)
 
-[node name="Sprite2D" type="Sprite2D" parent="Path/Space4"]
-scale = Vector2(0.01, 0.01)
-texture = ExtResource("3_ar3mf")
+[node name="GenericSpace8" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(429, 64)
 
-[node name="Space5" type="Marker2D" parent="Path"]
-position = Vector2(500, 44)
+[node name="GenericSpace9" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(468, 50)
 
-[node name="Sprite2D" type="Sprite2D" parent="Path/Space5"]
-scale = Vector2(0.01, 0.01)
-texture = ExtResource("3_ar3mf")
+[node name="GenericSpace10" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(505, 45)
 
-[node name="Space6" type="Marker2D" parent="Path"]
-position = Vector2(571, 63)
+[node name="GenericSpace11" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(544, 46)
 
-[node name="Sprite2D" type="Sprite2D" parent="Path/Space6"]
-scale = Vector2(0.01, 0.01)
-texture = ExtResource("3_ar3mf")
+[node name="GenericSpace12" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(579, 61)
 
-[node name="Space7" type="Marker2D" parent="Path"]
-position = Vector2(708, 110)
+[node name="GenericSpace13" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(607, 79)
 
-[node name="Sprite2D" type="Sprite2D" parent="Path/Space7"]
-scale = Vector2(0.01, 0.01)
-texture = ExtResource("3_ar3mf")
+[node name="GenericSpace14" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(686, 112)
 
-[node name="Space8" type="Marker2D" parent="Path"]
-position = Vector2(795, 113)
+[node name="GenericSpace15" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(719, 109)
 
-[node name="Sprite2D" type="Sprite2D" parent="Path/Space8"]
-scale = Vector2(0.01, 0.01)
-texture = ExtResource("3_ar3mf")
+[node name="GenericSpace16" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(749, 109)
 
-[node name="Space9" type="Marker2D" parent="Path"]
-position = Vector2(875, 108)
+[node name="GenericSpace17" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(783, 111)
 
-[node name="Sprite2D" type="Sprite2D" parent="Path/Space9"]
-scale = Vector2(0.01, 0.01)
-texture = ExtResource("3_ar3mf")
+[node name="GenericSpace18" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(816, 113)
 
-[node name="Space10" type="Marker2D" parent="Path"]
-position = Vector2(935, 101)
+[node name="GenericSpace19" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(857, 112)
 
-[node name="Sprite2D" type="Sprite2D" parent="Path/Space10"]
-scale = Vector2(0.01, 0.01)
-texture = ExtResource("3_ar3mf")
+[node name="GenericSpace20" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(892, 109)
 
-[node name="Space11" type="Marker2D" parent="Path"]
-position = Vector2(992, 99)
+[node name="GenericSpace21" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(926, 108)
 
-[node name="Sprite2D" type="Sprite2D" parent="Path/Space11"]
-scale = Vector2(0.01, 0.01)
-texture = ExtResource("3_ar3mf")
+[node name="GenericSpace22" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(959, 111)
 
-[node name="Space12" type="Marker2D" parent="Path"]
-position = Vector2(1014, 161)
+[node name="GenericSpace23" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(994, 110)
 
-[node name="Sprite2D" type="Sprite2D" parent="Path/Space12"]
-scale = Vector2(0.01, 0.01)
-texture = ExtResource("3_ar3mf")
+[node name="GenericSpace24" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(1015, 135)
 
-[node name="Space13" type="Marker2D" parent="Path"]
-position = Vector2(996, 214)
+[node name="GenericSpace25" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(1013, 165)
 
-[node name="Sprite2D" type="Sprite2D" parent="Path/Space13"]
-scale = Vector2(0.01, 0.01)
-texture = ExtResource("3_ar3mf")
+[node name="GenericSpace26" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(1009, 197)
+
+[node name="GenericSpace27" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(980, 213)
+
+[node name="GenericSpace28" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(940, 220)
+
+[node name="GenericSpace29" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(902, 219)
+
+[node name="GenericSpace30" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(865, 218)
+
+[node name="GenericSpace31" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(834, 220)
+
+[node name="GenericSpace32" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(802, 224)
+
+[node name="GenericSpace33" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(764, 228)
+
+[node name="GenericSpace34" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(732, 239)
+
+[node name="GenericSpace35" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(707, 253)
+
+[node name="GenericSpace36" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(687, 277)
+
+[node name="GenericSpace37" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(665, 300)
+
+[node name="GenericSpace38" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(647, 322)
+
+[node name="GenericSpace39" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(617, 335)
+
+[node name="GenericSpace40" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(559, 323)
+scale = Vector2(2, 2)
+
+[node name="GenericSpace41" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(470, 306)
+
+[node name="GenericSpace42" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(443, 323)
+
+[node name="GenericSpace43" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(412, 339)
+
+[node name="GenericSpace44" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(384, 353)
+
+[node name="GenericSpace45" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(355, 358)
+
+[node name="GenericSpace46" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(324, 364)
+
+[node name="GenericSpace47" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(295, 366)
+
+[node name="GenericSpace48" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(264, 368)
+
+[node name="GenericSpace49" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(230, 373)
+
+[node name="GenericSpace50" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(207, 376)
+
+[node name="GenericSpace51" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(185, 387)
+
+[node name="GenericSpace52" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(177, 409)
+
+[node name="GenericSpace53" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(176, 436)
+
+[node name="GenericSpace54" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(177, 464)
+
+[node name="GenericSpace55" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(177, 492)
+
+[node name="GenericSpace56" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(181, 521)
+
+[node name="GenericSpace57" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(201, 540)
+
+[node name="GenericSpace58" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(225, 542)
+
+[node name="GenericSpace59" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(248, 535)
+
+[node name="GenericSpace60" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(274, 525)
+
+[node name="GenericSpace61" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(299, 517)
+
+[node name="GenericSpace62" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(325, 509)
+
+[node name="GenericSpace63" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(352, 512)
+
+[node name="GenericSpace64" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(378, 524)
+
+[node name="GenericSpace65" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(400, 537)
+
+[node name="GenericSpace66" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(470, 564)
+
+[node name="GenericSpace67" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(497, 558)
+
+[node name="GenericSpace68" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(525, 550)
+
+[node name="GenericSpace69" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(554, 542)
+
+[node name="GenericSpace70" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(584, 535)
+
+[node name="GenericSpace71" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(616, 535)
+
+[node name="GenericSpace72" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(645, 544)
+
+[node name="GenericSpace73" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(669, 552)
+
+[node name="GenericSpace74" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(695, 562)
+
+[node name="GenericSpace75" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(723, 570)
+
+[node name="GenericSpace76" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(752, 575)
+
+[node name="GenericSpace77" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(783, 572)
+
+[node name="GenericSpace78" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(807, 569)
+
+[node name="GenericSpace79" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(820, 548)
+
+[node name="GenericSpace80" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(802, 528)
+
+[node name="GenericSpace81" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(797, 499)
+
+[node name="GenericSpace82" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(823, 491)
+
+[node name="GenericSpace83" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(850, 488)
+
+[node name="GenericSpace84" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(881, 487)
+
+[node name="GenericSpace85" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(910, 491)
+
+[node name="GenericSpace86" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(939, 494)
+
+[node name="GenericSpace87" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(964, 497)
+
+[node name="GenericSpace88" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(992, 492)
+
+[node name="GenericSpace89" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(1006, 467)
+
+[node name="GenericSpace90" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(998, 438)
+
+[node name="GenericSpace91" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(975, 424)
+
+[node name="GenericSpace92" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(944, 423)
+
+[node name="GenericSpace93" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(914, 421)
+
+[node name="GenericSpace94" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(886, 421)
+
+[node name="GenericSpace95" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(860, 421)
+
+[node name="GenericSpace96" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(833, 418)
+
+[node name="GenericSpace97" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(805, 415)
+
+[node name="GenericSpace98" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(778, 412)
+
+[node name="GenericSpace99" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(749, 408)
+
+[node name="GenericSpace100" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(719, 400)
+
+[node name="GenericSpace101" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(694, 395)
+
+[node name="GenericSpace102" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(672, 386)
+
+[node name="GenericSpace103" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(645, 375)
+
+[node name="GenericSpace104" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(620, 366)
+
+[node name="GenericSpace105" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(600, 357)
+
+[node name="GenericSpace106" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(559, 323)
+scale = Vector2(2, 2)
+
+[node name="GenericSpace107" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(528, 299)
+
+[node name="GenericSpace108" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(500, 291)
+
+[node name="GenericSpace109" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(476, 282)
+
+[node name="GenericSpace110" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(450, 274)
+
+[node name="GenericSpace111" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(423, 263)
+
+[node name="GenericSpace112" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(394, 254)
+
+[node name="GenericSpace113" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(365, 248)
+
+[node name="GenericSpace114" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(338, 248)
+
+[node name="GenericSpace115" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(313, 251)
+
+[node name="GenericSpace116" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(289, 246)
+
+[node name="GenericSpace117" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(263, 253)
+
+[node name="GenericSpace118" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(232, 248)
+
+[node name="GenericSpace119" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(204, 245)
+
+[node name="GenericSpace120" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(180, 243)
+
+[node name="GenericSpace121" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(154, 240)
+
+[node name="GenericSpace122" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(129, 230)
+
+[node name="GenericSpace123" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(108, 214)
+
+[node name="GenericSpace124" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(99, 189)
+
+[node name="GenericSpace125" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(91, 166)
+
+[node name="GenericSpace126" parent="Path" instance=ExtResource("3_764oh")]
+position = Vector2(97, 137)
