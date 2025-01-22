@@ -9,8 +9,8 @@ public partial class Player : CharacterBody2D
 	//private vars
 	private int Attrubute;
 	private int Health;
-	private bool isAlive;
-	private bool SkipTurn;
+	public bool isAlive { get; private set; }
+	public bool SkipTurn { get; private set; }
 	private int Currency;
 	public int currSpace;
 	private bool isMoving;

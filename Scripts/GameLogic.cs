@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -20,8 +22,7 @@ public partial class GameLogic : Node
     {
         Dice,
         Item,
-        Shop,
-
+        Shop
     }
     private InputMode currentInputMode;
 
@@ -172,5 +173,47 @@ public partial class GameLogic : Node
         }
 
     }
+
+    private async Task rolDice(Player player)
+    {
+        Dice dice = new Dice(1,7);
+        
+        await player.Movement(Board, dice.Roll());
+    }
+
+    private void askUseItem(Player player)
+    {
+        //asks if and what item the player wants to use
+    }
+
+    private void checkStartItems(Player player)
+    {
+
+    }
+
+    private void checkMidItems(Player player)
+    {
+        
+    }
+
+
+    private void checkEndItems(Player player)
+    {
+        
+    }
+    private async Task turn()
+    {
+        foreach (Player player in PList)
+        {
+            if (player.isAlive && !player.SkipTurn)
+            {
+                checkStartItems(player);
+                askUseItem(player);
+                await rolDice(player);
+            }
+        }
+    }
+    
+
 
 }
