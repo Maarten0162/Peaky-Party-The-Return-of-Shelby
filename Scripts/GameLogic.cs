@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -18,11 +19,18 @@ public partial class GameLogic : Node
     int whatPlayer;
     Player currentPlayer;
     private int TurnCount;
+
+    //dices
+    Dice normalDice = new(1,4);
+    Dice betterDice = new(1,7);
+    Dice SuperDice = new(1,8);
+    Dice peakyDice = new(1,12);
     private enum InputMode
     {
         Dice,
         Item,
-        Shop
+        Shop,
+        None
     }
     private InputMode currentInputMode;
 
@@ -51,16 +59,29 @@ public partial class GameLogic : Node
 
     private void Turn(Player player)
     {
-        currentInputMode = InputMode.Dice;
-
+        
+        if (player.isAlive && !player.SkipTurn)
+        {
+            checkStartItems(player);
+            currentInputMode = InputMode.Item;
+            
+        }
     }
     private async void UseDice()
     {
         GD.Print("in use dice");
+        // int target = currentPlayer.currSpace + normalDice.Roll();
         int target = currentPlayer.currSpace + 6;
+        GD.Print($"You threw {target - currentPlayer.currSpace}");
         if (await currentPlayer.Movement(Board, target))
         {
-            Turn(PList[whatPlayer+1]);
+            whatPlayer++;
+            if (whatPlayer >= PList.Count)
+            {
+                whatPlayer = 0;
+            }
+            currentPlayer = PList[whatPlayer];
+            Turn(PList[whatPlayer]);
         }
     }
     private void SetPlayerPos(Player player, Vector2 space)
@@ -142,6 +163,9 @@ public partial class GameLogic : Node
             case InputMode.Dice:
                 DiceMenuInputs(@event);
                 break;
+            case InputMode.Item:
+                ItemMenuInputs(@event);
+                break;
         }
     }
 
@@ -161,29 +185,43 @@ public partial class GameLogic : Node
 
     private void DiceMenuInputs(InputEvent @event)
     {
+        GD.Print("Do you wanna use a Dice?");
         if (@event.IsActionPressed("yes"))
         {
+            currentInputMode = InputMode.None;
             UseDice();
 
         }
         else if (@event.IsActionPressed("no"))
         {
-
-
+            GD.Print($"Player doesn't wanna use an item?");
         }
 
     }
 
-    private async Task rolDice(Player player)
+    private void ItemMenuInputs(InputEvent @event)
     {
-        Dice dice = new Dice(1,7);
-        
-        await player.Movement(Board, dice.Roll());
-    }
+        GD.Print("Do you wanna use an item?");
+        if (@event.IsActionPressed("yes"))
+        {
+            bool hasItems = currentPlayer.itemList.Any();
+            if (hasItems)
+            {
+                GD.Print("What item do you wanna use:");
+            }
+            else
+            {
+                GD.Print("You have no items to use");
+                currentInputMode = InputMode.Dice;
+            }
 
-    private void askUseItem(Player player)
-    {
-        //asks if and what item the player wants to use
+        }
+        else if (@event.IsActionPressed("no"))
+        {
+            GD.Print("Pressed no");
+            currentInputMode = InputMode.Dice;
+        }
+        
     }
 
     private void checkStartItems(Player player)
@@ -201,19 +239,4 @@ public partial class GameLogic : Node
     {
         
     }
-    private async Task turn()
-    {
-        foreach (Player player in PList)
-        {
-            if (player.isAlive && !player.SkipTurn)
-            {
-                checkStartItems(player);
-                askUseItem(player);
-                await rolDice(player);
-            }
-        }
-    }
-    
-
-
 }

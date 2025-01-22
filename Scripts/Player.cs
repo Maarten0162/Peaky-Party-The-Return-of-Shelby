@@ -14,12 +14,13 @@ public partial class Player : CharacterBody2D
 	private int Currency;
 	public int currSpace;
 	private bool isMoving;
-	[Export]
-	private float moveSpeed; // Movement speed (pixels per second)
+
+	[Export] private float moveSpeed; // Movement speed (pixels per second)
+	
 
 	//debuffs
 	public int rollAdjust;
-	private List<Item> itemList;
+	public List<Item> itemList { get; private set; } = new List<Item>();
 
 	//stats
 	private int spacedMoved;
