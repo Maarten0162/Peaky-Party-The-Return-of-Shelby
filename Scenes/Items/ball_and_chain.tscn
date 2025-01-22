@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://d3w6khhk1tfyd" path="res://Assets/Items/BallAndChain.png" id="1_2mv7s"]
 [ext_resource type="Script" path="res://Scripts/Items/BallAndChain.cs" id="2_rnts4"]
 
-[node name="BallAndChain" type="Sprite2D"]
-scale = Vector2(0.66, 0.66)
+[node name="BallAndChain" type="TextureRect"]
+scale = Vector2(0.0600002, 0.0600002)
 texture = ExtResource("1_2mv7s")
 script = ExtResource("2_rnts4")

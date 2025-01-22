@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Item : Sprite2D
+public partial class Item : Control
 {
     protected string itemName;
     protected string Desc;
