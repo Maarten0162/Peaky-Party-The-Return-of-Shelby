@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.SymbolStore;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
@@ -62,6 +63,8 @@ public partial class GameLogic : Node
         
         if (player.isAlive && !player.SkipTurn)
         {
+            Label label = GetNode<Label>($"{player.Name}/Label");
+            label.Text = $"{whatPlayer + 1}";
             checkStartItems(player);
             currentInputMode = InputMode.Item;
             
