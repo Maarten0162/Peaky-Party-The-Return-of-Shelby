@@ -13,17 +13,21 @@ public partial class GameLogic : Node
     private Player player3;
     private Player player4;
     private List<Player> PList;
+    int whatPlayer;
+    Player currentPlayer;
     private int TurnCount;
     private enum InputMode
     {
-        YesNo,
-        Dpad,
+        Dice,
+        Item,
+        Shop,
 
     }
     private InputMode currentInputMode;
 
     public override void _Ready()
     {
+
         Board = GetNode<Board>("Board");
         if (TurnCount == 0)
         {
@@ -35,23 +39,32 @@ public partial class GameLogic : Node
             }
 
         }
-        Game();
-    }
-    private void Game()
-    {
-        for (int i = 0; i < PList.Count; i++)
+        if (player1 != null)
         {
-            Turn(PList[i]);
+            GD.Print("player 1 exists");
         }
+        whatPlayer = 0;
+        currentPlayer = PList[whatPlayer];
+        Turn(currentPlayer);
     }
+
     private void Turn(Player player)
     {
-        int target = player.currSpace + new Dice(1, 6).Roll();
-        player.Movement(Board, target);
+        currentInputMode = InputMode.Dice;
+
+    }
+    private async void UseDice()
+    {
+        GD.Print("in use dice");
+        int target = currentPlayer.currSpace + 6;
+        if (await currentPlayer.Movement(Board, target))
+        {
+            Turn(PList[whatPlayer+1]);
+        }
     }
     private void SetPlayerPos(Player player, Vector2 space)
     {
-
+        player.Position = space;
     }
     public int CreatePlayers(int amount)
     {
@@ -59,22 +72,33 @@ public partial class GameLogic : Node
         if (amount >= 1)
         {
             player1 = (Player)Playerscene.Instantiate();
-            players++;
+            AddChild(player1);
             player1.Position = Board.spacesInfo[0].SpacePos;
+            player1.currSpace = 1;
+            players++;            
         }
         if (amount >= 2)
         {
             player2 = (Player)Playerscene.Instantiate();
+            AddChild(player2);
+            player2.Position = Board.spacesInfo[0].SpacePos;
+            player2.currSpace = 1;
             players++;
         }
         if (amount >= 3)
         {
             player3 = (Player)Playerscene.Instantiate();
+            AddChild(player3);
+            player3.Position = Board.spacesInfo[0].SpacePos;
+            player3.currSpace = 1;
             players++;
         }
         if (amount >= 4)
         {
             player4 = (Player)Playerscene.Instantiate();
+            AddChild(player4);
+            player4.Position = Board.spacesInfo[0].SpacePos;
+            player4.currSpace = 1;
             players++;
         }
         return players;
@@ -107,13 +131,14 @@ public partial class GameLogic : Node
 
     public override void _Input(InputEvent @event)
     {
+
         switch (currentInputMode)
         {
-            case InputMode.YesNo:
+            case InputMode.Shop:
                 ShopInputs(@event);
                 break;
 
-            case InputMode.Dpad:
+            case InputMode.Dice:
                 DiceMenuInputs(@event);
                 break;
         }
@@ -123,26 +148,26 @@ public partial class GameLogic : Node
     {
         if (@event.IsActionPressed("yes"))
         {
-            GD.Print("Yes pressed");
-            // Handle "yes" action
+            UseDice();
+
         }
         else if (@event.IsActionPressed("no"))
         {
             GD.Print("No pressed");
-            // Handle "no" action
+
         }
     }
 
     private void DiceMenuInputs(InputEvent @event)
     {
-        if (@event.IsActionPressed("DpadLeft"))
+        if (@event.IsActionPressed("yes"))
         {
-            GD.Print("use left dice");
+            UseDice();
 
         }
-        else if (@event.IsActionPressed("DpadRigtht"))
+        else if (@event.IsActionPressed("no"))
         {
-            GD.Print("use right dice");
+
 
         }
 

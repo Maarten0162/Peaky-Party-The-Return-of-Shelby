@@ -15,7 +15,7 @@ public partial class Player : CharacterBody2D
 	public int currSpace;
 	private bool isMoving;
 	[Export]
-	private float moveSpeed = 200f; // Movement speed (pixels per second)
+	private float moveSpeed; // Movement speed (pixels per second)
 
 	//debuffs
 	public int rollAdjust;
@@ -62,13 +62,12 @@ public partial class Player : CharacterBody2D
 
 	}
 
-	public bool Movement(Board board, int target)
+	public async Task<bool> Movement(Board board, int target)
 	{
-		for (int i = currSpace; i < target; i++)
-		{
+		
 			isMoving = true;
-			if (isMoving && currSpace < target)
-			{
+			while (isMoving && currSpace < target)
+			{	GD.Print($"currspace is {currSpace}");
 
 
 				Vector2 targetPosition = board.spacesInfo[currSpace].SpacePos;
@@ -81,9 +80,9 @@ public partial class Player : CharacterBody2D
 				}
 				else
 				{
-
-					Position = targetPosition;
 					currSpace++;
+					Position = targetPosition;
+					
 					GD.Print("player current position is" + currSpace);
 
 					if (currSpace == target)
@@ -94,10 +93,13 @@ public partial class Player : CharacterBody2D
 						GD.Print($"Marker Global Position: {board.spacesInfo[currSpace - 1].SpacePos}");
 
 					}
+					
 
 				}
+				await Task.Delay(10);
 			}
-		}
+			
+		
 		return true;
 	}
 
