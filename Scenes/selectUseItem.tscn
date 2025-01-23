@@ -26,9 +26,11 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_s1drc")
 
 [node name="ItemContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
-offset_left = -649.0
-offset_top = -337.0
-offset_right = 143.0
-offset_bottom = -237.0
-
-[node name="Node2D" type="Node2D" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -50.0
+offset_right = 712.0
+offset_bottom = 50.0
+grow_vertical = 2

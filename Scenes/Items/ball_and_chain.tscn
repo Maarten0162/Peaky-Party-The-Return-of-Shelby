@@ -3,11 +3,16 @@
 [ext_resource type="Texture2D" uid="uid://d3w6khhk1tfyd" path="res://Assets/Items/BallAndChain.png" id="1_2mv7s"]
 [ext_resource type="Script" path="res://Scripts/Items/BallAndChain.cs" id="2_rnts4"]
 
-[node name="TextureRect" type="TextureRect"]
+[node name="MarginContainer" type="MarginContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+script = ExtResource("2_rnts4")
+
+[node name="TextureRect" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
 texture = ExtResource("1_2mv7s")
 expand_mode = 2
 stretch_mode = 4
-script = ExtResource("2_rnts4")
-MaxRollAdjust = 15
-Price = 15
