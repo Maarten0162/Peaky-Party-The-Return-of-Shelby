@@ -62,62 +62,7 @@ public partial class GameLogic : Node
         whatPlayer = 0;
         currentPlayer = PList[whatPlayer];
 
-
-
-
-
-        Turn(currentPlayer);
-    }
-
-    private void Turn(Player player)
-    {
-
-        if (player.isAlive && !player.SkipTurn)
-        {
-            Label label = GetNode<Label>($"{player.Name}/Label");
-            label.Text = $"{whatPlayer + 1}";
-            checkStartItems(player);
-            BallAndChain bac = new();
-            BallAndChain bac2 = new();
-            BallAndChain bac3 = new();
-            BallAndChain bac4 = new();
-            BallAndChain bac5 = new();
-            BallAndChain bac6 = new();
-            player.itemList.Add(bac);
-            player.itemList.Add(bac2);
-            player.itemList.Add(bac3);
-            player.itemList.Add(bac4);
-            player.itemList.Add(bac5);
-            player.itemList.Add(bac6);
-            currentInputMode = InputMode.Item;
-
-        }
-    }
-    private async void UseDice()
-    {
-        GD.Print("in use dice");
-        int roll = normalDice.Roll();
-        if (currentPlayer.CheckRollAdjust(roll))
-        {
-
-            roll += currentPlayer.rollAdjust;
-            int target = currentPlayer.currSpace + roll;
-            GD.Print($"You threw {target - currentPlayer.currSpace}");
-            if (await currentPlayer.Movement(Board, target))
-            {
-                whatPlayer++;
-                if (whatPlayer >= PList.Count)
-                {
-                    whatPlayer = 0;
-                }
-                currentPlayer = PList[whatPlayer];
-                Turn(PList[whatPlayer]);
-            }
-        }
-        else
-        {
-            GD.Print("Sorry you cant move with these legs");
-        }
+        Turn();
     }
     private void SetPlayerPos(Player player, Vector2 space)
     {
@@ -186,6 +131,44 @@ public partial class GameLogic : Node
         GlobalVar.Plist = PList;
     }
 
+
+
+    private void Turn()
+    {
+
+        if (currentPlayer.isAlive && !currentPlayer.SkipTurn)
+        {
+            Label label = GetNode<Label>($"{currentPlayer.Name}/Label");
+            label.Text = $"{whatPlayer + 1}";
+            checkStartItems(currentPlayer);
+            BallAndChain bac = new();
+            BallAndChain bac2 = new();
+            BallAndChain bac3 = new();
+            BallAndChain bac4 = new();
+            BallAndChain bac5 = new();
+            BallAndChain bac6 = new();
+            currentPlayer.itemList.Add(bac);
+            currentPlayer.itemList.Add(bac2);
+            currentPlayer.itemList.Add(bac3);
+            currentPlayer.itemList.Add(bac4);
+            currentPlayer.itemList.Add(bac5);
+            currentPlayer.itemList.Add(bac6);
+            currentInputMode = InputMode.Item;
+
+        }
+    }
+        private void NextTurn()
+    {
+                whatPlayer++;
+                if (whatPlayer >= PList.Count)
+                {
+                    whatPlayer = 0;
+                }
+                currentPlayer = PList[whatPlayer];
+                Turn();
+    }
+
+    
     public override void _Input(InputEvent @event)
     {
 
@@ -206,6 +189,42 @@ public partial class GameLogic : Node
                 break;
         }
     }
+        private void DiceMenuInputs(InputEvent @event)
+    {
+        GD.Print("Do you wanna use a Dice?");
+        if (@event.IsActionPressed("yes"))
+        {
+            currentInputMode = InputMode.None;
+            UseDice();
+
+        }
+        else if (@event.IsActionPressed("no"))
+        {
+            GD.Print($"Player doesn't wanna use an item?");
+        }
+
+    }
+        private async void UseDice()
+    {
+        GD.Print("in use dice");
+        int roll = normalDice.Roll();
+        if (currentPlayer.CheckRollAdjust(roll))
+        {
+
+            roll += currentPlayer.rollAdjust;
+            int target = currentPlayer.currSpace + roll;
+            GD.Print($"You threw {target - currentPlayer.currSpace}");
+            await currentPlayer.Movement(Board, target);
+            
+               NextTurn();
+            
+        }
+        else
+        {
+            GD.Print("Sorry you cant move with these legs");
+             NextTurn();
+        }
+    }
 
     private void ShopInputs(InputEvent @event)
     {
@@ -221,21 +240,7 @@ public partial class GameLogic : Node
         }
     }
 
-    private void DiceMenuInputs(InputEvent @event)
-    {
-        GD.Print("Do you wanna use a Dice?");
-        if (@event.IsActionPressed("yes"))
-        {
-            currentInputMode = InputMode.None;
-            UseDice();
 
-        }
-        else if (@event.IsActionPressed("no"))
-        {
-            GD.Print($"Player doesn't wanna use an item?");
-        }
-
-    }
 
     private void ItemMenuInputs(InputEvent @event)
     {
@@ -279,6 +284,20 @@ public partial class GameLogic : Node
         }
 
     }
+        private void OnItemUsed()
+    {
+        GD.Print("Item has been used.");
+        GD.Print("Item has been used.");
+        GD.Print("Item has been used.");
+        GD.Print("Item has been used.");
+        GD.Print("Item has been used.");
+        GD.Print("Item has been used.");
+
+        itemInstance.QueueFree();
+
+        currentInputMode = InputMode.Dice;
+
+    }
 
     private void checkStartItems(Player player)
     {
@@ -296,18 +315,5 @@ public partial class GameLogic : Node
 
     }
 
-    private void OnItemUsed()
-    {
-        GD.Print("Item has been used.");
-        GD.Print("Item has been used.");
-        GD.Print("Item has been used.");
-        GD.Print("Item has been used.");
-        GD.Print("Item has been used.");
-        GD.Print("Item has been used.");
 
-        itemInstance.QueueFree();
-
-        currentInputMode = InputMode.Dice;
-
-    }
 }

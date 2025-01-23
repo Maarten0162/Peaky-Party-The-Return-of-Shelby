@@ -5,7 +5,8 @@ using System.IO;
 using System.Runtime.CompilerServices;
 
 public partial class BallAndChain : ActiveItem
-{   [Export]
+{
+    [Export]
     private int MaxRollAdjust = 10;
     public string path;
     public BallAndChain()
@@ -23,11 +24,11 @@ public partial class BallAndChain : ActiveItem
         int target = ChooseTarget(GlobalVar.Plist, userloc, rnd);
         Player ptarget = GlobalVar.Plist[target];
         ptarget.rollAdjust -= rnd.Next(1, MaxRollAdjust);
-        GD.Print(ptarget.Name + " roll adjust is" + ptarget.rollAdjust );
+        GD.Print(ptarget.Name + " roll adjust is" + ptarget.rollAdjust);
     }
     private int ChooseTarget(List<Player> plist, int userloc, Random rnd)
     {
-        
+
         int target = rnd.Next(0, plist.Count);
         if (target == userloc)
         {

@@ -19,7 +19,22 @@ public partial class Player : CharacterBody2D
 
 
 	//debuffs
-	public int rollAdjust = 0;
+	private int RollAdjust;
+	public int rollAdjust
+	{
+		get
+		{
+			return RollAdjust;
+		}
+		set
+		{
+			RollAdjust = value;
+			if (rollAdjust != 0)
+			{
+				//hier kan de code om rolladsust op de hud te laten zien.
+			}
+		}
+	}
 	public List<ActiveItem> itemList { get; private set; } = new List<ActiveItem>();
 
 	//stats
@@ -74,7 +89,7 @@ public partial class Player : CharacterBody2D
 
 			Vector2 direction = targetPosition - Position;
 			float distance = direction.Length();
-			if (distance > 1f) // Stop moving once we are close enough
+			if (distance > 1f) // Stop moving once he is close enough
 			{
 				Position += direction.Normalized() * moveSpeed * (float)GetProcessDeltaTime();
 			}
