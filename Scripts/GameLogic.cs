@@ -10,7 +10,13 @@ using System.Threading.Tasks;
 
 public partial class GameLogic : Node
 {
+
+
+
     private PackedScene Playerscene = (PackedScene)GD.Load("res://Scenes/Game Objects/player.tscn");
+    PackedScene itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseItem.tscn");
+    SelectUseItem itemScript;
+    Node itemInstance;
     Board Board;
     private Player player1;
     private Player player2;
@@ -22,10 +28,10 @@ public partial class GameLogic : Node
     private int TurnCount;
 
     //dices
-    Dice normalDice = new(1,4);
-    Dice betterDice = new(1,7);
-    Dice SuperDice = new(1,8);
-    Dice peakyDice = new(1,12);
+    Dice normalDice = new(1, 4);
+    Dice betterDice = new(1, 7);
+    Dice SuperDice = new(1, 8);
+    Dice peakyDice = new(1, 12);
     private enum InputMode
     {
         Dice,
@@ -38,7 +44,6 @@ public partial class GameLogic : Node
 
     public override void _Ready()
     {
-
         Board = GetNode<Board>("Board");
         if (TurnCount == 0)
         {
@@ -56,12 +61,17 @@ public partial class GameLogic : Node
         }
         whatPlayer = 0;
         currentPlayer = PList[whatPlayer];
+
+
+
+
+
         Turn(currentPlayer);
     }
 
     private void Turn(Player player)
     {
-        
+
         if (player.isAlive && !player.SkipTurn)
         {
             Label label = GetNode<Label>($"{player.Name}/Label");
@@ -80,7 +90,7 @@ public partial class GameLogic : Node
             player.itemList.Add(bac5);
             player.itemList.Add(bac6);
             currentInputMode = InputMode.Item;
-            
+
         }
     }
     private async void UseDice()
@@ -112,8 +122,8 @@ public partial class GameLogic : Node
             player1 = (Player)Playerscene.Instantiate();
             AddChild(player1);
             player1.Position = Board.spacesInfo[120].SpacePos;
-            player1.currSpace = 121;
-            players++;            
+            player1.currSpace = 1;
+            players++;
         }
         if (amount >= 2)
         {
@@ -183,7 +193,7 @@ public partial class GameLogic : Node
                 ItemMenuInputs(@event);
                 break;
             case InputMode.selectItem:
-                passthroughInput(@event);
+                //selectUseItem.getInput(@event);
                 break;
         }
     }
@@ -217,11 +227,6 @@ public partial class GameLogic : Node
         }
 
     }
-    
-    private void passthroughInput(InputEvent @event)
-    {
-
-    }
 
     private void ItemMenuInputs(InputEvent @event)
     {
@@ -231,20 +236,23 @@ public partial class GameLogic : Node
             bool hasItems = currentPlayer.itemList.Any();
             if (hasItems)
             {
+
                 GD.Print("What item do you wanna use:");
-                PackedScene itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseItem.tscn");
 
                 // Instantiëren van de scène
-                Node itemInstance = itemScene.Instantiate();
+                itemInstance = itemScene.Instantiate();
 
                 // Voeg de instantie van de scène toe aan de hoofdscene
                 AddChild(itemInstance);
 
                 // Verkrijg toegang tot het script van de geïnstantieerde scène
-                SelectUseItem itemScript = (SelectUseItem)itemInstance;
+                itemScript = (SelectUseItem)itemInstance;
 
+                itemScript.Connect("customSignal", Callable.From(OnItemUsed));
                 // Roep de Initialize-methode aan om gegevens in te stellen
                 itemScript.Initialize(currentPlayer);
+                currentInputMode = InputMode.None;
+
 
 
             }
@@ -260,7 +268,7 @@ public partial class GameLogic : Node
             GD.Print("Pressed no");
             currentInputMode = InputMode.Dice;
         }
-        
+
     }
 
     private void checkStartItems(Player player)
@@ -270,12 +278,27 @@ public partial class GameLogic : Node
 
     private void checkMidItems(Player player)
     {
-        
+
     }
 
 
     private void checkEndItems(Player player)
     {
+
+    }
+
+    private void OnItemUsed()
+    {
+        GD.Print("Item has been used.");
+        GD.Print("Item has been used.");
+        GD.Print("Item has been used.");
+        GD.Print("Item has been used.");
+        GD.Print("Item has been used.");
+        GD.Print("Item has been used.");
+
+        itemInstance.QueueFree();
+
+        currentInputMode = InputMode.Dice;
         
     }
 }
