@@ -1,15 +1,18 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.CompilerServices;
 
 public partial class BallAndChain : ActiveItem
 {   [Export]
-    private int MaxRollAdjust;
+    private int MaxRollAdjust = 10;
+    public string path;
     public BallAndChain()
     {
         itemName = "Ball and Chain";
         Desc = "Use this to slow down an opponent";
+        Path = "res://Scenes/Items/ball_and_chain.tscn";
     }
 
 
@@ -20,6 +23,7 @@ public partial class BallAndChain : ActiveItem
         int target = ChooseTarget(GlobalVar.Plist, userloc, rnd);
         Player ptarget = GlobalVar.Plist[target];
         ptarget.rollAdjust -= rnd.Next(1, MaxRollAdjust);
+        GD.Print(ptarget.Name + " roll adjust is" + ptarget.rollAdjust );
     }
     private int ChooseTarget(List<Player> plist, int userloc, Random rnd)
     {

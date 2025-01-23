@@ -63,7 +63,7 @@ public partial class SelectUseItem : Control
 				case BallAndChain:
 					GD.Print("ball and chain item");
 					
-					itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/Items/ball_and_chain.tscn");
+					itemScene = (PackedScene)ResourceLoader.Load(item.GetScenePath());
 					itemInstance = itemScene.Instantiate();
 					_itemContainer.AddChild(itemInstance);
 					break;

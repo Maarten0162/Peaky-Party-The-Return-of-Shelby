@@ -19,7 +19,7 @@ public partial class Player : CharacterBody2D
 
 
 	//debuffs
-	public int rollAdjust;
+	public int rollAdjust = 0;
 	public List<ActiveItem> itemList { get; private set; } = new List<ActiveItem>();
 
 	//stats
@@ -97,6 +97,22 @@ public partial class Player : CharacterBody2D
 
 
 		return true;
+	}
+	public bool CheckRollAdjust(int diceroll)
+	{
+		if (rollAdjust < 0)
+		{
+			if ((rollAdjust + diceroll) <= 0)
+			{
+				rollAdjust = 0;
+				return false;
+			}
+			else return true;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	public void Attack()

@@ -96,18 +96,27 @@ public partial class GameLogic : Node
     private async void UseDice()
     {
         GD.Print("in use dice");
-        // int target = currentPlayer.currSpace + normalDice.Roll();
-        int target = currentPlayer.currSpace + 15;
-        GD.Print($"You threw {target - currentPlayer.currSpace}");
-        if (await currentPlayer.Movement(Board, target))
+        int roll = normalDice.Roll();
+        if (currentPlayer.CheckRollAdjust(roll))
         {
-            whatPlayer++;
-            if (whatPlayer >= PList.Count)
+
+            roll += currentPlayer.rollAdjust;
+            int target = currentPlayer.currSpace + roll;
+            GD.Print($"You threw {target - currentPlayer.currSpace}");
+            if (await currentPlayer.Movement(Board, target))
             {
-                whatPlayer = 0;
+                whatPlayer++;
+                if (whatPlayer >= PList.Count)
+                {
+                    whatPlayer = 0;
+                }
+                currentPlayer = PList[whatPlayer];
+                Turn(PList[whatPlayer]);
             }
-            currentPlayer = PList[whatPlayer];
-            Turn(PList[whatPlayer]);
+        }
+        else
+        {
+            GD.Print("Sorry you cant move with these legs");
         }
     }
     private void SetPlayerPos(Player player, Vector2 space)
@@ -299,6 +308,6 @@ public partial class GameLogic : Node
         itemInstance.QueueFree();
 
         currentInputMode = InputMode.Dice;
-        
+
     }
 }
