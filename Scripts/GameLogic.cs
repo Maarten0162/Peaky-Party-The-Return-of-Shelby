@@ -31,6 +31,7 @@ public partial class GameLogic : Node
         Dice,
         Item,
         Shop,
+        selectItem,
         None
     }
     private InputMode currentInputMode;
@@ -66,6 +67,18 @@ public partial class GameLogic : Node
             Label label = GetNode<Label>($"{player.Name}/Label");
             label.Text = $"{whatPlayer + 1}";
             checkStartItems(player);
+            BallAndChain bac = new();
+            BallAndChain bac2 = new();
+            BallAndChain bac3 = new();
+            BallAndChain bac4 = new();
+            BallAndChain bac5 = new();
+            BallAndChain bac6 = new();
+            player.itemList.Add(bac);
+            player.itemList.Add(bac2);
+            player.itemList.Add(bac3);
+            player.itemList.Add(bac4);
+            player.itemList.Add(bac5);
+            player.itemList.Add(bac6);
             currentInputMode = InputMode.Item;
             
         }
@@ -169,6 +182,9 @@ public partial class GameLogic : Node
             case InputMode.Item:
                 ItemMenuInputs(@event);
                 break;
+            case InputMode.selectItem:
+                passthroughInput(@event);
+                break;
         }
     }
 
@@ -201,6 +217,11 @@ public partial class GameLogic : Node
         }
 
     }
+    
+    private void passthroughInput(InputEvent @event)
+    {
+
+    }
 
     private void ItemMenuInputs(InputEvent @event)
     {
@@ -211,6 +232,21 @@ public partial class GameLogic : Node
             if (hasItems)
             {
                 GD.Print("What item do you wanna use:");
+                PackedScene itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseItem.tscn");
+
+                // Instantiëren van de scène
+                Node itemInstance = itemScene.Instantiate();
+
+                // Voeg de instantie van de scène toe aan de hoofdscene
+                AddChild(itemInstance);
+
+                // Verkrijg toegang tot het script van de geïnstantieerde scène
+                SelectUseItem itemScript = (SelectUseItem)itemInstance;
+
+                // Roep de Initialize-methode aan om gegevens in te stellen
+                itemScript.Initialize(currentPlayer);
+
+
             }
             else
             {

@@ -1,11 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cd4dpbv8ntwch"]
+[gd_scene load_steps=3 format=3 uid="uid://cd4dpbv8ntwch"]
 
 [ext_resource type="Script" path="res://Scripts/SelectUseItem.cs" id="1_glolb"]
-[ext_resource type="Texture2D" uid="uid://d3w6khhk1tfyd" path="res://Assets/Items/BallAndChain.png" id="3_hs05x"]
-[ext_resource type="Texture2D" uid="uid://d033mcg2dpeje" path="res://icon.svg" id="3_n0wyo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s1drc"]
-bg_color = Color(0.18359, 0.18359, 0.18359, 1)
+bg_color = Color(0.184314, 0.184314, 0.184314, 0.701961)
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -28,56 +26,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_s1drc")
 
 [node name="ItemContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
-offset_left = -649.408
-offset_top = -337.022
-offset_right = 142.592
-offset_bottom = -237.022
-
-[node name="TextureRect" type="TextureRect" parent="ItemContainer"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-texture = ExtResource("3_hs05x")
-expand_mode = 2
-stretch_mode = 4
-
-[node name="TextureRect2" type="TextureRect" parent="ItemContainer"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-texture = ExtResource("3_n0wyo")
-expand_mode = 2
-stretch_mode = 4
-
-[node name="TextureRect3" type="TextureRect" parent="ItemContainer"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-texture = ExtResource("3_hs05x")
-expand_mode = 2
-stretch_mode = 4
-
-[node name="TextureRect4" type="TextureRect" parent="ItemContainer"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-texture = ExtResource("3_n0wyo")
-expand_mode = 2
-stretch_mode = 4
-
-[node name="TextureRect5" type="TextureRect" parent="ItemContainer"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-texture = ExtResource("3_hs05x")
-expand_mode = 2
-stretch_mode = 4
-
-[node name="TextureRect6" type="TextureRect" parent="ItemContainer"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-texture = ExtResource("3_n0wyo")
-expand_mode = 2
-stretch_mode = 4
-
-[node name="TextureRect7" type="TextureRect" parent="ItemContainer"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-texture = ExtResource("3_hs05x")
-expand_mode = 2
-stretch_mode = 4
+offset_left = -649.0
+offset_top = -337.0
+offset_right = 143.0
+offset_bottom = -237.0

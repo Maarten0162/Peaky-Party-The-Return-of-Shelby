@@ -18,24 +18,56 @@ public partial class SelectUseItem : Control
 		UpdateCarousel();
     }
 
-    public override void _Input(InputEvent @event)
+	public void Initialize(Player player)
+	{
+		foreach (Item item in player.itemList) 
+		{
+			PackedScene itemScene;
+			Node itemInstance;
+			switch (item) 
+			{
+				case BallAndChain:
+					GD.Print("ball and chain item");
+					
+					itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/Items/ball_and_chain.tscn");
+					itemInstance = itemScene.Instantiate();
+					_itemContainer.AddChild(itemInstance);
+					break;
+				default:
+					GD.Print("no item");
+					break;
+			}
+					
+		}
+	}
+
+	public void getInput(InputEvent @event)
+	{
+		
+		
+	}
+
+	 public override void _Input(InputEvent @event)
     {
-        if (@event.IsActionPressed("ui_right"))
+	if (@event.IsActionPressed("ui_right"))
         {
             _currentIndex++;
             if (_currentIndex >= _itemContainer.GetChildCount())
                 _currentIndex = 0;
             UpdateCarousel();
-        }
-        else if (@event.IsActionPressed("ui_left"))
+			
+        }else if (@event.IsActionPressed("ui_left"))
         {
             _currentIndex--;
             if (_currentIndex < 0)
                 _currentIndex = _itemContainer.GetChildCount() - 1;
             UpdateCarousel();
-        }
-    }
-
+			
+        }else if (@event.IsAction("select")) 
+		{
+			
+		}
+	}
     private void UpdateCarousel()
     {
         for (int i = 0; i < _itemContainer.GetChildCount(); i++)
