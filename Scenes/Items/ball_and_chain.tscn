@@ -9,3 +9,4 @@ texture = ExtResource("1_2mv7s")
 expand_mode = 2
 stretch_mode = 4
 script = ExtResource("2_rnts4")
+MaxRollAdjust = 10

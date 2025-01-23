@@ -164,7 +164,7 @@ public partial class GameLogic : Node
             PList.Add(player3);
             PList.Add(player4);
         }
-
+        GlobalVar.Plist = PList;
     }
 
     public override void _Input(InputEvent @event)
