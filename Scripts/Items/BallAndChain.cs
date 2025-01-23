@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Runtime.CompilerServices;
 
-public partial class BallAndChain : Active
+public partial class BallAndChain : ActiveItem
 {
     public BallAndChain(string _name, string _desc, int _price)
     {

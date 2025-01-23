@@ -16,11 +16,11 @@ public partial class Player : CharacterBody2D
 	private bool isMoving;
 
 	[Export] private float moveSpeed; // Movement speed (pixels per second)
-	
+
 
 	//debuffs
 	public int rollAdjust;
-	public List<Item> itemList { get; private set; } = new List<Item>();
+	public List<ActiveItem> itemList { get; private set; } = new List<ActiveItem>();
 
 	//stats
 	private int spacedMoved;
@@ -65,42 +65,37 @@ public partial class Player : CharacterBody2D
 
 	public async Task<bool> Movement(Board board, int target)
 	{
-		
-			isMoving = true;
-			while (isMoving && currSpace < target)
-			{	GD.Print($"currspace is {currSpace}");
 
 
-				Vector2 targetPosition = board.spacesInfo[currSpace].SpacePos;
+		while (currSpace < target)
+		{
 
-				Vector2 direction = targetPosition - Position;
-				float distance = direction.Length();
-				if (distance > 1f) // Stop moving once we are close enough
-				{
-					Position += direction.Normalized() * moveSpeed * (float)GetProcessDeltaTime();
-				}
-				else
-				{
-					currSpace++;
-					Position = targetPosition;
-					
-					GD.Print("player current position is" + currSpace);
+			Vector2 targetPosition = board.spacesInfo[currSpace].SpacePos;
 
-					if (currSpace == target)
-					{
-						GD.Print(currSpace);
-						isMoving = false;
-						GD.Print($"Player Global Position: {GlobalPosition}");
-						GD.Print($"Marker Global Position: {board.spacesInfo[currSpace - 1].SpacePos}");
-
-					}
-					
-
-				}
-				await Task.Delay(10);
+			Vector2 direction = targetPosition - Position;
+			float distance = direction.Length();
+			if (distance > 1f) // Stop moving once we are close enough
+			{
+				Position += direction.Normalized() * moveSpeed * (float)GetProcessDeltaTime();
 			}
-			
-		
+			else
+			{
+				Position = targetPosition;
+				currSpace++;
+
+				if (currSpace == board.spacesInfo.Length && currSpace < target)
+				{
+					target = target - board.spacesInfo.Length;
+					currSpace = 0;
+				}
+
+
+				GD.Print("player current position is" + currSpace);
+			}
+			await Task.Delay(10);
+		}
+
+
 		return true;
 	}
 
@@ -114,7 +109,7 @@ public partial class Player : CharacterBody2D
 		//
 	}
 
-	private void useItem(Item item, Player player)
+	private void useItem(ActiveItem item, Player player)
 	{
 		if (player.itemList.Contains(item))
 		{

@@ -87,7 +87,7 @@ public partial class GameLogic : Node
     {
         GD.Print("in use dice");
         // int target = currentPlayer.currSpace + normalDice.Roll();
-        int target = currentPlayer.currSpace + 6;
+        int target = currentPlayer.currSpace + 15;
         GD.Print($"You threw {target - currentPlayer.currSpace}");
         if (await currentPlayer.Movement(Board, target))
         {
@@ -111,8 +111,8 @@ public partial class GameLogic : Node
         {
             player1 = (Player)Playerscene.Instantiate();
             AddChild(player1);
-            player1.Position = Board.spacesInfo[0].SpacePos;
-            player1.currSpace = 1;
+            player1.Position = Board.spacesInfo[120].SpacePos;
+            player1.currSpace = 121;
             players++;            
         }
         if (amount >= 2)

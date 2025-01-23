@@ -1,12 +1,8 @@
 using Godot;
 using System;
 
-public partial class Item : Control
+public partial class PassiveItem : Node
 {
-    protected string itemName;
-    protected string Desc;
-    protected int Price;
-
     protected enum Rarity {
         GoodCommon,
         GoodUncommon,
@@ -21,9 +17,9 @@ public partial class Item : Control
         BadLegendary,
         BadMythical
     }
+    
+    protected string itemName;
+    protected string Desc;
+    protected int Price;
 
-    public virtual void Use(Player player)
-    {
-
-    }
 }

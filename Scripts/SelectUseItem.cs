@@ -20,7 +20,7 @@ public partial class SelectUseItem : Control
 
 	public void Initialize(Player player)
 	{
-		foreach (Item item in player.itemList) 
+		foreach (ActiveItem item in player.itemList) 
 		{
 			PackedScene itemScene;
 			Node itemInstance;
