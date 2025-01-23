@@ -3,132 +3,124 @@ using System;
 
 public partial class SelectUseItem : Control
 {
-	[Signal]
-	public delegate void customSignalEventHandler();
+    [Signal]
+    public delegate void customSignalEventHandler();
 
-	private Control _itemContainer;
-	private int _currentIndex = 0; // The index of the currently selected item
-	private float _spacing = 200f; // Distance between items
-	private Vector2 _centerPosition = Vector2.Zero; // Center of the screen
-	Player currentPlayer;
+    private Control _itemContainer;
+    private int _currentIndex = 0;
+    private float _spacing = 200f; // Distance between items
+    private Vector2 _centerPosition = Vector2.Zero; // Center of the screen
+    Player currentPlayer;
 
+    // Store initial positions of items
+    private Vector2[] initialPositions;
 
+    public override void _Ready()
+    {
+        _itemContainer = GetNode<Control>("ItemContainer");
 
-	public override void _Ready()
-	{
-		
-		_itemContainer = GetNode<Control>("ItemContainer");
+        // Set the center position to the middle of the screen
+        _centerPosition = GetViewport().GetVisibleRect().Size / 2;
+    }
 
-		// Set the center position to the middle of the screen
-		_centerPosition = GetViewport().GetVisibleRect().Size / 2;
-		
-		UpdateCarousel();
-	}
+    public override void _PhysicsProcess(double delta)
+    {
+        if (Input.IsActionJustReleased("ui_right"))
+        {
+            _currentIndex++;
+            if (_currentIndex >= _itemContainer.GetChildCount())
+                _currentIndex = 0;
+            UpdateCarousel();
+        }
+        else if (Input.IsActionJustReleased("ui_left"))
+        {
+            _currentIndex--;
+            if (_currentIndex < 0)
+            {
+                _currentIndex = _itemContainer.GetChildCount() - 1;
+            }
+            UpdateCarousel();
+        }
+        else if (Input.IsActionJustReleased("select"))
+        {
+            GD.Print($"selected item {_currentIndex}");
+            currentPlayer.itemList[_currentIndex].Use(currentPlayer);
+            currentPlayer.itemList.RemoveAt(_currentIndex);
 
-	public override void _PhysicsProcess(double delta)
-	{
-		if (Input.IsActionJustReleased("ui_right"))
-		{
-			_currentIndex++;
-			if (_currentIndex >= _itemContainer.GetChildCount())
-				_currentIndex = 0;
-			UpdateCarousel();
-			
-		}else if (Input.IsActionJustReleased("ui_left"))
-		{
-			_currentIndex--;
-			if (_currentIndex < 0)
-				_currentIndex = _itemContainer.GetChildCount() - 1;
-			UpdateCarousel();
-			
-		}else if (Input.IsActionJustReleased("select")) 
-		{
-			GD.Print($"selected item {_currentIndex}");
-			currentPlayer.itemList[_currentIndex].Use(currentPlayer);
-			currentPlayer.itemList.RemoveAt(_currentIndex);
-			
-			EmitSignal(nameof(customSignal));
-		}
-	}
+            EmitSignal(nameof(customSignal));
+        }
+    }
 
-	public void Initialize(Player player)
-	{
-		currentPlayer = player;
-		foreach (ActiveItem item in player.itemList) 
-		{
-			PackedScene itemScene;
-			Node itemInstance;
-			switch (item) 
-			{
-				case BallAndChain:
-					GD.Print("ball and chain item");
-					
-					itemScene = (PackedScene)ResourceLoader.Load(item.GetScenePath());
-					itemInstance = itemScene.Instantiate();
-					_itemContainer.AddChild(itemInstance);
-					break;
-				default:
-					GD.Print("no item");
-					break;
-			}
-					
-		}
-	}
+    public void Initialize(Player player)
+    {
+        currentPlayer = player;
 
-	// public void getInput(InputEvent @event)
-	// {
-	// 	if (@event.IsActionPressed("ui_right"))
-	// 	{
-	// 		_currentIndex++;
-	// 		if (_currentIndex >= _itemContainer.GetChildCount())
-	// 			_currentIndex = 0;
-	// 		UpdateCarousel();
-			
-	// 	}else if (@event.IsActionPressed("ui_left"))
-	// 	{
-	// 		_currentIndex--;
-	// 		if (_currentIndex < 0)
-	// 			_currentIndex = _itemContainer.GetChildCount() - 1;
-	// 		UpdateCarousel();
-			
-	// 	}else if (@event.IsAction("select")) 
-	// 	{
-			
-	// 	}
-		
-	// }
+        // Initialize initial positions
+        initialPositions = new Vector2[player.itemList.Count];
 
-	private void UpdateCarousel()
-	{
-		for (int i = 0; i < _itemContainer.GetChildCount(); i++)
-		{
-			var item = _itemContainer.GetChild<Control>(i);
+        foreach (ActiveItem item in player.itemList)
+        {
+            PackedScene itemScene;
+            Node itemInstance;
+            switch (item)
+            {
+                case BallAndChain:
+                    GD.Print("ball and chain item");
+                    itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/Items/ball_and_chain.tscn");
+                    itemInstance = itemScene.Instantiate();
+                    _itemContainer.AddChild(itemInstance);
+                    break;
+                default:
+                    GD.Print("no item");
+                    break;
+            }
+        }
 
-			// Set the pivot offset to the center of the item so scaling happens from the center
-			item.PivotOffset = item.Size / 2;
+        // Store the initial positions after all items are instantiated
+        StoreInitialPositions();
+        UpdateCarousel();
+    }
 
-			// Calculate offset from the center based on index difference
-			float offset = (i - _currentIndex) * _spacing;
+    // Store the initial positions of the items in the container
+    private void StoreInitialPositions()
+    {
+        int itemCount = _itemContainer.GetChildCount();
+        initialPositions = new Vector2[itemCount];
 
-			// Position item relative to the center
-			item.Position = _centerPosition + new Vector2(offset, 0);
+        for (int i = 0; i < itemCount; i++)
+        {
+            var item = _itemContainer.GetChild<Control>(i);
+            initialPositions[i] = item.Position;
+        }
+    }
 
-			
-			if (i == _currentIndex)
-			{
-				item.Scale = new Vector2(1.5f, 1.5f);
-				item.Modulate = Colors.White;
-			}
-			else
-			{
-				item.Scale = new Vector2(1.0f, 1.0f);
-				item.Modulate = new Color(0.2f, 0.2f, 0.2f, 1);
-			}
-		}
-	}
+    private void UpdateCarousel()
+    {
+        int itemCount = _itemContainer.GetChildCount();
 
-	private void hasSelectedItem()
-	{
-		
-	}
+        // Iterate through all items in the container
+        for (int i = 0; i < itemCount; i++)
+        {
+            var item = _itemContainer.GetChild<Control>(i);
+
+            // Set the pivot offset to the center of the item so scaling happens from the center
+            item.PivotOffset = item.Size / 2;
+
+            if (i == _currentIndex)
+            {
+                item.Scale = new Vector2(1.5f, 1.5f);
+                item.Modulate = Colors.White;
+                item.Position = initialPositions[i]; // Keep the Y, center on X
+            }
+            else
+            {
+                item.Scale = new Vector2(1.0f, 1.0f);
+                item.Modulate = new Color(0.2f, 0.2f, 0.2f, 1);
+
+                // Calculate offset to move left or right
+                float offset = (i - _currentIndex) * _spacing;
+                item.Position = initialPositions[i] + new Vector2(offset, 0); // Maintain Y, update X with offset
+            }
+        }
+    }
 }
