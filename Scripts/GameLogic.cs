@@ -13,7 +13,7 @@ public partial class GameLogic : Node
 
 
 
-    private PackedScene Playerscene = (PackedScene)GD.Load("res://Scenes/Game Objects/player.tscn");
+    private PackedScene Playerscene = (PackedScene)GD.Load("res://Scenes/Game Objects/Player.tscn");
     PackedScene itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseItem.tscn");
     SelectUseItem itemScript;
     Node itemInstance;
@@ -244,7 +244,6 @@ public partial class GameLogic : Node
 
     private void ItemMenuInputs(InputEvent @event)
     {
-        GD.Print("Do you wanna use an item?");
         if (@event.IsActionPressed("yes"))
         {
             bool hasItems = currentPlayer.itemList.Any();

@@ -1,0 +1,115 @@
+[gd_scene load_steps=6 format=3 uid="uid://csebafqii4e8s"]
+
+[ext_resource type="Script" path="res://Scripts/UI/Hud.cs" id="1_jyrun"]
+[ext_resource type="Texture2D" uid="uid://tjp6slxr01ir" path="res://Assets/UI/TurnUIButton.png" id="2_4dm4r"]
+[ext_resource type="Texture2D" uid="uid://dp4ph75upcedm" path="res://Assets/UI/TurnUIButtonFocused.png" id="3_ig1b0"]
+[ext_resource type="Texture2D" uid="uid://cgbf3cxalajpg" path="res://Assets/UI/DiceIcon.png" id="4_dgohn"]
+[ext_resource type="Texture2D" uid="uid://dgtaylrg1kxx2" path="res://Assets/UI/MapIcon.png" id="5_wlocd"]
+
+[node name="Hud" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 648.0
+offset_bottom = 650.0
+scale = Vector2(1.727, 1)
+script = ExtResource("1_jyrun")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 0
+offset_top = 80.0
+offset_right = 100.0
+offset_bottom = 192.0
+scale = Vector2(1.75, 2.5)
+
+[node name="DiceButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("2_4dm4r")
+texture_focused = ExtResource("3_ig1b0")
+
+[node name="Label" type="Label" parent="VBoxContainer/DiceButton"]
+offset_left = 10.3975
+offset_top = 1.73913
+offset_right = 277.398
+offset_bottom = 176.739
+scale = Vector2(0.0846154, 0.108436)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 128
+text = "Dice "
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/DiceButton/Label"]
+layout_mode = 0
+offset_left = 295.532
+offset_top = -12.3495
+offset_right = 807.532
+offset_bottom = 499.651
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("4_dgohn")
+
+[node name="ItemButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("2_4dm4r")
+texture_focused = ExtResource("3_ig1b0")
+
+[node name="Label" type="Label" parent="VBoxContainer/ItemButton"]
+offset_left = 10.3975
+offset_top = 1.73913
+offset_right = 277.398
+offset_bottom = 176.739
+scale = Vector2(0.0846154, 0.108436)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 128
+text = "Item"
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/ItemButton/Label"]
+offset_left = 295.532
+offset_top = -12.3495
+offset_right = 807.532
+offset_bottom = 499.651
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("4_dgohn")
+
+[node name="PlayerButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("2_4dm4r")
+
+[node name="Label" type="Label" parent="VBoxContainer/PlayerButton"]
+offset_left = 10.3975
+offset_top = 1.73913
+offset_right = 277.398
+offset_bottom = 176.739
+scale = Vector2(0.0846154, 0.108436)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 128
+text = "Player"
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/PlayerButton/Label"]
+offset_left = 397.202
+offset_top = -12.3495
+offset_right = 909.202
+offset_bottom = 499.651
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("4_dgohn")
+
+[node name="MapButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("2_4dm4r")
+
+[node name="Label" type="Label" parent="VBoxContainer/MapButton"]
+layout_mode = 0
+offset_left = 10.3975
+offset_top = 1.73913
+offset_right = 277.398
+offset_bottom = 176.739
+scale = Vector2(0.0846154, 0.108436)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 128
+text = "Map"
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/MapButton/Label"]
+offset_left = 295.532
+offset_top = -12.3495
+offset_right = 807.532
+offset_bottom = 499.651
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("5_wlocd")

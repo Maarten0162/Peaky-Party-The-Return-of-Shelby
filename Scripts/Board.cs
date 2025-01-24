@@ -48,14 +48,6 @@ public partial class Board : Node2D
 			path.Points[i] = spacesInfo[i].SpacePos;
 		}
 
-
-		
-		foreach (var space in spacesInfo)
-		{
-
-			GD.Print($"Space position: {space.SpacePos}, space Number: {space.Number} Name: {space.Name}, Original Name: {space.OriginalName}");
-		}
-
 	}
 
 

@@ -1,16 +1,20 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class SelectUseItem : Control
 {
     [Signal]
     public delegate void customSignalEventHandler();
+    
 
     private Control _itemContainer;
     private int _currentIndex = 0;
     private float _spacing = 200f; // Distance between items
     private Vector2 _centerPosition = Vector2.Zero; // Center of the screen
     Player currentPlayer;
+
+    List<Control> ItemsInContainer = new();
 
     // Store initial positions of items
     private Vector2[] initialPositions;
@@ -79,11 +83,27 @@ public partial class SelectUseItem : Control
                     GD.Print("no item");
                     break;
             }
+
         }
 
         // Store the initial positions after all items are instantiated
         StoreInitialPositions();
-        UpdateCarousel();
+
+        
+        
+        for (int i = 0; i < player.itemList.Count; i++)
+        {
+            ItemsInContainer.Add(_itemContainer.GetChild<Control>(i));
+        }
+        ItemsInContainer[0].Scale = new Vector2(1.5f, 1.5f);//waarom de fuckkkk doet dit NIKSSSS!!!!!!!!!!!!!
+        ItemsInContainer[0].Modulate = Colors.White;
+        int itemCount = _itemContainer.GetChildCount();
+        for (int i = 1; i < itemCount; i++)//i = 1 zodat de geselected(item 0) niet veranderd
+        {
+            _itemContainer.GetChild<Control>(i).Scale = new Vector2(2.0f, 1.0f);
+            GD.Print(_itemContainer.GetChild<Control>(i).Size);
+            _itemContainer.GetChild<Control>(i).Modulate = new Color(0.2f, 0.2f, 0.2f, 1);
+        }
     }
 
     // Store the initial positions of the items in the container

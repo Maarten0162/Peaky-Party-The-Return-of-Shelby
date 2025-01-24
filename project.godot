@@ -11,17 +11,15 @@ config_version=5
 [application]
 
 config/name="Peaky Party: The Return of Shelby"
-run/main_scene="res://Scenes/GameSession.tscn"
+run/main_scene="res://Scenes/UI/TurnButtons.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
-
-[debug]
-
-settings/stdout/verbose_stdout=true
 
 [display]
 
 window/size/viewport_width=1117
+window/stretch/scale_mode="integer"
+window/per_pixel_transparency/allowed=true
 
 [dotnet]
 
@@ -89,4 +87,5 @@ select={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 rendering_device/fallback_to_vulkan=false
