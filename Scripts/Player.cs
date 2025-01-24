@@ -12,7 +12,8 @@ public partial class Player : CharacterBody2D
 	public bool isAlive { get; private set; }
 	public bool SkipTurn { get; private set; }
 	private int Currency;
-	public int currSpace;
+	public int Income { get; private set; }
+
 	private bool isMoving;
 
 	[Export] private float moveSpeed; // Movement speed (pixels per second)
@@ -46,15 +47,26 @@ public partial class Player : CharacterBody2D
 
 
 
+
 	//public vars
 	public Sprite2D Skin;
+	public int currSpace;
+	//Temp Variables
+	[Export]
+	int StartIncome = 0;
+	[Export]
+	int StartCurrency = 0;
+	[Export]
+	int StartHealth = 0;
+
 
 	public Player(Sprite2D _skin)
 	{
 		BallAndChain BAC = new();
 		Skin = _skin;
-		Currency = 100;
-		Health = 100;
+		Currency = StartCurrency;
+		Income = StartIncome;
+		Health = StartHealth;
 		isAlive = true;
 		SkipTurn = false;
 		itemList.Add(BAC);
@@ -128,6 +140,14 @@ public partial class Player : CharacterBody2D
 		{
 			return true;
 		}
+	}
+	public void ChangeIncome(int incomechange)
+	{
+		Income += incomechange;
+	}
+	public void EarnIncome()
+	{
+		currSpace += Income;
 	}
 
 	public void Attack()

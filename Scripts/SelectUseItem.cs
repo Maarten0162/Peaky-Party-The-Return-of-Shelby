@@ -46,8 +46,13 @@ public partial class SelectUseItem : Control
             GD.Print($"selected item {_currentIndex}");
             currentPlayer.itemList[_currentIndex].Use(currentPlayer);
             currentPlayer.itemList.RemoveAt(_currentIndex);
-
+            foreach (Node child in _itemContainer.GetChildren())
+            {
+                child.QueueFree();
+            }
+            _itemContainer.QueueFree();
             EmitSignal(nameof(customSignal));
+
         }
     }
 

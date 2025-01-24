@@ -135,7 +135,7 @@ public partial class GameLogic : Node
 
     private void Turn()
     {
-
+        currentPlayer.EarnIncome();
         if (currentPlayer.isAlive && !currentPlayer.SkipTurn)
         {
             Label label = GetNode<Label>($"{currentPlayer.Name}/Label");
@@ -292,9 +292,14 @@ public partial class GameLogic : Node
         GD.Print("Item has been used.");
         GD.Print("Item has been used.");
         GD.Print("Item has been used.");
+        itemInstance.Disconnect("customSignal", Callable.From(OnItemUsed));
+                foreach (Node child in itemScript.GetChildren())
+        {
+            child.QueueFree();  // Free each individual item node
+        }
 
         itemInstance.QueueFree();
-
+        itemInstance = null;
         currentInputMode = InputMode.Dice;
 
     }
