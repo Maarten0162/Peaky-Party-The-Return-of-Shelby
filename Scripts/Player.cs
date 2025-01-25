@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 public partial class Player : CharacterBody2D
 {
 	//private vars
-	private int Attrubute;
-	private int Health;
+	private int Attribute;
+	public int Health { get; private set; }
 	public bool isAlive { get; private set; }
 	public bool SkipTurn { get; private set; }
 	private int Currency;
+	public int RollAdjust {get; private set;}
 	public int Income { get; private set; }
+	public PlayerHud hud { get; private set; }
+
 
 	private bool isMoving;
 
@@ -20,22 +23,7 @@ public partial class Player : CharacterBody2D
 
 
 	//debuffs
-	private int RollAdjust;
-	public int rollAdjust
-	{
-		get
-		{
-			return RollAdjust;
-		}
-		set
-		{
-			RollAdjust = value;
-			if (rollAdjust != 0)
-			{
-				//hier kan de code om rolladsust op de hud te laten zien.
-			}
-		}
-	}
+
 	public List<ActiveItem> itemList { get; private set; } = new List<ActiveItem>();
 
 	//stats
@@ -53,14 +41,23 @@ public partial class Player : CharacterBody2D
 	public int currSpace;
 	//Temp Variables
 	[Export]
-	int StartIncome = 0;
+	int StartIncome = 10;
 	[Export]
-	int StartCurrency = 0;
+	int StartCurrency = 100;
 	[Export]
-	int StartHealth = 0;
+	int StartHealth = 100;
 
-
-	public Player(Sprite2D _skin)
+	public override void _Ready()
+	{
+		BallAndChain BAC = new();
+		Currency = StartCurrency;
+		Health = StartHealth;
+		Income = StartIncome;
+		isAlive = true;
+		SkipTurn = false;
+		Name = "Jeff";
+	}
+	public Player(Sprite2D _skin, string _name)
 	{
 		BallAndChain BAC = new();
 		Skin = _skin;
@@ -70,26 +67,28 @@ public partial class Player : CharacterBody2D
 		isAlive = true;
 		SkipTurn = false;
 		itemList.Add(BAC);
+		Name = _name;
 	}
 
 	public Player()
 	{
 		BallAndChain BAC = new();
-		Currency = 100;
-		Health = 100;
+		Currency = StartCurrency;
+		Health = StartHealth;
+		Income = StartIncome;
 		isAlive = true;
 		SkipTurn = false;
+		Name = "Jeff";
 	}
 
-	public override void _PhysicsProcess(double delta)
+	public void Sethud(PlayerHud _hud)
 	{
-		if (Health <= 0)
-		{
-			isAlive = false;
-		}
-
+		this.hud = _hud;
 	}
-
+	public void Update()
+	{
+		hud.Update();
+	}
 	public async Task<bool> Movement(Board board, int target)
 	{
 
@@ -127,11 +126,12 @@ public partial class Player : CharacterBody2D
 	}
 	public bool CheckRollAdjust(int diceroll)
 	{
-		if (rollAdjust < 0)
+		if (RollAdjust < 0)
 		{
-			if ((rollAdjust + diceroll) <= 0)
+			if ((RollAdjust + diceroll) <= 0)
 			{
-				rollAdjust = 0;
+				RollAdjust = 0;
+				Update();
 				return false;
 			}
 			else return true;
@@ -141,13 +141,30 @@ public partial class Player : CharacterBody2D
 			return true;
 		}
 	}
-	public void ChangeIncome(int incomechange)
+	public void RolladjustChange(int i)
+	{
+		RollAdjust += i;
+		Update();
+	}
+	public void HealthChange(int i)
+	{	
+		Health += i;
+		Update();
+	}
+	public void CurrencyChange(int i)
+	{
+		Currency += i;
+		Update();
+	}
+	public void IncomeChange(int incomechange)
 	{
 		Income += incomechange;
+		Update();
 	}
 	public void EarnIncome()
 	{
-		currSpace += Income;
+		Currency += Income;
+		Update();
 	}
 
 	public void Attack()
@@ -158,6 +175,7 @@ public partial class Player : CharacterBody2D
 	public void takeDamage()
 	{
 		//
+		Update();
 	}
 
 	private void useItem(ActiveItem item, Player player)
@@ -165,6 +183,7 @@ public partial class Player : CharacterBody2D
 		if (player.itemList.Contains(item))
 		{
 			item.Use(player);
+			Update();
 		}
 
 	}

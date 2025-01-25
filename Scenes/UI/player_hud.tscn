@@ -1,0 +1,128 @@
+[gd_scene load_steps=3 format=3 uid="uid://beuonvet12kb8"]
+
+[ext_resource type="Script" path="res://Scripts/UI/PlayerHud.cs" id="1_taddy"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_7d3tp"]
+
+[node name="PlayerHud" type="Control"]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 79.0
+offset_top = -110.0
+offset_right = 79.0
+offset_bottom = -110.0
+grow_vertical = 0
+size_flags_horizontal = 4
+script = ExtResource("1_taddy")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -79.0
+offset_top = -69.0
+offset_right = -73.0
+offset_bottom = -29.0
+scale = Vector2(27.96, 4.4)
+texture = SubResource("CanvasTexture_7d3tp")
+
+[node name="HealthLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = -19.0
+offset_right = 56.0
+offset_bottom = 4.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "NaN
+"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = -48.0
+offset_top = -19.0
+offset_right = 8.0
+offset_bottom = 4.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Health:
+"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = -46.0
+offset_top = 22.0
+offset_right = 16.0
+offset_bottom = 45.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Income:
+"
+
+[node name="IncomeLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 23.0
+offset_right = 73.0
+offset_bottom = 46.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "NaN
+"
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 0
+offset_left = -52.0
+offset_top = -45.0
+offset_right = 10.0
+offset_bottom = -22.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Name:
+"
+
+[node name="NameLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 7.0
+offset_top = -45.0
+offset_right = 69.0
+offset_bottom = -22.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "NaN
+"
+
+[node name="Label4" type="Label" parent="."]
+layout_mode = 0
+offset_left = -67.0
+offset_top = 41.0
+offset_right = 16.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "RollAdjust:
+"
+
+[node name="RolladjustLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 42.0
+offset_right = 80.0
+offset_bottom = 91.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "NaN
+
+"
+
+[node name="Label5" type="Label" parent="."]
+layout_mode = 0
+offset_left = -48.0
+offset_top = 1.0
+offset_right = 27.0
+offset_bottom = 24.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Currency:
+"
+
+[node name="CurrencyLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 1.0
+offset_right = 81.0
+offset_bottom = 24.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "NaN
+"

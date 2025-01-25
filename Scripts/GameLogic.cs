@@ -13,8 +13,9 @@ public partial class GameLogic : Node
 
 
 
-    private PackedScene Playerscene = (PackedScene)GD.Load("res://Scenes/Game Objects/Player.tscn");
+    private PackedScene Playerscene = (PackedScene)GD.Load("res://Scenes/Game Objects/player.tscn");
     PackedScene itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseItem.tscn");
+
     SelectUseItem itemScript;
     Node itemInstance;
     Board Board;
@@ -44,6 +45,9 @@ public partial class GameLogic : Node
 
     public override void _Ready()
     {
+
+
+
         Board = GetNode<Board>("Board");
         if (TurnCount == 0)
         {
@@ -53,17 +57,24 @@ public partial class GameLogic : Node
             {
                 SetPlayerPos(PList[i], Board.spacesInfo[0].SpacePos);
             }
+            for (int i = 0; i < PList.Count; i++)
+            {
+                HBoxContainer hud = GetNode<HBoxContainer>("AllHuds");
+                PlayerHud phud = (PlayerHud)hud.GetChild(i);
+                phud.AddPlayer(PList[i]);
+                PList[i].Sethud(phud);
+                PList[i].hud.Update();
+            }
 
         }
-        if (player1 != null)
-        {
-            GD.Print("player 1 exists");
-        }
+
         whatPlayer = 0;
         currentPlayer = PList[whatPlayer];
 
         Turn();
+
     }
+
     private void SetPlayerPos(Player player, Vector2 space)
     {
         player.Position = space;
@@ -90,7 +101,7 @@ public partial class GameLogic : Node
         if (amount >= 3)
         {
             player3 = (Player)Playerscene.Instantiate();
-            AddChild(player3);
+            AddChild(player3); ;
             player3.Position = Board.spacesInfo[0].SpacePos;
             player3.currSpace = 1;
             players++;
@@ -157,18 +168,18 @@ public partial class GameLogic : Node
 
         }
     }
-        private void NextTurn()
+    private void NextTurn()
     {
-                whatPlayer++;
-                if (whatPlayer >= PList.Count)
-                {
-                    whatPlayer = 0;
-                }
-                currentPlayer = PList[whatPlayer];
-                Turn();
+        whatPlayer++;
+        if (whatPlayer >= PList.Count)
+        {
+            whatPlayer = 0;
+        }
+        currentPlayer = PList[whatPlayer];
+        Turn();
     }
 
-    
+
     public override void _Input(InputEvent @event)
     {
 
@@ -189,9 +200,9 @@ public partial class GameLogic : Node
                 break;
         }
     }
-        private void DiceMenuInputs(InputEvent @event)
+    private void DiceMenuInputs(InputEvent @event)
     {
-        GD.Print("Do you wanna use a Dice?");
+
         if (@event.IsActionPressed("yes"))
         {
             currentInputMode = InputMode.None;
@@ -204,25 +215,25 @@ public partial class GameLogic : Node
         }
 
     }
-        private async void UseDice()
+    private async void UseDice()
     {
         GD.Print("in use dice");
         int roll = normalDice.Roll();
         if (currentPlayer.CheckRollAdjust(roll))
         {
 
-            roll += currentPlayer.rollAdjust;
+            roll += currentPlayer.RollAdjust;
             int target = currentPlayer.currSpace + roll;
             GD.Print($"You threw {target - currentPlayer.currSpace}");
             await currentPlayer.Movement(Board, target);
-            
-               NextTurn();
-            
+
+            NextTurn();
+
         }
         else
         {
             GD.Print("Sorry you cant move with these legs");
-             NextTurn();
+            NextTurn();
         }
     }
 
@@ -283,7 +294,7 @@ public partial class GameLogic : Node
         }
 
     }
-        private void OnItemUsed()
+    private void OnItemUsed()
     {
         GD.Print("Item has been used.");
         GD.Print("Item has been used.");
@@ -292,7 +303,7 @@ public partial class GameLogic : Node
         GD.Print("Item has been used.");
         GD.Print("Item has been used.");
         itemInstance.Disconnect("customSignal", Callable.From(OnItemUsed));
-                foreach (Node child in itemScript.GetChildren())
+        foreach (Node child in itemScript.GetChildren())
         {
             child.QueueFree();  // Free each individual item node
         }

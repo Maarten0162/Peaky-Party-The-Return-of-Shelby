@@ -14,10 +14,7 @@ public partial class Board : Node2D
 	public override void _Ready()
 	{
 		path = GetNode<Line2D>("Path");
-		if (path != null)
-		{
-			GD.Print("FOUND PATH");
-		}
+
 
 		int count = 0;
 		foreach (Node child in path.GetChildren())
@@ -37,7 +34,6 @@ public partial class Board : Node2D
 			{
 
 				spacesInfo[x] = (marker.Position, x + 1, Child.Name, Child.Name);
-				GD.Print($"Point {x}: {spacesInfo[x].SpacePos}");
 
 				x++;
 			}
