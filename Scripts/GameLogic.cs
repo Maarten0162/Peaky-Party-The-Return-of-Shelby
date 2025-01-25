@@ -51,19 +51,22 @@ public partial class GameLogic : Node
         Board = GetNode<Board>("Board");
         if (TurnCount == 0)
         {
-            int playeramount = CreatePlayers(4); // hier moet aantal spelers dat gekozen is, wrs global variable, maar natuurlijk proberen die zo min mogelijk te gebruiken.
+            HBoxContainer hud = GetNode<HBoxContainer>("AllHuds");
+            int playeramount = CreatePlayers(2); // hier moet aantal spelers dat gekozen is, wrs global variable, maar natuurlijk proberen die zo min mogelijk te gebruiken.
             CreatePlayerOrder(playeramount);
             for (int i = 0; i < PList.Count; i++)
             {
                 SetPlayerPos(PList[i], Board.spacesInfo[0].SpacePos);
-            }
-            for (int i = 0; i < PList.Count; i++)
-            {
-                HBoxContainer hud = GetNode<HBoxContainer>("AllHuds");
                 PlayerHud phud = (PlayerHud)hud.GetChild(i);
                 phud.AddPlayer(PList[i]);
                 PList[i].Sethud(phud);
                 PList[i].hud.Update();
+            }
+            for(int i = PList.Count; i < hud.GetChildCount(); i++)
+            {
+              Node child =  hud.GetChild(i);
+              child.QueueFree();
+
             }
 
         }
@@ -148,7 +151,7 @@ public partial class GameLogic : Node
     {
         currentPlayer.EarnIncome();
         if (currentPlayer.isAlive && !currentPlayer.SkipTurn)
-        {
+        {   GD.Print("do you want to use an item?");
             Label label = GetNode<Label>($"{currentPlayer.Name}/Label");
             label.Text = $"{whatPlayer + 1}";
             checkStartItems(currentPlayer);
@@ -167,6 +170,7 @@ public partial class GameLogic : Node
             currentInputMode = InputMode.Item;
 
         }
+        else GD.Print("player is dead or has to skip a turn");
     }
     private void NextTurn()
     {

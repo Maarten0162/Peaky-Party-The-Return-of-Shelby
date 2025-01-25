@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 public partial class Board : Node2D
 {
 
-	public (Vector2 SpacePos, int Number, string Name, string OriginalName)[] spacesInfo;
+	public (Vector2 SpacePos, Marker2D Node, int Number, string Name, string OriginalName)[] spacesInfo;
 	private Line2D path;
 	private Player tempplayer;
 	private bool isMoving = false; // To control when to move the player
@@ -14,7 +14,7 @@ public partial class Board : Node2D
 	public override void _Ready()
 	{
 		path = GetNode<Line2D>("Path");
-
+		Vector2 boardScale = this.Scale;
 
 		int count = 0;
 		foreach (Node child in path.GetChildren())
@@ -25,7 +25,7 @@ public partial class Board : Node2D
 			}
 		}
 
-		spacesInfo = new (Vector2, int, string, string)[count];
+		spacesInfo = new (Vector2,Marker2D, int, string, string)[count];
 
 		int x = 0;
 		foreach (Node Child in path.GetChildren())
@@ -33,7 +33,7 @@ public partial class Board : Node2D
 			if (Child is Marker2D marker)
 			{
 
-				spacesInfo[x] = (marker.Position, x + 1, Child.Name, Child.Name);
+				spacesInfo[x] = (marker.Position*boardScale, marker, x + 1, Child.Name, Child.Name);
 
 				x++;
 			}
@@ -43,8 +43,9 @@ public partial class Board : Node2D
 		{
 			path.Points[i] = spacesInfo[i].SpacePos;
 		}
-
+		
 	}
 
+ 
 
 }

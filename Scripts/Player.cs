@@ -11,7 +11,7 @@ public partial class Player : CharacterBody2D
 	public int Health { get; private set; }
 	public bool isAlive { get; private set; }
 	public bool SkipTurn { get; private set; }
-	private int Currency;
+	public int Currency { get; private set; }
 	public int RollAdjust {get; private set;}
 	public int Income { get; private set; }
 	public PlayerHud hud { get; private set; }

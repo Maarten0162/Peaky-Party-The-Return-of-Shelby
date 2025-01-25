@@ -36,7 +36,7 @@ public partial class PlayerHud : Control
 		GD.Print(player.Income + "is income");
 		
 		Income.Text = player.Income.ToString();
-		Currency.Text = player.Income.ToString();
+		Currency.Text = player.Currency.ToString();
 		Health.Text = player.Health.ToString();
 		Rolladjust.Text = player.RollAdjust.ToString();
 	}
