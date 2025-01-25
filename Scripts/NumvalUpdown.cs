@@ -5,11 +5,68 @@ using System.Threading.Tasks;
 public partial class NumvalUpdown : Control
 {
 	private Label LabHundreds;
-	int hundreds = 0;
+	private int Hundreds;
+	public int hundreds
+	{
+		get { return Hundreds; }
+		set
+		{
+			Hundreds = value;
+
+			var upButton = GetNode<TextureButton>("UpArrowContainer/UpBtHund");
+			var downButton = GetNode<TextureButton>("DownArrowContainer/DownBtHunds");
+
+			upButton.Disabled = Hundreds == 9;
+			downButton.Disabled = Hundreds == 0;
+			if (Hundreds == 9 || Hundreds == 0)
+			{
+				isUpgrading = false;
+			}
+		}
+	}
 	private Label LabTens;
-	int Tens = 0;
+	private int Tens;
+	public int tens
+	{
+		get { return Tens; }
+		set
+		{
+			Tens = value;
+
+			var upButton = GetNode<TextureButton>("UpArrowContainer/UpBtTens");
+			var downButton = GetNode<TextureButton>("DownArrowContainer/DownBtTens");
+
+			upButton.Disabled = Tens == 9;
+			downButton.Disabled = Tens == 0;
+
+			if (Tens == 9 || Tens == 0)
+			{
+				isUpgrading = false;
+			}
+		}
+	}
+
 	private Label LabOnes;
-	int Ones = 0;
+	private int Ones;
+	public int ones
+	{
+		get { return Ones; }
+		set
+		{
+			Ones = value;
+
+			var upButton = GetNode<TextureButton>("UpArrowContainer/UpBtOnes");
+			var downButton = GetNode<TextureButton>("DownArrowContainer/DownBtOnes");
+
+			upButton.Disabled = Ones == 9;
+			downButton.Disabled = Ones == 0;
+
+			if (Ones == 9 || Ones == 0)
+			{
+				isUpgrading = false;
+			}
+		}
+	}
 	bool isUpgrading = false;
 	private float timerDelay = 0.1f;
 	enum Button
@@ -25,6 +82,9 @@ public partial class NumvalUpdown : Control
 
 	public override void _Ready()
 	{
+		hundreds = 0;
+		Tens = 0;
+		Ones = 0;
 		var container = GetNode<HBoxContainer>("NumContainer");
 		LabHundreds = (Label)container.GetChild(0);
 		LabTens = (Label)container.GetChild(1);
@@ -141,85 +201,38 @@ public partial class NumvalUpdown : Control
 	}
 	private void OnesUp()
 	{
-		Ones = Ones + 1;
-		if (Ones > 9)
-		{
-			Ones = 0;
-			TensUp();
-		}
-		if (Ones > 0)
-		{
-			TextureButton Bt = GetNode<TextureButton>("UpArrowContainer/UpBtOnes");
-			Bt.Disabled = false;
-		}
-		LabOnes.Text = Ones.ToString();
+		ones = ones + 1;
+
+		LabOnes.Text = ones.ToString();
 	}
 	private void TensUp()
 	{
-		Tens = Tens + 1;
-		if (Tens > 9)
-		{
-			Tens = 0;
-			HundredsUp();
-		}
-		LabTens.Text = Tens.ToString();
+		tens = tens + 1;
+
+		LabTens.Text = tens.ToString();
 	}
 	private void HundredsUp()
 	{
 		hundreds = hundreds + 1;
-		if (hundreds > 9)
-		{
-			hundreds = 9;
-			TextureButton Bt = GetNode<TextureButton>("UpArrowContainer/UpBtHund");
-			Bt.Disabled = true;
-		}
+
 		LabHundreds.Text = hundreds.ToString();
 	}
 	private void OnesDown()
 	{
-		Ones = Ones - 1;
-		if (Ones < 0)
-		{
-			Ones = 0;
-			TextureButton Bt = GetNode<TextureButton>("UpArrowContainer/UpBtOnes");
-			Bt.Disabled = true;
+		ones = ones + -1;
 
-		}
-		LabOnes.Text = Ones.ToString();
+		LabOnes.Text = ones.ToString();
 	}
 	private void TensDown()
 	{
-		Tens = Tens - 1;
-		if (Tens < 0)
-		{
-			if (Ones == 0)
-			{
-				Tens = 1;
-			}
-			else
-			{
-				OnesDown();
-				Tens = 0;
-			}
-
-
-		}
-		LabTens.Text = Tens.ToString();
+		tens = tens + -1;
+		
+		LabTens.Text = tens.ToString();
 	}
 	private void HundredsDown()
 	{
-		hundreds = hundreds - 1;
-		if (hundreds < 8)
-		{
+		hundreds = hundreds + -1;
 
-			TextureButton Bt = GetNode<TextureButton>("UpArrowContainer/UpBtHund");
-			Bt.Disabled = false;
-		}
-		if (hundreds < 0)
-		{
-			hundreds = 0;
-			TensDown();
-		}
 		LabHundreds.Text = hundreds.ToString();
 	}
 }

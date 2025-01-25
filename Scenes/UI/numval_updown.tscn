@@ -61,22 +61,22 @@ layout_mode = 2
 size_flags_horizontal = 4
 texture_normal = ExtResource("2_jwbgk")
 
-[node name="DownArrowContainer2" type="HBoxContainer" parent="."]
+[node name="DownArrowContainer" type="HBoxContainer" parent="."]
 offset_left = 7.5
 offset_top = 50.0
 offset_right = 1551.5
 offset_bottom = 562.0
 scale = Vector2(0.05, 0.05)
 
-[node name="DownBtHunds" type="TextureButton" parent="DownArrowContainer2"]
+[node name="DownBtHunds" type="TextureButton" parent="DownArrowContainer"]
 layout_mode = 2
 texture_normal = ExtResource("3_sidma")
 
-[node name="DownBtTens" type="TextureButton" parent="DownArrowContainer2"]
+[node name="DownBtTens" type="TextureButton" parent="DownArrowContainer"]
 layout_mode = 2
 texture_normal = ExtResource("3_sidma")
 
-[node name="DownBtOnes" type="TextureButton" parent="DownArrowContainer2"]
+[node name="DownBtOnes" type="TextureButton" parent="DownArrowContainer"]
 layout_mode = 2
 texture_normal = ExtResource("3_sidma")
 
@@ -86,9 +86,9 @@ texture_normal = ExtResource("3_sidma")
 [connection signal="button_up" from="UpArrowContainer/UpBtTens" to="." method="UpBt"]
 [connection signal="button_down" from="UpArrowContainer/UpBtOnes" to="." method="DownBtOnesUp"]
 [connection signal="button_up" from="UpArrowContainer/UpBtOnes" to="." method="UpBt"]
-[connection signal="button_down" from="DownArrowContainer2/DownBtHunds" to="." method="DownBtHundredsDown"]
-[connection signal="button_up" from="DownArrowContainer2/DownBtHunds" to="." method="UpBt"]
-[connection signal="button_down" from="DownArrowContainer2/DownBtTens" to="." method="DownBtTensDown"]
-[connection signal="button_up" from="DownArrowContainer2/DownBtTens" to="." method="UpBt"]
-[connection signal="button_down" from="DownArrowContainer2/DownBtOnes" to="." method="DownBtOnesDown"]
-[connection signal="button_up" from="DownArrowContainer2/DownBtOnes" to="." method="UpBt"]
+[connection signal="button_down" from="DownArrowContainer/DownBtHunds" to="." method="DownBtHundredsDown"]
+[connection signal="button_up" from="DownArrowContainer/DownBtHunds" to="." method="UpBt"]
+[connection signal="button_down" from="DownArrowContainer/DownBtTens" to="." method="DownBtTensDown"]
+[connection signal="button_up" from="DownArrowContainer/DownBtTens" to="." method="UpBt"]
+[connection signal="button_down" from="DownArrowContainer/DownBtOnes" to="." method="DownBtOnesDown"]
+[connection signal="button_up" from="DownArrowContainer/DownBtOnes" to="." method="UpBt"]
