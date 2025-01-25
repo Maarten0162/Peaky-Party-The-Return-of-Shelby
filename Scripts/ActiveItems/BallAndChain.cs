@@ -23,8 +23,7 @@ public partial class BallAndChain : ActiveItem
         Random rnd = new Random();
         int target = ChooseTarget(GlobalVar.Plist, userloc, rnd);
         Player ptarget = GlobalVar.Plist[target];
-        int Rolltarget = 0 - rnd.Next(1, MaxRollAdjust);
-        ptarget.RolladjustChange(Rolltarget);
+        ptarget.RollAdjust -= rnd.Next(1, MaxRollAdjust);
         GD.Print(ptarget.Name + " roll adjust is" + ptarget.RollAdjust);
     }
     private int ChooseTarget(List<Player> plist, int userloc, Random rnd)

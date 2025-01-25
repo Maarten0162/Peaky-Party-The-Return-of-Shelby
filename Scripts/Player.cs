@@ -8,12 +8,62 @@ public partial class Player : CharacterBody2D
 {
 	//private vars
 	private int Attribute;
-	public int Health { get; private set; }
+	private int health;  
+
+	public int Health
+	{
+		get { return health; }
+		private set
+		{
+			health = value;
+			if (hud != null)
+			{
+				Update();
+			}
+		}
+	}
+	private int rollAdjust;
+	public int RollAdjust
+	{
+		get { return rollAdjust; }
+		set
+		{
+			rollAdjust = value;
+			if (hud != null)
+			{
+				Update();
+			}
+		}
+	}
+	private int income;
+	public int Income
+	{
+		get { return income; }
+		set
+		{
+			income = value;
+			if (hud != null)
+			{
+				Update();
+			}
+		}
+	}
+	private int currency;
+	public int Currency
+	{
+		get { return currency; }
+		set
+		{
+			currency = value;
+			if (hud != null)
+			{
+				Update();
+			}
+		}
+	}
+
 	public bool isAlive { get; private set; }
 	public bool SkipTurn { get; private set; }
-	public int Currency { get; private set; }
-	public int RollAdjust {get; private set;}
-	public int Income { get; private set; }
 	public PlayerHud hud { get; private set; }
 
 
@@ -140,26 +190,6 @@ public partial class Player : CharacterBody2D
 		{
 			return true;
 		}
-	}
-	public void RolladjustChange(int i)
-	{
-		RollAdjust += i;
-		Update();
-	}
-	public void HealthChange(int i)
-	{	
-		Health += i;
-		Update();
-	}
-	public void CurrencyChange(int i)
-	{
-		Currency += i;
-		Update();
-	}
-	public void IncomeChange(int incomechange)
-	{
-		Income += incomechange;
-		Update();
 	}
 	public void EarnIncome()
 	{
