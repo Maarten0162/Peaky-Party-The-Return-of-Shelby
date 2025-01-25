@@ -52,7 +52,7 @@ public partial class GameLogic : Node
         if (TurnCount == 0)
         {
             HBoxContainer hud = GetNode<HBoxContainer>("AllHuds");
-            int playeramount = CreatePlayers(2); // hier moet aantal spelers dat gekozen is, wrs global variable, maar natuurlijk proberen die zo min mogelijk te gebruiken.
+            int playeramount = CreatePlayers(4); // hier moet aantal spelers dat gekozen is, wrs global variable, maar natuurlijk proberen die zo min mogelijk te gebruiken.
             CreatePlayerOrder(playeramount);
             for (int i = 0; i < PList.Count; i++)
             {
