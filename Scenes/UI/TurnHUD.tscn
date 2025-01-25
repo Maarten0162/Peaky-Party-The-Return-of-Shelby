@@ -28,6 +28,7 @@ texture_normal = ExtResource("2_4dm4r")
 texture_focused = ExtResource("3_ig1b0")
 
 [node name="Label" type="Label" parent="VBoxContainer/DiceButton"]
+layout_mode = 0
 offset_left = 10.3975
 offset_top = 1.73913
 offset_right = 277.398
@@ -52,6 +53,7 @@ texture_normal = ExtResource("2_4dm4r")
 texture_focused = ExtResource("3_ig1b0")
 
 [node name="Label" type="Label" parent="VBoxContainer/ItemButton"]
+layout_mode = 0
 offset_left = 10.3975
 offset_top = 1.73913
 offset_right = 277.398
@@ -62,6 +64,7 @@ theme_override_font_sizes/font_size = 128
 text = "Item"
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/ItemButton/Label"]
+layout_mode = 0
 offset_left = 295.532
 offset_top = -12.3495
 offset_right = 807.532
@@ -74,6 +77,7 @@ layout_mode = 2
 texture_normal = ExtResource("2_4dm4r")
 
 [node name="Label" type="Label" parent="VBoxContainer/PlayerButton"]
+layout_mode = 0
 offset_left = 10.3975
 offset_top = 1.73913
 offset_right = 277.398
@@ -84,6 +88,7 @@ theme_override_font_sizes/font_size = 128
 text = "Player"
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/PlayerButton/Label"]
+layout_mode = 0
 offset_left = 397.202
 offset_top = -12.3495
 offset_right = 909.202
@@ -107,6 +112,7 @@ theme_override_font_sizes/font_size = 128
 text = "Map"
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/MapButton/Label"]
+layout_mode = 0
 offset_left = 295.532
 offset_top = -12.3495
 offset_right = 807.532
