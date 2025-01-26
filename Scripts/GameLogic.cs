@@ -15,16 +15,19 @@ public partial class GameLogic : Node
 
     private PackedScene Playerscene = (PackedScene)GD.Load("res://Scenes/Game Objects/player.tscn");
     PackedScene itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseItem.tscn");
+    PackedScene diceScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseDice.tscn");
 
     //hud scenes
     PackedScene TurnHudScene = (PackedScene)ResourceLoader.Load("res://Scenes/UI/TurnHUD.tscn");
     Node turnhud;
     Hud turnHudClass;
 
-
+    List<Dice> DiceList = new();
 
     SelectUseItem itemScript;
+    SelectUseDice diceScript;
     Node itemInstance;
+    Node diceInstance;
     Board Board;
     private Player player1;
     private Player player2;
@@ -50,6 +53,7 @@ public partial class GameLogic : Node
     Dice betterDice = new(1, 7);
     Dice SuperDice = new(1, 8);
     Dice peakyDice = new(1, 12);
+    
     private enum InputMode
     {
         Dice,
@@ -62,7 +66,10 @@ public partial class GameLogic : Node
 
     public override void _Ready()
     {
-        
+        DiceList.Add(normalDice);
+        DiceList.Add(betterDice);
+        DiceList.Add(SuperDice);
+        DiceList.Add(peakyDice);
 
 
 
@@ -70,7 +77,7 @@ public partial class GameLogic : Node
         HBoxContainer hud = GetNode<HBoxContainer>("AllHuds");
         if (TurnCount == 0)
         {
-            
+
             int playeramount = CreatePlayers(4); // hier moet aantal spelers dat gekozen is, wrs global variable, maar natuurlijk proberen die zo min mogelijk te gebruiken.
             CreatePlayerOrder(playeramount);
             for (int i = 0; i < PList.Count; i++)
@@ -91,10 +98,10 @@ public partial class GameLogic : Node
         }
         else
         {
-           Board =  SaveManager.LoadBoard();
-           PList = SaveManager.LoadPlayers();
-           CreatePlayers(PList.Count);
-              for (int i = 0; i < PList.Count; i++)
+            Board = SaveManager.LoadBoard();
+            PList = SaveManager.LoadPlayers();
+            CreatePlayers(PList.Count);
+            for (int i = 0; i < PList.Count; i++)
             {
                 SetPlayerPos(PList[i], Board.spacesInfo[0].SpacePos);
                 PlayerHud phud = (PlayerHud)hud.GetChild(i);
@@ -275,16 +282,18 @@ public partial class GameLogic : Node
     private void DiceMenuInputs(InputEvent @event)
     {
 
-        if (@event.IsActionPressed("yes"))
-        {
-            currentInputMode = InputMode.None;
-            UseDice();
+        diceInstance = diceScene.Instantiate();
 
-        }
-        else if (@event.IsActionPressed("no"))
-        {
-            GD.Print($"Player doesn't wanna use an item?");
-        }
+        // Voeg de instantie van de scène toe aan de hoofdscene
+        AddChild(diceInstance);
+
+        // Verkrijg toegang tot het script van de geïnstantieerde scène
+        diceScript = (SelectUseDice)diceInstance;
+
+        //diceScript.Connect("customSignal", Callable.From(OnItemUsed));
+        // Roep de Initialize-methode aan om gegevens in te stellen
+        diceScript.Initialize(DiceList);
+        currentInputMode = InputMode.None;
 
     }
     private async void UseDice()
@@ -327,43 +336,39 @@ public partial class GameLogic : Node
 
     private void ItemMenuInputs(InputEvent @event)
     {
-            bool hasItems = currentPlayer.itemList.Any();
-            if (hasItems)
-            {
+        bool hasItems = currentPlayer.itemList.Any();
+        if (hasItems)
+        {
 
-                GD.Print("What item do you wanna use:");
+            GD.Print("What item do you wanna use:");
 
-                // Instantiëren van de scène
-                itemInstance = itemScene.Instantiate();
+            // Instantiëren van de scène
+            itemInstance = itemScene.Instantiate();
 
-                // Voeg de instantie van de scène toe aan de hoofdscene
-                AddChild(itemInstance);
+            // Voeg de instantie van de scène toe aan de hoofdscene
+            AddChild(itemInstance);
 
-                // Verkrijg toegang tot het script van de geïnstantieerde scène
-                itemScript = (SelectUseItem)itemInstance;
+            // Verkrijg toegang tot het script van de geïnstantieerde scène
+            itemScript = (SelectUseItem)itemInstance;
 
-                itemScript.Connect("customSignal", Callable.From(OnItemUsed));
-                // Roep de Initialize-methode aan om gegevens in te stellen
-                itemScript.Initialize(currentPlayer);
-                currentInputMode = InputMode.None;
+            itemScript.Connect("customSignal", Callable.From(OnItemUsed));
+            // Roep de Initialize-methode aan om gegevens in te stellen
+            itemScript.Initialize(currentPlayer);
+            currentInputMode = InputMode.None;
 
 
 
-            }
-            else
-            {
-                GD.Print("You have no items to use");
-                currentInputMode = InputMode.Dice;
-            }
+        }
+        else
+        {
+            GD.Print("You have no items to use");
+            currentInputMode = InputMode.Dice;
+        }
 
     }
+
     private void OnItemUsed()
     {
-        GD.Print("Item has been used.");
-        GD.Print("Item has been used.");
-        GD.Print("Item has been used.");
-        GD.Print("Item has been used.");
-        GD.Print("Item has been used.");
         GD.Print("Item has been used.");
         itemInstance.Disconnect("customSignal", Callable.From(OnItemUsed));
         foreach (Node child in itemScript.GetChildren())
@@ -405,7 +410,7 @@ public partial class GameLogic : Node
 
     private void OnHudSelection(string message)
     {
-        
+
         switch (message)
         {
             case "DICE":
