@@ -62,6 +62,7 @@ size_flags_horizontal = 4
 texture_normal = ExtResource("2_jwbgk")
 
 [node name="DownArrowContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
 offset_left = 7.5
 offset_top = 50.0
 offset_right = 1551.5
