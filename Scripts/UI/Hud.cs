@@ -1,13 +1,19 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public partial class Hud : Control
 {
-	// Called when the node enters the scene tree for the first time.
+
+	[Signal]
+    public delegate void HudSelectionEventHandler(string InputModeText);
+
 	TextureButton DiceButton;
 	TextureButton ItemButton;
 	TextureButton PlayerButton;
 	TextureButton MapButton;
+
+	TextureButton HighlightedButton;
 	private VBoxContainer VBox;
 	private Vector2 _normalScale = new Vector2(1, 1);  // Default scale
 	private Vector2 _focusedScale = new Vector2(1.3f, 1f);
@@ -19,6 +25,7 @@ public partial class Hud : Control
 		ItemButton = GetNode<TextureButton>("VBoxContainer/ItemButton");
 		PlayerButton = GetNode<TextureButton>("VBoxContainer/PlayerButton");
 		MapButton = GetNode<TextureButton>("VBoxContainer/MapButton");
+		
 
 		DiceButton.GrabFocus();
 
@@ -33,6 +40,7 @@ public partial class Hud : Control
 			if (button.HasFocus())
 			{
 				button.TextureNormal = GD.Load<Texture2D>("res://Assets/UI/TurnUIButtonFocused.png");
+				HighlightedButton = button;
 			}
 			else
 			{
@@ -41,4 +49,34 @@ public partial class Hud : Control
 		}
 
 	}
+
+    public override void _Input(InputEvent @event)
+    {
+        if(@event.IsActionReleased("ui_accept"))
+		{
+			if (HighlightedButton == DiceButton)
+			{
+				GD.Print("Dice Button clicked");
+				EmitSignal(nameof(HudSelection), "DICE");
+			}
+
+			if (HighlightedButton == ItemButton)
+			{
+				GD.Print("Item Button clicked");
+				EmitSignal(nameof(HudSelection), "ITEM");
+			}
+
+			if (HighlightedButton == PlayerButton)
+			{
+				GD.Print("Player Button clicked");
+				EmitSignal(nameof(HudSelection), "PLAYERS");
+			}
+
+			if (HighlightedButton == MapButton)
+			{
+				GD.Print("Map Button clicked");
+				EmitSignal(nameof(HudSelection), "MAP");
+			}	
+		}
+    }
 }

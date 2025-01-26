@@ -16,6 +16,13 @@ public partial class GameLogic : Node
     private PackedScene Playerscene = (PackedScene)GD.Load("res://Scenes/Game Objects/player.tscn");
     PackedScene itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseItem.tscn");
 
+    //hud scenes
+    PackedScene TurnHudScene = (PackedScene)ResourceLoader.Load("res://Scenes/UI/TurnHUD.tscn");
+    Node turnhud;
+    Hud turnHudClass;
+
+
+
     SelectUseItem itemScript;
     Node itemInstance;
     Board Board;
@@ -55,6 +62,7 @@ public partial class GameLogic : Node
 
     public override void _Ready()
     {
+        
 
 
 
@@ -120,6 +128,16 @@ public partial class GameLogic : Node
         {
             player1 = (Player)Playerscene.Instantiate();
             AddChild(player1);
+            BallAndChain bac = new();
+            BallAndChain bac2 = new();
+            BallAndChain bac3 = new();
+            BallAndChain bac4 = new();
+            BallAndChain bac5 = new();
+            player1.itemList.Add(bac);
+            player1.itemList.Add(bac2);
+            player1.itemList.Add(bac3);
+            player1.itemList.Add(bac4);
+            player1.itemList.Add(bac5);
             player1.Position = Board.spacesInfo[120].SpacePos;
             player1.currSpace = 1;
             players++;
@@ -128,6 +146,16 @@ public partial class GameLogic : Node
         {
             player2 = (Player)Playerscene.Instantiate();
             AddChild(player2);
+            BallAndChain bac = new();
+            BallAndChain bac2 = new();
+            BallAndChain bac3 = new();
+            BallAndChain bac4 = new();
+            BallAndChain bac5 = new();
+            player2.itemList.Add(bac);
+            player2.itemList.Add(bac2);
+            player2.itemList.Add(bac3);
+            player2.itemList.Add(bac4);
+            player2.itemList.Add(bac5);
             player2.Position = Board.spacesInfo[0].SpacePos;
             player2.currSpace = 1;
             players++;
@@ -136,6 +164,16 @@ public partial class GameLogic : Node
         {
             player3 = (Player)Playerscene.Instantiate();
             AddChild(player3); ;
+            BallAndChain bac = new();
+            BallAndChain bac2 = new();
+            BallAndChain bac3 = new();
+            BallAndChain bac4 = new();
+            BallAndChain bac5 = new();
+            player3.itemList.Add(bac);
+            player3.itemList.Add(bac2);
+            player3.itemList.Add(bac3);
+            player3.itemList.Add(bac4);
+            player3.itemList.Add(bac5);
             player3.Position = Board.spacesInfo[0].SpacePos;
             player3.currSpace = 1;
             players++;
@@ -144,6 +182,16 @@ public partial class GameLogic : Node
         {
             player4 = (Player)Playerscene.Instantiate();
             AddChild(player4);
+            BallAndChain bac = new();
+            BallAndChain bac2 = new();
+            BallAndChain bac3 = new();
+            BallAndChain bac4 = new();
+            BallAndChain bac5 = new();
+            player4.itemList.Add(bac);
+            player4.itemList.Add(bac2);
+            player4.itemList.Add(bac3);
+            player4.itemList.Add(bac4);
+            player4.itemList.Add(bac5);
             player4.Position = Board.spacesInfo[0].SpacePos;
             player4.currSpace = 1;
             players++;
@@ -187,19 +235,7 @@ public partial class GameLogic : Node
             Label label = GetNode<Label>($"{currentPlayer.Name}/Label");
             label.Text = $"{whatPlayer + 1}";
             checkStartItems(currentPlayer);
-            BallAndChain bac = new();
-            BallAndChain bac2 = new();
-            BallAndChain bac3 = new();
-            BallAndChain bac4 = new();
-            BallAndChain bac5 = new();
-            BallAndChain bac6 = new();
-            currentPlayer.itemList.Add(bac);
-            currentPlayer.itemList.Add(bac2);
-            currentPlayer.itemList.Add(bac3);
-            currentPlayer.itemList.Add(bac4);
-            currentPlayer.itemList.Add(bac5);
-            currentPlayer.itemList.Add(bac6);
-            currentInputMode = InputMode.Item;
+            openTurnHudMenu();
 
         }
         else GD.Print("player is dead or has to skip a turn");
@@ -232,7 +268,7 @@ public partial class GameLogic : Node
                 ItemMenuInputs(@event);
                 break;
             case InputMode.selectItem:
-                //selectUseItem.getInput(@event);
+                //\\selectUseItem.getInput(@event);
                 break;
         }
     }
@@ -291,8 +327,6 @@ public partial class GameLogic : Node
 
     private void ItemMenuInputs(InputEvent @event)
     {
-        if (@event.IsActionPressed("yes"))
-        {
             bool hasItems = currentPlayer.itemList.Any();
             if (hasItems)
             {
@@ -321,13 +355,6 @@ public partial class GameLogic : Node
                 GD.Print("You have no items to use");
                 currentInputMode = InputMode.Dice;
             }
-
-        }
-        else if (@event.IsActionPressed("no"))
-        {
-            GD.Print("Pressed no");
-            currentInputMode = InputMode.Dice;
-        }
 
     }
     private void OnItemUsed()
@@ -364,6 +391,38 @@ public partial class GameLogic : Node
     private void checkEndItems(Player player)
     {
 
+    }
+
+    //hudcode
+    private void openTurnHudMenu()
+    {
+        turnhud = (Hud)TurnHudScene.Instantiate();
+        this.AddChild(turnhud);
+        turnhud.Connect("HudSelection", Callable.From((string message) => OnHudSelection(message)));
+
+        currentInputMode = InputMode.None;
+    }
+
+    private void OnHudSelection(string message)
+    {
+        
+        switch (message)
+        {
+            case "DICE":
+                currentInputMode = InputMode.Dice;
+                break;
+            case "ITEM":
+                GD.Print($"Received signal with message: {message} ");
+                currentInputMode = InputMode.Item;
+                break;
+            case "PLAYERS":
+                currentInputMode = InputMode.Dice;
+                break;
+            case "MAP":
+                currentInputMode = InputMode.Dice;
+                break;
+        }
+        this.RemoveChild(turnhud);
     }
 
 

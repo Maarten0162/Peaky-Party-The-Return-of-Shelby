@@ -85,13 +85,13 @@ offset_bottom = 176.739
 scale = Vector2(0.0846154, 0.108436)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 128
-text = "Player"
+text = "Players"
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/PlayerButton/Label"]
 layout_mode = 0
-offset_left = 397.202
+offset_left = 451.948
 offset_top = -12.3495
-offset_right = 909.202
+offset_right = 963.948
 offset_bottom = 499.651
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("4_dgohn")

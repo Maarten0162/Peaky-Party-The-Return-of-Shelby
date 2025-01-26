@@ -29,14 +29,14 @@ public partial class SelectUseItem : Control
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Input.IsActionJustReleased("ui_right"))
+        if (Input.IsActionJustPressed("ui_right"))
         {
             _currentIndex++;
             if (_currentIndex >= _itemContainer.GetChildCount())
                 _currentIndex = 0;
             UpdateCarousel();
         }
-        else if (Input.IsActionJustReleased("ui_left"))
+        else if (Input.IsActionJustPressed("ui_left"))
         {
             _currentIndex--;
             if (_currentIndex < 0)
@@ -45,7 +45,7 @@ public partial class SelectUseItem : Control
             }
             UpdateCarousel();
         }
-        else if (Input.IsActionJustReleased("select"))
+        else if (Input.IsActionJustPressed("select"))
         {
             GD.Print($"selected item {_currentIndex}");
             currentPlayer.itemList[_currentIndex].Use(currentPlayer);
