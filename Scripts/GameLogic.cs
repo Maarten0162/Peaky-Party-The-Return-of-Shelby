@@ -26,7 +26,17 @@ public partial class GameLogic : Node
     private List<Player> PList;
     int whatPlayer;
     Player currentPlayer;
-    private int TurnCount;
+    private int TurnCount
+    {
+        get
+        {
+            return GlobalVar.TurnCount;
+        }
+        set
+        {
+            GlobalVar.TurnCount = value;
+        }
+    }
 
     //dices
     Dice normalDice = new(1, 4);
@@ -49,9 +59,10 @@ public partial class GameLogic : Node
 
 
         Board = GetNode<Board>("Board");
+        HBoxContainer hud = GetNode<HBoxContainer>("AllHuds");
         if (TurnCount == 0)
         {
-            HBoxContainer hud = GetNode<HBoxContainer>("AllHuds");
+            
             int playeramount = CreatePlayers(4); // hier moet aantal spelers dat gekozen is, wrs global variable, maar natuurlijk proberen die zo min mogelijk te gebruiken.
             CreatePlayerOrder(playeramount);
             for (int i = 0; i < PList.Count; i++)
@@ -62,13 +73,33 @@ public partial class GameLogic : Node
                 PList[i].Sethud(phud);
                 PList[i].hud.Update();
             }
-            for(int i = PList.Count; i < hud.GetChildCount(); i++)
+            for (int i = PList.Count; i < hud.GetChildCount(); i++)
             {
-              Node child =  hud.GetChild(i);
-              child.QueueFree();
+                Node child = hud.GetChild(i);
+                child.QueueFree();
 
             }
 
+        }
+        else
+        {
+           Board =  SaveManager.LoadBoard();
+           PList = SaveManager.LoadPlayers();
+           CreatePlayers(PList.Count);
+              for (int i = 0; i < PList.Count; i++)
+            {
+                SetPlayerPos(PList[i], Board.spacesInfo[0].SpacePos);
+                PlayerHud phud = (PlayerHud)hud.GetChild(i);
+                phud.AddPlayer(PList[i]);
+                PList[i].Sethud(phud);
+                PList[i].hud.Update();
+            }
+            for (int i = PList.Count; i < hud.GetChildCount(); i++)
+            {
+                Node child = hud.GetChild(i);
+                child.QueueFree();
+
+            }
         }
 
         whatPlayer = 0;
@@ -151,7 +182,8 @@ public partial class GameLogic : Node
     {
         currentPlayer.EarnIncome();
         if (currentPlayer.isAlive && !currentPlayer.SkipTurn)
-        {   GD.Print("do you want to use an item?");
+        {
+            GD.Print("do you want to use an item?");
             Label label = GetNode<Label>($"{currentPlayer.Name}/Label");
             label.Text = $"{whatPlayer + 1}";
             checkStartItems(currentPlayer);

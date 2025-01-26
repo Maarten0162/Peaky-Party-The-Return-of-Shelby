@@ -1,15 +1,20 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
-public partial class SaveManager : Node
+public static class SaveManager
 {
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+	private static List<Player> Playerlist;
+	private static Board Board;
+	public static void Save(List<Player> _plist, Board _board)
 	{
+		Playerlist = _plist;
+		Board = _board;
 	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
+	public static List<Player> LoadPlayers(){
+		return Playerlist;
+	}
+	public static Board LoadBoard(){
+		return Board;
 	}
 }
