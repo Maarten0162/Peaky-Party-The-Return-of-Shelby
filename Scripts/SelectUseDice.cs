@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public partial class SelectUseDice : Control
 {
     [Signal]
-    public delegate void asdEventHandler();
+    public delegate void SelectionMadeEventHandler(Dice dice);
 
 
     private Control _itemContainer;
@@ -51,15 +51,13 @@ public partial class SelectUseDice : Control
         {
             GD.Print($"selected item {_currentIndex}");
             currentDice = diceList[_currentIndex];
-            currentDice.Roll();
+            GD.Print(diceList[_currentIndex].Roll());
             foreach (Node child in _itemContainer.GetChildren())
             {
                 child.QueueFree();
             }
             _itemContainer.QueueFree();
-            EmitSignal(nameof(asd));
-
-
+            EmitSignal(nameof(SelectionMade), diceList[_currentIndex]);
         }
     }
 
@@ -72,11 +70,20 @@ public partial class SelectUseDice : Control
         foreach (Dice dice in diceList)
         {
             PackedScene diceScene;
-            Node diceInstance;
+            Dice diceInstance;
+
+            
+            
 
             diceScene = (PackedScene)ResourceLoader.Load("res://Scenes/Items/Dice.tscn");
-            diceInstance = diceList[j]; //diceInstance = diceScene.Instantiate(); dicelist[] vind hij ni leuk niet geinitialiseerd ofz
+            diceInstance = diceScene.Instantiate<Dice>();
+            Label NameLabel = diceInstance.GetNode<Label>("TextureRect/Label");
+            Label DescLabel= diceInstance.GetNode<Label>("TextureRect/Label2");
             _itemContainer.AddChild(diceInstance);
+            NameLabel.Text = _dicelist[j].Name;
+            DescLabel.Text = _dicelist[j].Desc;
+            
+            
             j++;
 
         }

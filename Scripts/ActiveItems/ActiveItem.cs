@@ -5,8 +5,8 @@ using System.Net.Http.Headers;
 public partial class ActiveItem : Control
 {
 
-    protected string itemName;
-    protected string Desc;
+    public string itemName {get; protected set;}
+    public string Desc {get; protected set;}
     protected string Path;
     [Export]
     protected int Price;

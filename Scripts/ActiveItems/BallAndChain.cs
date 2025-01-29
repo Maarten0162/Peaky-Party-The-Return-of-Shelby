@@ -13,7 +13,7 @@ public partial class BallAndChain : ActiveItem
     {
         itemName = "Ball and Chain";
         Desc = "Use this to slow down an opponent";
-        Path = "res://Scenes/Items/ball_and_chain.tscn";
+        Path = "res://Scenes/Items/BallAndChain.tscn";
     }
 
 

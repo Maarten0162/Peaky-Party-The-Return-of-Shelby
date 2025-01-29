@@ -21,6 +21,7 @@ public partial class GameLogic : Node
     PackedScene TurnHudScene = (PackedScene)ResourceLoader.Load("res://Scenes/UI/TurnHUD.tscn");
     Node turnhud;
     Hud turnHudClass;
+    TextureButton ItemButton;
 
     List<Dice> DiceList = new();
 
@@ -53,7 +54,7 @@ public partial class GameLogic : Node
     Dice betterDice = new(1, 7);
     Dice SuperDice = new(1, 8);
     Dice peakyDice = new(1, 12);
-    
+
     private enum InputMode
     {
         Dice,
@@ -403,6 +404,7 @@ public partial class GameLogic : Node
     {
         turnhud = (Hud)TurnHudScene.Instantiate();
         this.AddChild(turnhud);
+        ItemButton = turnhud.GetNode<TextureButton>("VBoxContainer/ItemButton");
         turnhud.Connect("HudSelection", Callable.From((string message) => OnHudSelection(message)));
 
         currentInputMode = InputMode.None;
@@ -410,7 +412,6 @@ public partial class GameLogic : Node
 
     private void OnHudSelection(string message)
     {
-
         switch (message)
         {
             case "DICE":
@@ -419,6 +420,7 @@ public partial class GameLogic : Node
             case "ITEM":
                 GD.Print($"Received signal with message: {message} ");
                 currentInputMode = InputMode.Item;
+                ItemButton.Disabled = true;
                 break;
             case "PLAYERS":
                 currentInputMode = InputMode.Dice;
@@ -427,8 +429,32 @@ public partial class GameLogic : Node
                 currentInputMode = InputMode.Dice;
                 break;
         }
-        this.RemoveChild(turnhud);
+        turnhud.SetProcessInput(false);
+        turnhud.SetProcessUnhandledInput(false);
+        turnhud.SetProcessUnhandledKeyInput(false);
+
     }
 
+    private async void OnDiceSelected(Dice dice)
+    {
+        GD.Print("in use dice");
+        int roll = dice.Roll();
+        if (currentPlayer.CheckRollAdjust(roll))
+        {
+
+            roll += currentPlayer.RollAdjust;
+            int target = currentPlayer.currSpace + roll;
+            GD.Print($"You threw {target - currentPlayer.currSpace}");
+            await currentPlayer.Movement(Board, target);
+
+            NextTurn();
+
+        }
+        else
+        {
+            GD.Print("Sorry you cant move with these legs");
+            NextTurn();
+        }
+    }
 
 }
