@@ -2,17 +2,19 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class SelectUseItem : Control
+public partial class SelectUseDice : Control
 {
     [Signal]
-    public delegate void customSignalEventHandler();
-    
+    public delegate void SelectionMadeEventHandler(Dice dice);
+
 
     private Control _itemContainer;
     private int _currentIndex = 0;
     private float _spacing = 200f; // Distance between items
     private Vector2 _centerPosition = Vector2.Zero; // Center of the screen
-    Player currentPlayer;
+    Dice currentDice;
+
+    List<Dice> diceList;
 
     List<Control> ItemsInContainer = new();
 
@@ -48,51 +50,46 @@ public partial class SelectUseItem : Control
         else if (Input.IsActionJustPressed("select"))
         {
             GD.Print($"selected item {_currentIndex}");
-            currentPlayer.itemList[_currentIndex].Use(currentPlayer);
-            currentPlayer.itemList.RemoveAt(_currentIndex);
-            foreach (Node child in _itemContainer.GetChildren())
-            {
-                child.QueueFree();
-            }
+            currentDice = diceList[_currentIndex];
+            GD.Print(diceList[_currentIndex].Roll());
             _itemContainer.QueueFree();
-            EmitSignal(nameof(customSignal));
-
+            EmitSignal(nameof(SelectionMade), diceList[_currentIndex]);
         }
     }
 
-    public void Initialize(Player player)
+    public void Initialize(List<Dice> _dicelist)
     {
-        currentPlayer = player;
-
+        diceList = _dicelist;
         // Initialize initial positions
-        initialPositions = new Vector2[player.itemList.Count];
-
-        foreach (ActiveItem item in player.itemList)
+        initialPositions = new Vector2[diceList.Count];
+        int j = 0;
+        foreach (Dice dice in diceList)
         {
-            PackedScene itemScene;
-            Node itemInstance;
-            switch (item)
-            {
-                case BallAndChain:
-                    GD.Print("ball and chain item");
-                    itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/Items/BallAndChain.tscn");
-                    itemInstance = itemScene.Instantiate();
-                    _itemContainer.AddChild(itemInstance);
-                    break;
-                default:
-                    GD.Print("no item");
-                    break;
-            }
+            PackedScene diceScene;
+            Dice diceInstance;
+
+            
+            
+
+            diceScene = (PackedScene)ResourceLoader.Load("res://Scenes/Items/Dice.tscn");
+            diceInstance = diceScene.Instantiate<Dice>();
+            Label NameLabel = diceInstance.GetNode<Label>("TextureRect/Label");
+            Label DescLabel= diceInstance.GetNode<Label>("TextureRect/Label2");
+            _itemContainer.AddChild(diceInstance);
+            NameLabel.Text = _dicelist[j].Name;
+            DescLabel.Text = _dicelist[j].Desc;
+            
+            
+            j++;
 
         }
-        
 
         // Store the initial positions after all items are instantiated
         StoreInitialPositions();
 
-        
-        
-        for (int i = 0; i < player.itemList.Count; i++)
+
+
+        for (int i = 0; i < diceList.Count; i++)
         {
             ItemsInContainer.Add(_itemContainer.GetChild<Control>(i));
         }
@@ -106,6 +103,7 @@ public partial class SelectUseItem : Control
             _itemContainer.GetChild<Control>(i).Modulate = new Color(0.2f, 0.2f, 0.2f, 1);
         }
     }
+
 
     // Store the initial positions of the items in the container
     private void StoreInitialPositions()

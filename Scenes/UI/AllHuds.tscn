@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://da4xmq5ffi4fv"]
+
+[ext_resource type="PackedScene" uid="uid://beuonvet12kb8" path="res://Scenes/UI/player_hud.tscn" id="1_hupdn"]
+
+[node name="AllHuds" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = -1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 2
+
+[node name="PlayerHud" parent="." instance=ExtResource("1_hupdn")]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+
+[node name="PlayerHud2" parent="." instance=ExtResource("1_hupdn")]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+
+[node name="PlayerHud3" parent="." instance=ExtResource("1_hupdn")]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+
+[node name="PlayerHud4" parent="." instance=ExtResource("1_hupdn")]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8

@@ -1,0 +1,95 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbcc1fp1efah8"]
+
+[ext_resource type="Script" path="res://Scripts/NumvalUpdown.cs" id="1_8qilp"]
+[ext_resource type="Texture2D" uid="uid://d0qnbtrcg07bn" path="res://Assets/UI/ArrowUp.png" id="2_jwbgk"]
+[ext_resource type="Texture2D" uid="uid://d0ou0u2m586ja" path="res://Assets/UI/ArrowDown.png" id="3_sidma"]
+
+[node name="NumvalUPDOWN" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8qilp")
+
+[node name="NumContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HunderdsLabel" type="Label" parent="NumContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 46
+text = "0"
+
+[node name="TensLabel" type="Label" parent="NumContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 46
+text = "0"
+
+[node name="onesLabel" type="Label" parent="NumContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 46
+text = "0"
+
+[node name="UpArrowContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 4.5
+offset_top = -13.0
+offset_right = 1548.5
+offset_bottom = 499.0
+scale = Vector2(0.05, 0.05)
+
+[node name="UpBtHund" type="TextureButton" parent="UpArrowContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("2_jwbgk")
+
+[node name="UpBtTens" type="TextureButton" parent="UpArrowContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("2_jwbgk")
+
+[node name="UpBtOnes" type="TextureButton" parent="UpArrowContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("2_jwbgk")
+
+[node name="DownArrowContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 7.5
+offset_top = 50.0
+offset_right = 1551.5
+offset_bottom = 562.0
+scale = Vector2(0.05, 0.05)
+
+[node name="DownBtHunds" type="TextureButton" parent="DownArrowContainer"]
+layout_mode = 2
+texture_normal = ExtResource("3_sidma")
+
+[node name="DownBtTens" type="TextureButton" parent="DownArrowContainer"]
+layout_mode = 2
+texture_normal = ExtResource("3_sidma")
+
+[node name="DownBtOnes" type="TextureButton" parent="DownArrowContainer"]
+layout_mode = 2
+texture_normal = ExtResource("3_sidma")
+
+[connection signal="button_down" from="UpArrowContainer/UpBtHund" to="." method="DownBtHundredsUp"]
+[connection signal="button_up" from="UpArrowContainer/UpBtHund" to="." method="UpBt"]
+[connection signal="button_down" from="UpArrowContainer/UpBtTens" to="." method="DownBtTensUp"]
+[connection signal="button_up" from="UpArrowContainer/UpBtTens" to="." method="UpBt"]
+[connection signal="button_down" from="UpArrowContainer/UpBtOnes" to="." method="DownBtOnesUp"]
+[connection signal="button_up" from="UpArrowContainer/UpBtOnes" to="." method="UpBt"]
+[connection signal="button_down" from="DownArrowContainer/DownBtHunds" to="." method="DownBtHundredsDown"]
+[connection signal="button_up" from="DownArrowContainer/DownBtHunds" to="." method="UpBt"]
+[connection signal="button_down" from="DownArrowContainer/DownBtTens" to="." method="DownBtTensDown"]
+[connection signal="button_up" from="DownArrowContainer/DownBtTens" to="." method="UpBt"]
+[connection signal="button_down" from="DownArrowContainer/DownBtOnes" to="." method="DownBtOnesDown"]
+[connection signal="button_up" from="DownArrowContainer/DownBtOnes" to="." method="UpBt"]

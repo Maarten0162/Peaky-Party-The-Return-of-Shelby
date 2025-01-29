@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://dr4yyy1rxvhe6"]
+
+[ext_resource type="Texture2D" uid="uid://d3w6khhk1tfyd" path="res://Assets/Items/BallAndChain.png" id="1_30e3v"]
+
+[node name="MarginContainer" type="MarginContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("1_30e3v")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="TextureRect"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 101.0
+offset_right = 99.0
+offset_bottom = 124.0
+theme_override_font_sizes/font_size = 14
+text = "Ball and Chain"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="TextureRect"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 123.0
+offset_right = 99.0
+offset_bottom = 146.0
+theme_override_font_sizes/font_size = 9
+text = "ashuid aushjd jkasdhkj asdk asjkd"
+horizontal_alignment = 1
+autowrap_mode = 2

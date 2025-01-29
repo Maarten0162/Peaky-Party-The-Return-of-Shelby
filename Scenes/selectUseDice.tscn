@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cd4dpbv8ntwch"]
+[gd_scene load_steps=3 format=3 uid="uid://dx5i86l3f8ts5"]
 
-[ext_resource type="Script" path="res://Scripts/SelectUseItem.cs" id="1_glolb"]
+[ext_resource type="Script" path="res://Scripts/SelectUseDice.cs" id="1_aool1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s1drc"]
 bg_color = Color(0.184314, 0.184314, 0.184314, 0.701961)
@@ -12,7 +12,7 @@ offset_left = 563.0
 offset_top = 290.0
 offset_right = 563.0
 offset_bottom = 290.0
-script = ExtResource("1_glolb")
+script = ExtResource("1_aool1")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(100, 0)

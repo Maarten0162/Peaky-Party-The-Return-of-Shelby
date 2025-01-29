@@ -10,7 +10,25 @@ using System.Threading.Tasks;
 
 public partial class GameLogic : Node
 {
-    private PackedScene Playerscene = (PackedScene)GD.Load("res://Scenes/Game Objects/player.tscn");
+
+
+
+    private PackedScene Playerscene = (PackedScene)GD.Load("res://Scenes/Game Objects/Player.tscn");
+    PackedScene itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseItem.tscn");
+    PackedScene diceScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseDice.tscn");
+
+    //hud scenes
+    PackedScene TurnHudScene = (PackedScene)ResourceLoader.Load("res://Scenes/UI/TurnHUD.tscn");
+    Node turnhud;
+    Hud turnHudClass;
+    TextureButton ItemButton;
+
+    List<Dice> DiceList = new();
+
+    SelectUseItem itemScript;
+    SelectUseDice diceScript;
+    Node itemInstance;
+    Node diceInstance;
     Board Board;
     private Player player1;
     private Player player2;
@@ -19,13 +37,24 @@ public partial class GameLogic : Node
     private List<Player> PList;
     int whatPlayer;
     Player currentPlayer;
-    private int TurnCount;
+    private int TurnCount
+    {
+        get
+        {
+            return GlobalVar.TurnCount;
+        }
+        set
+        {
+            GlobalVar.TurnCount = value;
+        }
+    }
 
     //dices
-    Dice normalDice = new(1,4);
-    Dice betterDice = new(1,7);
-    Dice SuperDice = new(1,8);
-    Dice peakyDice = new(1,12);
+    Dice normalDice = new(1, 4);
+    Dice betterDice = new(1, 7);
+    Dice SuperDice = new(1, 8);
+    Dice peakyDice = new(1, 12);
+
     private enum InputMode
     {
         Dice,
@@ -38,68 +67,64 @@ public partial class GameLogic : Node
 
     public override void _Ready()
     {
+        DiceList.Add(normalDice);
+        DiceList.Add(betterDice);
+        DiceList.Add(SuperDice);
+        DiceList.Add(peakyDice);
+
+
 
         Board = GetNode<Board>("Board");
+        HBoxContainer hud = GetNode<HBoxContainer>("AllHuds");
         if (TurnCount == 0)
         {
+
             int playeramount = CreatePlayers(4); // hier moet aantal spelers dat gekozen is, wrs global variable, maar natuurlijk proberen die zo min mogelijk te gebruiken.
             CreatePlayerOrder(playeramount);
             for (int i = 0; i < PList.Count; i++)
             {
                 SetPlayerPos(PList[i], Board.spacesInfo[0].SpacePos);
+                PlayerHud phud = (PlayerHud)hud.GetChild(i);
+                phud.AddPlayer(PList[i]);
+                PList[i].Sethud(phud);
+                PList[i].hud.Update();
+            }
+            for (int i = PList.Count; i < hud.GetChildCount(); i++)
+            {
+                Node child = hud.GetChild(i);
+                child.QueueFree();
+
             }
 
         }
-        if (player1 != null)
+        else
         {
-            GD.Print("player 1 exists");
+            Board = SaveManager.LoadBoard();
+            PList = SaveManager.LoadPlayers();
+            CreatePlayers(PList.Count);
+            for (int i = 0; i < PList.Count; i++)
+            {
+                SetPlayerPos(PList[i], Board.spacesInfo[0].SpacePos);
+                PlayerHud phud = (PlayerHud)hud.GetChild(i);
+                phud.AddPlayer(PList[i]);
+                PList[i].Sethud(phud);
+                PList[i].hud.Update();
+            }
+            for (int i = PList.Count; i < hud.GetChildCount(); i++)
+            {
+                Node child = hud.GetChild(i);
+                child.QueueFree();
+
+            }
         }
+
         whatPlayer = 0;
         currentPlayer = PList[whatPlayer];
-        Turn(currentPlayer);
+
+        Turn();
+
     }
 
-    private void Turn(Player player)
-    {
-        
-        if (player.isAlive && !player.SkipTurn)
-        {
-            Label label = GetNode<Label>($"{player.Name}/Label");
-            label.Text = $"{whatPlayer + 1}";
-            checkStartItems(player);
-            BallAndChain bac = new();
-            BallAndChain bac2 = new();
-            BallAndChain bac3 = new();
-            BallAndChain bac4 = new();
-            BallAndChain bac5 = new();
-            BallAndChain bac6 = new();
-            player.itemList.Add(bac);
-            player.itemList.Add(bac2);
-            player.itemList.Add(bac3);
-            player.itemList.Add(bac4);
-            player.itemList.Add(bac5);
-            player.itemList.Add(bac6);
-            currentInputMode = InputMode.Item;
-            
-        }
-    }
-    private async void UseDice()
-    {
-        GD.Print("in use dice");
-        // int target = currentPlayer.currSpace + normalDice.Roll();
-        int target = currentPlayer.currSpace + 6;
-        GD.Print($"You threw {target - currentPlayer.currSpace}");
-        if (await currentPlayer.Movement(Board, target))
-        {
-            whatPlayer++;
-            if (whatPlayer >= PList.Count)
-            {
-                whatPlayer = 0;
-            }
-            currentPlayer = PList[whatPlayer];
-            Turn(PList[whatPlayer]);
-        }
-    }
     private void SetPlayerPos(Player player, Vector2 space)
     {
         player.Position = space;
@@ -111,14 +136,34 @@ public partial class GameLogic : Node
         {
             player1 = (Player)Playerscene.Instantiate();
             AddChild(player1);
-            player1.Position = Board.spacesInfo[0].SpacePos;
+            BallAndChain bac = new();
+            BallAndChain bac2 = new();
+            BallAndChain bac3 = new();
+            BallAndChain bac4 = new();
+            BallAndChain bac5 = new();
+            player1.itemList.Add(bac);
+            player1.itemList.Add(bac2);
+            player1.itemList.Add(bac3);
+            player1.itemList.Add(bac4);
+            player1.itemList.Add(bac5);
+            player1.Position = Board.spacesInfo[120].SpacePos;
             player1.currSpace = 1;
-            players++;            
+            players++;
         }
         if (amount >= 2)
         {
             player2 = (Player)Playerscene.Instantiate();
             AddChild(player2);
+            BallAndChain bac = new();
+            BallAndChain bac2 = new();
+            BallAndChain bac3 = new();
+            BallAndChain bac4 = new();
+            BallAndChain bac5 = new();
+            player2.itemList.Add(bac);
+            player2.itemList.Add(bac2);
+            player2.itemList.Add(bac3);
+            player2.itemList.Add(bac4);
+            player2.itemList.Add(bac5);
             player2.Position = Board.spacesInfo[0].SpacePos;
             player2.currSpace = 1;
             players++;
@@ -126,7 +171,17 @@ public partial class GameLogic : Node
         if (amount >= 3)
         {
             player3 = (Player)Playerscene.Instantiate();
-            AddChild(player3);
+            AddChild(player3); ;
+            BallAndChain bac = new();
+            BallAndChain bac2 = new();
+            BallAndChain bac3 = new();
+            BallAndChain bac4 = new();
+            BallAndChain bac5 = new();
+            player3.itemList.Add(bac);
+            player3.itemList.Add(bac2);
+            player3.itemList.Add(bac3);
+            player3.itemList.Add(bac4);
+            player3.itemList.Add(bac5);
             player3.Position = Board.spacesInfo[0].SpacePos;
             player3.currSpace = 1;
             players++;
@@ -135,6 +190,16 @@ public partial class GameLogic : Node
         {
             player4 = (Player)Playerscene.Instantiate();
             AddChild(player4);
+            BallAndChain bac = new();
+            BallAndChain bac2 = new();
+            BallAndChain bac3 = new();
+            BallAndChain bac4 = new();
+            BallAndChain bac5 = new();
+            player4.itemList.Add(bac);
+            player4.itemList.Add(bac2);
+            player4.itemList.Add(bac3);
+            player4.itemList.Add(bac4);
+            player4.itemList.Add(bac5);
             player4.Position = Board.spacesInfo[0].SpacePos;
             player4.currSpace = 1;
             players++;
@@ -164,8 +229,36 @@ public partial class GameLogic : Node
             PList.Add(player3);
             PList.Add(player4);
         }
-
+        GlobalVar.Plist = PList;
     }
+
+
+
+    private void Turn()
+    {
+        currentPlayer.EarnIncome();
+        if (currentPlayer.isAlive && !currentPlayer.SkipTurn)
+        {
+            GD.Print("do you want to use an item?");
+            Label label = GetNode<Label>($"{currentPlayer.Name}/Label");
+            label.Text = $"{whatPlayer + 1}";
+            checkStartItems(currentPlayer);
+            openTurnHudMenu();
+
+        }
+        else GD.Print("player is dead or has to skip a turn");
+    }
+    private void NextTurn()
+    {
+        whatPlayer++;
+        if (whatPlayer >= PList.Count)
+        {
+            whatPlayer = 0;
+        }
+        currentPlayer = PList[whatPlayer];
+        Turn();
+    }
+
 
     public override void _Input(InputEvent @event)
     {
@@ -183,8 +276,46 @@ public partial class GameLogic : Node
                 ItemMenuInputs(@event);
                 break;
             case InputMode.selectItem:
-                passthroughInput(@event);
+                //\\selectUseItem.getInput(@event);
                 break;
+        }
+    }
+    private void DiceMenuInputs(InputEvent @event)
+    {
+
+        diceInstance = diceScene.Instantiate();
+
+        // Voeg de instantie van de scène toe aan de hoofdscene
+        AddChild(diceInstance);
+
+        // Verkrijg toegang tot het script van de geïnstantieerde scène
+        diceScript = (SelectUseDice)diceInstance;
+
+        diceScript.Connect("SelectionMade", Callable.From((Dice dice) => OnDiceSelected(dice)));
+        // Roep de Initialize-methode aan om gegevens in te stellen
+        diceScript.Initialize(DiceList);
+        currentInputMode = InputMode.None;
+
+    }
+    private async void UseDice()
+    {
+        GD.Print("in use dice");
+        int roll = normalDice.Roll();
+        if (currentPlayer.CheckRollAdjust(roll))
+        {
+
+            roll += currentPlayer.RollAdjust;
+            int target = currentPlayer.currSpace + roll;
+            GD.Print($"You threw {target - currentPlayer.currSpace}");
+            await currentPlayer.Movement(Board, target);
+
+            NextTurn();
+
+        }
+        else
+        {
+            GD.Print("Sorry you cant move with these legs");
+            NextTurn();
         }
     }
 
@@ -202,65 +333,52 @@ public partial class GameLogic : Node
         }
     }
 
-    private void DiceMenuInputs(InputEvent @event)
-    {
-        GD.Print("Do you wanna use a Dice?");
-        if (@event.IsActionPressed("yes"))
-        {
-            currentInputMode = InputMode.None;
-            UseDice();
 
-        }
-        else if (@event.IsActionPressed("no"))
-        {
-            GD.Print($"Player doesn't wanna use an item?");
-        }
-
-    }
-    
-    private void passthroughInput(InputEvent @event)
-    {
-
-    }
 
     private void ItemMenuInputs(InputEvent @event)
     {
-        GD.Print("Do you wanna use an item?");
-        if (@event.IsActionPressed("yes"))
+        bool hasItems = currentPlayer.itemList.Any();
+        if (hasItems)
         {
-            bool hasItems = currentPlayer.itemList.Any();
-            if (hasItems)
-            {
-                GD.Print("What item do you wanna use:");
-                PackedScene itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseItem.tscn");
 
-                // Instantiëren van de scène
-                Node itemInstance = itemScene.Instantiate();
+            GD.Print("What item do you wanna use:");
 
-                // Voeg de instantie van de scène toe aan de hoofdscene
-                AddChild(itemInstance);
+            // Instantiëren van de scène
+            itemInstance = itemScene.Instantiate();
 
-                // Verkrijg toegang tot het script van de geïnstantieerde scène
-                SelectUseItem itemScript = (SelectUseItem)itemInstance;
+            // Voeg de instantie van de scène toe aan de hoofdscene
+            AddChild(itemInstance);
 
-                // Roep de Initialize-methode aan om gegevens in te stellen
-                itemScript.Initialize(currentPlayer);
+            // Verkrijg toegang tot het script van de geïnstantieerde scène
+            itemScript = (SelectUseItem)itemInstance;
+
+            itemScript.Connect("customSignal", Callable.From(OnItemUsed));
+            // Roep de Initialize-methode aan om gegevens in te stellen
+            itemScript.Initialize(currentPlayer);
+            currentInputMode = InputMode.None;
 
 
-            }
-            else
-            {
-                GD.Print("You have no items to use");
-                currentInputMode = InputMode.Dice;
-            }
 
         }
-        else if (@event.IsActionPressed("no"))
+        else
         {
-            GD.Print("Pressed no");
+            GD.Print("You have no items to use");
             currentInputMode = InputMode.Dice;
         }
+
+    }
+
+    private async void OnItemUsed()
+    {
+        await Task.Delay(100);
+        GD.Print("Item has been used.");
+        itemInstance.Disconnect("customSignal", Callable.From(OnItemUsed));
+        itemInstance.QueueFree();
+        currentInputMode = InputMode.None;
+        openTurnHudMenu();
+        ItemButton.Disabled = true;
         
+
     }
 
     private void checkStartItems(Player player)
@@ -270,12 +388,72 @@ public partial class GameLogic : Node
 
     private void checkMidItems(Player player)
     {
-        
+
     }
 
 
     private void checkEndItems(Player player)
     {
-        
+
     }
+
+    //hudcode
+    private void openTurnHudMenu()
+    {
+        turnhud = (Hud)TurnHudScene.Instantiate();
+        this.AddChild(turnhud);
+        ItemButton = turnhud.GetNode<TextureButton>("VBoxContainer/ItemButton");
+        turnhud.Connect("HudSelection", Callable.From((string message) => OnHudSelection(message)));
+
+        currentInputMode = InputMode.None;
+
+    }
+
+    private void OnHudSelection(string message)
+    {
+        switch (message)
+        {
+            case "DICE":
+                currentInputMode = InputMode.Dice;
+                break;
+            case "ITEM":
+                GD.Print($"Received signal with message: {message} ");
+                currentInputMode = InputMode.Item;
+                break;
+            case "PLAYERS":
+                currentInputMode = InputMode.Dice;
+                break;
+            case "MAP":
+                currentInputMode = InputMode.Dice;
+                break;
+        }
+        turnhud.QueueFree();
+
+    }
+
+    private async void OnDiceSelected(Dice dice)
+    {
+        
+        GD.Print("in use dice");
+        int roll = dice.Roll();
+        if (currentPlayer.CheckRollAdjust(roll))
+        {
+
+            roll += currentPlayer.RollAdjust;
+            int target = currentPlayer.currSpace + roll;
+            GD.Print($"You threw {target - currentPlayer.currSpace}");
+            diceInstance.QueueFree();
+            await currentPlayer.Movement(Board, target);
+            await Task.Delay(500);
+            NextTurn();
+
+        }
+        else
+        {
+            GD.Print("Sorry you cant move with these legs");
+            diceInstance.QueueFree();
+            NextTurn();
+        }
+    }
+
 }

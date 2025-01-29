@@ -7,20 +7,74 @@ using System.Threading.Tasks;
 public partial class Player : CharacterBody2D
 {
 	//private vars
-	private int Attrubute;
-	private int Health;
+	private int Attribute;
+	private int health;  
+
+	public int Health
+	{
+		get { return health; }
+		private set
+		{
+			health = value;
+			if (hud != null)
+			{
+				Update();
+			}
+		}
+	}
+	private int rollAdjust;
+	public int RollAdjust
+	{
+		get { return rollAdjust; }
+		set
+		{
+			rollAdjust = value;
+			if (hud != null)
+			{
+				Update();
+			}
+		}
+	}
+	private int income;
+	public int Income
+	{
+		get { return income; }
+		set
+		{
+			income = value;
+			if (hud != null)
+			{
+				Update();
+			}
+		}
+	}
+	private int currency;
+	public int Currency
+	{
+		get { return currency; }
+		set
+		{
+			currency = value;
+			if (hud != null)
+			{
+				Update();
+			}
+		}
+	}
+
 	public bool isAlive { get; private set; }
 	public bool SkipTurn { get; private set; }
-	private int Currency;
-	public int currSpace;
+	public PlayerHud hud { get; private set; }
+
+
 	private bool isMoving;
 
 	[Export] private float moveSpeed; // Movement speed (pixels per second)
-	
+
 
 	//debuffs
-	public int rollAdjust;
-	public List<Item> itemList { get; private set; } = new List<Item>();
+
+	public List<ActiveItem> itemList { get; private set; } = new List<ActiveItem>();
 
 	//stats
 	private int spacedMoved;
@@ -31,77 +85,116 @@ public partial class Player : CharacterBody2D
 
 
 
+
 	//public vars
 	public Sprite2D Skin;
+	public int currSpace;
+	//Temp Variables
+	[Export]
+	int StartIncome = 10;
+	[Export]
+	int StartCurrency = 100;
+	[Export]
+	int StartHealth = 100;
 
-	public Player(Sprite2D _skin)
+	public override void _Ready()
+	{
+		BallAndChain BAC = new();
+		Currency = StartCurrency;
+		Health = StartHealth;
+		Income = StartIncome;
+		isAlive = true;
+		SkipTurn = false;
+		Name = "Jeff";
+	}
+	public Player(Sprite2D _skin, string _name)
 	{
 		BallAndChain BAC = new();
 		Skin = _skin;
-		Currency = 100;
-		Health = 100;
+		Currency = StartCurrency;
+		Income = StartIncome;
+		Health = StartHealth;
 		isAlive = true;
 		SkipTurn = false;
 		itemList.Add(BAC);
+		Name = _name;
 	}
 
 	public Player()
 	{
 		BallAndChain BAC = new();
-		Currency = 100;
-		Health = 100;
+		Currency = StartCurrency;
+		Health = StartHealth;
+		Income = StartIncome;
 		isAlive = true;
 		SkipTurn = false;
+		Name = "Jeff";
 	}
 
-	public override void _PhysicsProcess(double delta)
+	public void Sethud(PlayerHud _hud)
 	{
-		if (Health <= 0)
-		{
-			isAlive = false;
-		}
-
+		this.hud = _hud;
 	}
-
+	public void Update()
+	{
+		hud.Update();
+	}
 	public async Task<bool> Movement(Board board, int target)
 	{
-		
-			isMoving = true;
-			while (isMoving && currSpace < target)
-			{	GD.Print($"currspace is {currSpace}");
 
 
-				Vector2 targetPosition = board.spacesInfo[currSpace].SpacePos;
+		while (currSpace < target)
+		{
 
-				Vector2 direction = targetPosition - Position;
-				float distance = direction.Length();
-				if (distance > 1f) // Stop moving once we are close enough
-				{
-					Position += direction.Normalized() * moveSpeed * (float)GetProcessDeltaTime();
-				}
-				else
-				{
-					currSpace++;
-					Position = targetPosition;
-					
-					GD.Print("player current position is" + currSpace);
+			Vector2 targetPosition = board.spacesInfo[currSpace].SpacePos;
 
-					if (currSpace == target)
-					{
-						GD.Print(currSpace);
-						isMoving = false;
-						GD.Print($"Player Global Position: {GlobalPosition}");
-						GD.Print($"Marker Global Position: {board.spacesInfo[currSpace - 1].SpacePos}");
-
-					}
-					
-
-				}
-				await Task.Delay(10);
+			Vector2 direction = targetPosition - Position;
+			float distance = direction.Length();
+			if (distance > 1f) // Stop moving once he is close enough
+			{
+				Position += direction.Normalized() * moveSpeed * (float)GetProcessDeltaTime();
 			}
-			
-		
+			else
+			{
+				Position = targetPosition;
+				currSpace++;
+
+				if (currSpace == board.spacesInfo.Length && currSpace < target)
+				{
+					target = target - board.spacesInfo.Length;
+					currSpace = 0;
+				}
+
+
+				GD.Print("player current position is" + currSpace);
+			}
+			await Task.Delay(10);
+		}
+
+
 		return true;
+	}
+	public bool CheckRollAdjust(int diceroll)
+	{
+		if (RollAdjust < 0)
+		{
+			if ((RollAdjust + diceroll) <= 0)
+			{
+				RollAdjust = 0;
+				Update();
+				return false;
+			}
+			else return true;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	public void EarnIncome()
+	{
+		Currency += Income;
+		Update();
 	}
 
 	public void Attack()
@@ -112,13 +205,15 @@ public partial class Player : CharacterBody2D
 	public void takeDamage()
 	{
 		//
+		Update();
 	}
 
-	private void useItem(Item item, Player player)
+	private void useItem(ActiveItem item, Player player)
 	{
 		if (player.itemList.Contains(item))
 		{
 			item.Use(player);
+			Update();
 		}
 
 	}

@@ -1,0 +1,123 @@
+[gd_scene load_steps=8 format=3 uid="uid://csebafqii4e8s"]
+
+[ext_resource type="Script" path="res://Scripts/UI/Hud.cs" id="1_jyrun"]
+[ext_resource type="Texture2D" uid="uid://tjp6slxr01ir" path="res://Assets/UI/TurnUIButton.png" id="2_4dm4r"]
+[ext_resource type="Texture2D" uid="uid://dp4ph75upcedm" path="res://Assets/UI/TurnUIButtonFocused.png" id="3_ig1b0"]
+[ext_resource type="Texture2D" uid="uid://cgbf3cxalajpg" path="res://Assets/UI/DiceIcon.png" id="4_dgohn"]
+[ext_resource type="Texture2D" uid="uid://dgtaylrg1kxx2" path="res://Assets/UI/MapIcon.png" id="5_wlocd"]
+[ext_resource type="Texture2D" uid="uid://dnkxylc8d8k67" path="res://Assets/UI/ItemkIcon.png" id="5_xyqx7"]
+[ext_resource type="Texture2D" uid="uid://ukjyoc88s0vk" path="res://Assets/UI/PlayersIcon.png" id="6_c2eoe"]
+
+[node name="Hud" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 648.0
+offset_bottom = 650.0
+scale = Vector2(1.727, 1)
+script = ExtResource("1_jyrun")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 0
+offset_top = 80.0
+offset_right = 100.0
+offset_bottom = 192.0
+scale = Vector2(1.75, 2.5)
+
+[node name="DiceButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("2_4dm4r")
+texture_focused = ExtResource("3_ig1b0")
+
+[node name="Label" type="Label" parent="VBoxContainer/DiceButton"]
+layout_mode = 0
+offset_left = 10.3975
+offset_top = 1.73913
+offset_right = 277.398
+offset_bottom = 176.739
+scale = Vector2(0.0846154, 0.108436)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 128
+text = "Dice "
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/DiceButton/Label"]
+layout_mode = 0
+offset_left = 295.532
+offset_top = -12.3495
+offset_right = 807.532
+offset_bottom = 499.651
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("4_dgohn")
+
+[node name="ItemButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("2_4dm4r")
+texture_focused = ExtResource("3_ig1b0")
+
+[node name="Label" type="Label" parent="VBoxContainer/ItemButton"]
+layout_mode = 0
+offset_left = 10.3975
+offset_top = 1.73913
+offset_right = 277.398
+offset_bottom = 176.739
+scale = Vector2(0.0846154, 0.108436)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 128
+text = "Item"
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/ItemButton/Label"]
+layout_mode = 0
+offset_left = 291.622
+offset_top = -3.12747
+offset_right = 803.622
+offset_bottom = 508.873
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("5_xyqx7")
+
+[node name="PlayerButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("2_4dm4r")
+
+[node name="Label" type="Label" parent="VBoxContainer/PlayerButton"]
+layout_mode = 0
+offset_left = 10.3975
+offset_top = 1.73913
+offset_right = 277.398
+offset_bottom = 176.739
+scale = Vector2(0.0846154, 0.108436)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 128
+text = "Players"
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/PlayerButton/Label"]
+layout_mode = 0
+offset_left = 451.948
+offset_top = -12.3495
+offset_right = 963.948
+offset_bottom = 499.651
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("6_c2eoe")
+
+[node name="MapButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("2_4dm4r")
+
+[node name="Label" type="Label" parent="VBoxContainer/MapButton"]
+layout_mode = 0
+offset_left = 10.3975
+offset_top = 1.73913
+offset_right = 277.398
+offset_bottom = 176.739
+scale = Vector2(0.0846154, 0.108436)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 128
+text = "Map"
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/MapButton/Label"]
+layout_mode = 0
+offset_left = 295.532
+offset_top = -12.3495
+offset_right = 807.532
+offset_bottom = 499.651
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("5_wlocd")
