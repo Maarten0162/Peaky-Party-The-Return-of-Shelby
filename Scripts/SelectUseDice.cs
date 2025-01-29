@@ -52,10 +52,6 @@ public partial class SelectUseDice : Control
             GD.Print($"selected item {_currentIndex}");
             currentDice = diceList[_currentIndex];
             GD.Print(diceList[_currentIndex].Roll());
-            foreach (Node child in _itemContainer.GetChildren())
-            {
-                child.QueueFree();
-            }
             _itemContainer.QueueFree();
             EmitSignal(nameof(SelectionMade), diceList[_currentIndex]);
         }

@@ -13,7 +13,7 @@ public partial class GameLogic : Node
 
 
 
-    private PackedScene Playerscene = (PackedScene)GD.Load("res://Scenes/Game Objects/player.tscn");
+    private PackedScene Playerscene = (PackedScene)GD.Load("res://Scenes/Game Objects/Player.tscn");
     PackedScene itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseItem.tscn");
     PackedScene diceScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseDice.tscn");
 
@@ -368,16 +368,11 @@ public partial class GameLogic : Node
 
     }
 
-    private void OnItemUsed()
+    private async void OnItemUsed()
     {
-        
+        await Task.Delay(100);
         GD.Print("Item has been used.");
         itemInstance.Disconnect("customSignal", Callable.From(OnItemUsed));
-        foreach (Node child in itemScript.GetChildren())
-        {
-            child.QueueFree();  // Free each individual item node
-        }
-
         itemInstance.QueueFree();
         currentInputMode = InputMode.None;
         openTurnHudMenu();
@@ -449,6 +444,7 @@ public partial class GameLogic : Node
             GD.Print($"You threw {target - currentPlayer.currSpace}");
             diceInstance.QueueFree();
             await currentPlayer.Movement(Board, target);
+            await Task.Delay(500);
             NextTurn();
 
         }

@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://csebafqii4e8s"]
+[gd_scene load_steps=8 format=3 uid="uid://csebafqii4e8s"]
 
 [ext_resource type="Script" path="res://Scripts/UI/Hud.cs" id="1_jyrun"]
 [ext_resource type="Texture2D" uid="uid://tjp6slxr01ir" path="res://Assets/UI/TurnUIButton.png" id="2_4dm4r"]
 [ext_resource type="Texture2D" uid="uid://dp4ph75upcedm" path="res://Assets/UI/TurnUIButtonFocused.png" id="3_ig1b0"]
 [ext_resource type="Texture2D" uid="uid://cgbf3cxalajpg" path="res://Assets/UI/DiceIcon.png" id="4_dgohn"]
 [ext_resource type="Texture2D" uid="uid://dgtaylrg1kxx2" path="res://Assets/UI/MapIcon.png" id="5_wlocd"]
+[ext_resource type="Texture2D" uid="uid://dnkxylc8d8k67" path="res://Assets/UI/ItemkIcon.png" id="5_xyqx7"]
+[ext_resource type="Texture2D" uid="uid://ukjyoc88s0vk" path="res://Assets/UI/PlayersIcon.png" id="6_c2eoe"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -65,12 +67,12 @@ text = "Item"
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/ItemButton/Label"]
 layout_mode = 0
-offset_left = 295.532
-offset_top = -12.3495
-offset_right = 807.532
-offset_bottom = 499.651
+offset_left = 291.622
+offset_top = -3.12747
+offset_right = 803.622
+offset_bottom = 508.873
 scale = Vector2(0.4, 0.4)
-texture = ExtResource("4_dgohn")
+texture = ExtResource("5_xyqx7")
 
 [node name="PlayerButton" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2
@@ -94,7 +96,7 @@ offset_top = -12.3495
 offset_right = 963.948
 offset_bottom = 499.651
 scale = Vector2(0.4, 0.4)
-texture = ExtResource("4_dgohn")
+texture = ExtResource("6_c2eoe")
 
 [node name="MapButton" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2

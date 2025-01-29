@@ -68,7 +68,7 @@ public partial class Hud : Control
 				EmitSignal(nameof(HudSelection), "DICE");
 			}
 
-			if (HighlightedButton == ItemButton)
+			if (HighlightedButton == ItemButton && !ItemButton.Disabled)
 			{
 				GD.Print("Item Button clicked");
 				EmitSignal(nameof(HudSelection), "ITEM");
