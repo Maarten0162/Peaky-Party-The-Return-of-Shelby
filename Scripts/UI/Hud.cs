@@ -61,6 +61,7 @@ public partial class Hud : Control
     {
         if(@event.IsActionReleased("ui_accept"))
 		{
+			GD.Print("in ui input accept");
 			if (HighlightedButton == DiceButton)
 			{
 				GD.Print("Dice Button clicked");

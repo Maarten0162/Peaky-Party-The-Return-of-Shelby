@@ -291,7 +291,7 @@ public partial class GameLogic : Node
         // Verkrijg toegang tot het script van de geïnstantieerde scène
         diceScript = (SelectUseDice)diceInstance;
 
-        //diceScript.Connect("customSignal", Callable.From(OnItemUsed));
+        diceScript.Connect("SelectionMade", Callable.From((Dice dice) => OnDiceSelected(dice)));
         // Roep de Initialize-methode aan om gegevens in te stellen
         diceScript.Initialize(DiceList);
         currentInputMode = InputMode.None;
@@ -370,6 +370,7 @@ public partial class GameLogic : Node
 
     private void OnItemUsed()
     {
+        
         GD.Print("Item has been used.");
         itemInstance.Disconnect("customSignal", Callable.From(OnItemUsed));
         foreach (Node child in itemScript.GetChildren())
@@ -378,8 +379,10 @@ public partial class GameLogic : Node
         }
 
         itemInstance.QueueFree();
-        itemInstance = null;
-        currentInputMode = InputMode.Dice;
+        currentInputMode = InputMode.None;
+        openTurnHudMenu();
+        ItemButton.Disabled = true;
+        
 
     }
 
@@ -408,6 +411,7 @@ public partial class GameLogic : Node
         turnhud.Connect("HudSelection", Callable.From((string message) => OnHudSelection(message)));
 
         currentInputMode = InputMode.None;
+
     }
 
     private void OnHudSelection(string message)
@@ -420,7 +424,6 @@ public partial class GameLogic : Node
             case "ITEM":
                 GD.Print($"Received signal with message: {message} ");
                 currentInputMode = InputMode.Item;
-                ItemButton.Disabled = true;
                 break;
             case "PLAYERS":
                 currentInputMode = InputMode.Dice;
@@ -429,14 +432,13 @@ public partial class GameLogic : Node
                 currentInputMode = InputMode.Dice;
                 break;
         }
-        turnhud.SetProcessInput(false);
-        turnhud.SetProcessUnhandledInput(false);
-        turnhud.SetProcessUnhandledKeyInput(false);
+        turnhud.QueueFree();
 
     }
 
     private async void OnDiceSelected(Dice dice)
     {
+        
         GD.Print("in use dice");
         int roll = dice.Roll();
         if (currentPlayer.CheckRollAdjust(roll))
@@ -445,14 +447,15 @@ public partial class GameLogic : Node
             roll += currentPlayer.RollAdjust;
             int target = currentPlayer.currSpace + roll;
             GD.Print($"You threw {target - currentPlayer.currSpace}");
+            diceInstance.QueueFree();
             await currentPlayer.Movement(Board, target);
-
             NextTurn();
 
         }
         else
         {
             GD.Print("Sorry you cant move with these legs");
+            diceInstance.QueueFree();
             NextTurn();
         }
     }
