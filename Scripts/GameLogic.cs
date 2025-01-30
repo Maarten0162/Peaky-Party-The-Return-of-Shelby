@@ -441,7 +441,7 @@ public partial class GameLogic : Node
             
             GD.Print($"You threw {roll}");
             diceInstance.QueueFree();
-            await currentPlayer.Movement(Board, 140);
+            await currentPlayer.Movement(Board, roll);
             NextTurn();
 
         }
