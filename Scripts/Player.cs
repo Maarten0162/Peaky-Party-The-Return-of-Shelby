@@ -74,7 +74,7 @@ public partial class Player : CharacterBody2D
 
 
 	//debuffs
-	
+
 	// Active & Passive items
 	public List<ActiveItem> itemList { get; private set; } = new();
 	public List<PassiveItem> AllPassiveItems { get; private set; } = new();
@@ -84,8 +84,10 @@ public partial class Player : CharacterBody2D
 	public List<PassiveItem> PassingPassiveItems = new();
 	public void AddPassiveItem(PassiveItem item)
 	{
+		AllPassiveItems.Add(item);
+		item.SetOwner(this);
 		item.RunOnPickup();
-
+		hud.AddPassiveToHud(item);
 		foreach (PassiveItem.WhenActive action in item.WhenToRun)
 		{
 			switch (action)

@@ -10,6 +10,7 @@ public partial class PlayerHud : Control
 	new Label Name;
 	Label Health;
 	Label Rolladjust;
+	HBoxContainer Passiveitems;
 
 
 	public override void _Ready()
@@ -20,25 +21,33 @@ public partial class PlayerHud : Control
 		Name = GetNode<Label>("NameLabel");           // Adjust the path if needed
 		Health = GetNode<Label>("HealthLabel");       // Adjust the path if needed
 		Rolladjust = GetNode<Label>("RolladjustLabel");
+		Passiveitems = GetNode<HBoxContainer>("Passiveitems");
 	}
 	public void AddPlayer(Player _player)
 	{
 		this.player = _player;
-		
-			
-
 	}
 
 	public void Update()
-	{	if(player != null){
-		GD.Print("player not null");
-	}
+	{
+		if (player != null)
+		{
+			GD.Print("player not null");
+		}
 		GD.Print(player.Income + "is income");
-		
+
 		Name.Text = player.Name;
 		Income.Text = player.Income.ToString();
 		Currency.Text = player.Currency.ToString();
 		Health.Text = player.Health.ToString();
 		Rolladjust.Text = player.RollAdjust.ToString();
+	}
+	public void AddPassiveToHud(PassiveItem item)
+	{	TextureRect icon = new();
+		GD.Print(item.Texturepath);
+		icon.Texture = GD.Load<Texture2D>(item.Texturepath);
+		icon.Scale = new Vector2(0.1f, 0.1f);
+		
+		Passiveitems.AddChild(icon);	
 	}
 }

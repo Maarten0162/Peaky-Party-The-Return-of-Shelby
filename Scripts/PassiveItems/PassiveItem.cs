@@ -27,14 +27,17 @@ public partial class PassiveItem : Node2D
         EndofTurn,
         PassingPlayer
     }
-    public List<WhenActive> WhenToRun;
-
+    public List<WhenActive> WhenToRun = new(); 
+    public string Texturepath;
     protected string itemName;
     protected string Desc;
     [Export]
     public int Price = 10;
     protected Player POwner;
 
+    public virtual void SetOwner(Player player){
+        POwner = player;
+    }
     public virtual void RunOnPickup()
     {
     }

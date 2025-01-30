@@ -227,7 +227,7 @@ public partial class GameLogic : Node
 
 
     private void Turn()
-    {
+    {               currentPlayer.AddPassiveItem(new Gamblers_Wealth());
         currentPlayer.EarnIncome();
         currentPlayer.UseStartPItems();
         if (currentPlayer.isAlive && !currentPlayer.SkipTurn)
