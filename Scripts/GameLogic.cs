@@ -127,6 +127,7 @@ public partial class GameLogic : Node
     private void SetPlayerPos(Player player, Vector2 space)
     {
         player.Position = space;
+        player.currSpace = 1;
     }
     public int CreatePlayers(int amount)
     {
@@ -145,8 +146,6 @@ public partial class GameLogic : Node
             player1.itemList.Add(bac3);
             player1.itemList.Add(bac4);
             player1.itemList.Add(bac5);
-            player1.Position = Board.spacesInfo[120].SpacePos;
-            player1.currSpace = 1;
             players++;
         }
         if (amount >= 2)
@@ -163,8 +162,6 @@ public partial class GameLogic : Node
             player2.itemList.Add(bac3);
             player2.itemList.Add(bac4);
             player2.itemList.Add(bac5);
-            player2.Position = Board.spacesInfo[0].SpacePos;
-            player2.currSpace = 1;
             players++;
         }
         if (amount >= 3)
@@ -181,8 +178,6 @@ public partial class GameLogic : Node
             player3.itemList.Add(bac3);
             player3.itemList.Add(bac4);
             player3.itemList.Add(bac5);
-            player3.Position = Board.spacesInfo[0].SpacePos;
-            player3.currSpace = 1;
             players++;
         }
         if (amount >= 4)
@@ -199,8 +194,6 @@ public partial class GameLogic : Node
             player4.itemList.Add(bac3);
             player4.itemList.Add(bac4);
             player4.itemList.Add(bac5);
-            player4.Position = Board.spacesInfo[0].SpacePos;
-            player4.currSpace = 1;
             players++;
         }
         return players;
