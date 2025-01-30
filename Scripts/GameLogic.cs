@@ -236,6 +236,7 @@ public partial class GameLogic : Node
     private void Turn()
     {
         currentPlayer.EarnIncome();
+        currentPlayer.UseStartPItems();
         if (currentPlayer.isAlive && !currentPlayer.SkipTurn)
         {
             GD.Print("do you want to use an item?");

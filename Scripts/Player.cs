@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Runtime;
+using System.Threading;
 using System.Threading.Tasks;
 
 public partial class Player : CharacterBody2D
@@ -13,7 +14,7 @@ public partial class Player : CharacterBody2D
 	public int Health
 	{
 		get { return health; }
-		private set
+		set
 		{
 			health = value;
 			if (hud != null)
@@ -73,8 +74,64 @@ public partial class Player : CharacterBody2D
 
 
 	//debuffs
+	// Active & Passive items
+	public List<ActiveItem> itemList { get; private set; } = new();
+	public List<PassiveItem> AllPassiveItems { get; private set; } = new();
+	public List<PassiveItem> StartPassiveItems = new();
+	public List<PassiveItem> MovingPassiveItems = new();
+	public List<PassiveItem> EndTurnPassiveItems = new();
+	public List<PassiveItem> PassingPassiveItems = new();
+	public void AddPassiveItem(PassiveItem item)
+	{
+		foreach (PassiveItem.WhenActive action in item.WhenToRun)
+		{
+			switch (action)
+			{
+				case PassiveItem.WhenActive.EndofTurn:
+					EndTurnPassiveItems.Add(item);
+					break;
 
-	public List<ActiveItem> itemList { get; private set; } = new List<ActiveItem>();
+				case PassiveItem.WhenActive.StartofTurn:
+					StartPassiveItems.Add(item);
+					break;
+				case PassiveItem.WhenActive.WhenMoving:
+					MovingPassiveItems.Add(item);
+					break;
+				case PassiveItem.WhenActive.PassingPlayer:
+					PassingPassiveItems.Add(item);
+					break;
+
+			}
+		}
+	}
+	public void UseStartPItems()
+	{
+		foreach (PassiveItem item in StartPassiveItems)
+		{
+			item.RunOnStartofTurn();
+		}
+	}
+	public void UseMovingPItems()
+	{
+		foreach (PassiveItem item in MovingPassiveItems)
+		{
+			item.RunOnMoving();
+		}
+	}
+	public void UseEndTurnPItems()
+	{
+		foreach (PassiveItem item in EndTurnPassiveItems)
+		{
+			item.RunOnEndofTurn();
+		}
+	}
+	public void UsePassingPItems()
+	{
+		foreach (PassiveItem item in PassingPassiveItems)
+		{
+			item.RunOnPassingPlayer();
+		}
+	}
 
 	//stats
 	private int spacedMoved;
@@ -184,7 +241,7 @@ public partial class Player : CharacterBody2D
 
 				if (currSpace == board.spacesInfo.Length && currSpace < target)
 				{
-					target = target - board.spacesInfo.Length;
+
 					currSpace = 0;
 				}
 

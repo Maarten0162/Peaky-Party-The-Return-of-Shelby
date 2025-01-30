@@ -33,7 +33,8 @@ public partial class Board : Node2D
 			if (Child is Marker2D marker)
 			{
 
-				spacesInfo[x] = (marker.Position*boardScale, marker, x + 1, Child.Name, Child.Name);
+				spacesInfo[x] = ((marker.GlobalPosition - this.Position) * boardScale, marker, x + 1, Child.Name, Child.Name);
+
 
 				x++;
 			}
