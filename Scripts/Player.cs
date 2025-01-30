@@ -8,7 +8,7 @@ public partial class Player : CharacterBody2D
 {
 	//private vars
 	private int Attribute;
-	private int health;  
+	private int health;
 
 	public int Health
 	{
@@ -139,17 +139,40 @@ public partial class Player : CharacterBody2D
 	{
 		hud.Update();
 	}
-	public async Task<bool> Movement(Board board, int target)
+	public async Task Movement(Board board, int roll)
+	{
+		roll += rollAdjust;
+
+		if (roll > 0)
+		{
+			if (roll > board.spacesInfo.Length)
+			{
+				roll = roll - board.spacesInfo.Length;
+			}
+			roll += currSpace;
+			await PositiveMovement(board, roll);
+		}
+		else
+		{
+			roll += currSpace;
+			if (roll < 0)
+			{
+				roll = board.spacesInfo.Length + roll;
+			}
+			await NegativeMovement(board, roll);
+		}
+	}
+	public async Task PositiveMovement(Board board, int target)
 	{
 
 
-		while (currSpace < target)
+		while (currSpace != target)
 		{
 
 			Vector2 targetPosition = board.spacesInfo[currSpace].SpacePos;
-
 			Vector2 direction = targetPosition - Position;
 			float distance = direction.Length();
+
 			if (distance > 1f) // Stop moving once he is close enough
 			{
 				Position += direction.Normalized() * moveSpeed * (float)GetProcessDeltaTime();
@@ -170,9 +193,39 @@ public partial class Player : CharacterBody2D
 			}
 			await Task.Delay(10);
 		}
+	}
+	public async Task NegativeMovement(Board board, int target)
+	{
+		while (currSpace != target - 1)
+		{
+			GD.Print("target is " + target);
+			GD.Print("currspace is" + currSpace);
+			Vector2 targetPosition = board.spacesInfo[currSpace - 1].SpacePos;
+			Vector2 direction = targetPosition - Position;
+			float distance = direction.Length();
+
+			if (distance > 1f) // Stop moving once he is close enough
+			{
+				Position += direction.Normalized() * moveSpeed * (float)GetProcessDeltaTime();
+			}
+			else
+			{
+				Position = targetPosition;
+				if (currSpace == 1)
+				{
+					currSpace = board.spacesInfo.Length;
+				}
+				else
+				{
+					currSpace--;
+				}
 
 
-		return true;
+
+				GD.Print("player current position is" + currSpace);
+			}
+			await Task.Delay(10);
+		}
 	}
 	public bool CheckRollAdjust(int diceroll)
 	{

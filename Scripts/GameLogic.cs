@@ -124,7 +124,6 @@ public partial class GameLogic : Node
         Turn();
 
     }
-
     private void SetPlayerPos(Player player, Vector2 space)
     {
         player.Position = space;
@@ -302,12 +301,12 @@ public partial class GameLogic : Node
         GD.Print("in use dice");
         int roll = normalDice.Roll();
         if (currentPlayer.CheckRollAdjust(roll))
-        {
+        {   GD.Print("hier");
 
             roll += currentPlayer.RollAdjust;
             int target = currentPlayer.currSpace + roll;
             GD.Print($"You threw {target - currentPlayer.currSpace}");
-            await currentPlayer.Movement(Board, target);
+            await currentPlayer.Movement(Board, roll);
 
             NextTurn();
 
@@ -439,11 +438,10 @@ public partial class GameLogic : Node
         if (currentPlayer.CheckRollAdjust(roll))
         {
 
-            roll += currentPlayer.RollAdjust;
-            int target = currentPlayer.currSpace + roll;
-            GD.Print($"You threw {target - currentPlayer.currSpace}");
+            
+            GD.Print($"You threw {roll}");
             diceInstance.QueueFree();
-            await currentPlayer.Movement(Board, target);
+            await currentPlayer.Movement(Board, roll);
             await Task.Delay(500);
             NextTurn();
 
