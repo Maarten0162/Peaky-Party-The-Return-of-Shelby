@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 
 public partial class PassiveItem : Node2D
 {
@@ -28,7 +29,10 @@ public partial class PassiveItem : Node2D
         PassingPlayer,
         takeDamage,
         Heal,
-        ObtainCurrency
+        ObtainCurrency,
+        LostCurrency,
+        RollAdjustChange,
+        IncomeChanged
     }
     public List<WhenActive> WhenToRun = new();
     public string Texturepath;
@@ -68,6 +72,15 @@ public partial class PassiveItem : Node2D
 
     }
     public virtual void RunOnObtainCurrency(int amount){
+
+    }
+    public virtual void RunOnLoseCurrency(int amount){
+
+    }
+    public virtual void RunOnChangeRolladjust(int amount){
+
+    }
+    public virtual void RunOnIncomeChange(int amount){
 
     }
 }

@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Runtime;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -85,6 +86,9 @@ public partial class Player : CharacterBody2D
 	public List<PassiveItem> TakeDamagePassiveItems = new();
 	public List<PassiveItem> HealPassiveItems = new();
 	public List<PassiveItem> ObtainCurrencyPassiveItem = new();
+	public List<PassiveItem> LoseCurrencyPassiveItem = new();
+	public List<PassiveItem> RollAdjustChangePassiveItem = new();
+	public List <PassiveItem> IncomeChangePassiveItem = new();
 	public void AddPassiveItem(PassiveItem item)
 	{
 		AllPassiveItems.Add(item);
@@ -116,6 +120,15 @@ public partial class Player : CharacterBody2D
 					break;
 				case PassiveItem.WhenActive.ObtainCurrency:
 					ObtainCurrencyPassiveItem.Add(item);
+					break;
+				case PassiveItem.WhenActive.LostCurrency:
+					LoseCurrencyPassiveItem.Add(item);
+					break;
+				case PassiveItem.WhenActive.RollAdjustChange:
+					RollAdjustChangePassiveItem.Add(item);
+					break;
+				case PassiveItem.WhenActive.IncomeChanged:
+					IncomeChangePassiveItem.Add(item);
 					break;
 
 
@@ -169,6 +182,21 @@ public partial class Player : CharacterBody2D
 		foreach (PassiveItem item in ObtainCurrencyPassiveItem)
 		{
 			item.RunOnObtainCurrency(amount);
+		}
+	}
+	public void UseLoseCurrencyPassiveItems(int amount){
+		foreach(PassiveItem item in LoseCurrencyPassiveItem){
+			item.RunOnLoseCurrency(amount);
+		}
+	}
+	public void UseRollAdjustChangePassiveItems(int amount){
+		foreach(PassiveItem item in RollAdjustChangePassiveItem){
+			item.RunOnChangeRolladjust(amount);
+		}
+	}
+	public void UseIncomeChangePassiveItem(int amount){
+		foreach(PassiveItem item in IncomeChangePassiveItem){
+			item.RunOnIncomeChange(amount);
 		}
 	}
 
@@ -369,12 +397,15 @@ public partial class Player : CharacterBody2D
 	}
 	public void LoseCurrency(int amount){
 		currency -= amount;
+		UseLoseCurrencyPassiveItems(amount);
 	}
 	public void ChangeIncome(int amount){
 		income += amount;
+		UseIncomeChangePassiveItem(amount);
 	}
 	public void ChangeRollAdjust(int amount){
 		rollAdjust += amount;
+		UseRollAdjustChangePassiveItems(amount);
 	}
 	private void useItem(ActiveItem item, Player player)
 	{
