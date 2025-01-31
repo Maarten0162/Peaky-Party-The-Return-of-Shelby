@@ -83,6 +83,8 @@ public partial class Player : CharacterBody2D
 	public List<PassiveItem> EndTurnPassiveItems = new();
 	public List<PassiveItem> PassingPassiveItems = new();
 	public List<PassiveItem> TakeDamagePassiveItems = new();
+	public List<PassiveItem> HealPassiveItems = new();
+	public List<PassiveItem> ObtainCurrencyPassiveItem = new();
 	public void AddPassiveItem(PassiveItem item)
 	{
 		AllPassiveItems.Add(item);
@@ -106,10 +108,16 @@ public partial class Player : CharacterBody2D
 				case PassiveItem.WhenActive.PassingPlayer:
 					PassingPassiveItems.Add(item);
 					break;
-					case PassiveItem.WhenActive.takeDamage:
+				case PassiveItem.WhenActive.takeDamage:
 					TakeDamagePassiveItems.Add(item);
 					break;
-					
+				case PassiveItem.WhenActive.Heal:
+					HealPassiveItems.Add(item);
+					break;
+				case PassiveItem.WhenActive.ObtainCurrency:
+					ObtainCurrencyPassiveItem.Add(item);
+					break;
+
 
 			}
 		}
@@ -142,10 +150,25 @@ public partial class Player : CharacterBody2D
 			item.RunOnPassingPlayer();
 		}
 	}
-	public void UseTakenDamageItems(int damage){
-		foreach (PassiveItem item in PassingPassiveItems)
+	public void UseTakenDamageItems(int damage)
+	{
+		foreach (PassiveItem item in TakeDamagePassiveItems)
 		{
 			item.RunOnTakingDamage(damage);
+		}
+	}
+	public void UseHealPassiveItems(int amounthealed)
+	{
+		foreach (PassiveItem item in HealPassiveItems)
+		{
+			item.RunOnHeal(amounthealed);
+		}
+	}
+	public void UseObtainCurrencyPassiveItems(int amount)
+	{
+		foreach (PassiveItem item in ObtainCurrencyPassiveItem)
+		{
+			item.RunOnObtainCurrency(amount);
 		}
 	}
 
@@ -319,7 +342,7 @@ public partial class Player : CharacterBody2D
 	}
 	public void EarnIncome()
 	{
-		Currency += Income;
+		ObtainCurrency(Income);
 		Update();
 	}
 
@@ -328,13 +351,21 @@ public partial class Player : CharacterBody2D
 		//
 	}
 
-	public void takeDamage(int damage)
+	public void takeDamage(int amount)
 	{
-		health -= damage;
-		UseTakenDamageItems(damage);
+		health -= amount;
+		UseTakenDamageItems(amount);
 		Update();
 	}
-
+	public void Heal(int amount)
+	{
+		Health += amount;
+		UseHealPassiveItems(amount);
+	}
+	public void ObtainCurrency(int amount)
+	{
+		currency += amount;
+	}
 	private void useItem(ActiveItem item, Player player)
 	{
 		if (player.itemList.Contains(item))

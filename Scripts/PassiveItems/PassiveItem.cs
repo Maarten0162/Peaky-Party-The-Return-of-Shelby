@@ -26,9 +26,11 @@ public partial class PassiveItem : Node2D
         WhenMoving,
         EndofTurn,
         PassingPlayer,
-        takeDamage
+        takeDamage,
+        Heal,
+        ObtainCurrency
     }
-    public List<WhenActive> WhenToRun = new(); 
+    public List<WhenActive> WhenToRun = new();
     public string Texturepath;
     protected string itemName;
     protected string Desc;
@@ -36,7 +38,8 @@ public partial class PassiveItem : Node2D
     public int Price = 10;
     protected Player POwner;
 
-    public virtual void SetOwner(Player player){
+    public virtual void SetOwner(Player player)
+    {
         POwner = player;
     }
     public virtual void RunOnPickup()
@@ -58,7 +61,13 @@ public partial class PassiveItem : Node2D
     public virtual void RunOnPassingPlayer()
     {
     }
-        public virtual void RunOnTakingDamage(int takendamage)
+    public virtual void RunOnTakingDamage(int takendamage)
     {
+    }
+    public virtual void RunOnHeal(int amounthealed){
+
+    }
+    public virtual void RunOnObtainCurrency(int amount){
+
     }
 }

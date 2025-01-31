@@ -7,7 +7,7 @@
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_0f8wh")
-moveSpeed = 200.0
+moveSpeed = 150.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ucuc4")

@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bl5mfsg142bmg"]
+
+[ext_resource type="Script" path="res://Scripts/PassiveItems/Blood_Gold.cs" id="1_unp0o"]
+[ext_resource type="Texture2D" uid="uid://lukowyfqi2d8" path="res://Assets/Items/Passive/GamblersWealth.png" id="2_xi5x6"]
+
+[node name="Blood Gold" type="Node2D"]
+script = ExtResource("1_unp0o")
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(1, 0)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_xi5x6")

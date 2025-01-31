@@ -99,10 +99,15 @@ public partial class NumvalUpdown : Control
 	{
 		button = Button.UpHundred;
 		GD.Print("up100");
-		if (!isUpgrading)
+		if (isUpgrading)
+		{
+			
+			await PerformContinuousUpgrade(button);
+		}
+		else
 		{
 			isUpgrading = true;
-			await PerformContinuousUpgrade(button);
+			HundredsUp();
 		}
 	}
 	private async void DownBtTensUp()
@@ -226,7 +231,7 @@ public partial class NumvalUpdown : Control
 	private void TensDown()
 	{
 		tens = tens + -1;
-		
+
 		LabTens.Text = tens.ToString();
 	}
 	private void HundredsDown()

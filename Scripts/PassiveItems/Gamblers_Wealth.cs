@@ -20,7 +20,7 @@ public partial class Gamblers_Wealth : PassiveItem
     {
         if (POwner.Income > 20)
         {
-            POwner.Health -= 10;
+            POwner.takeDamage(20);
             GD.Print("took damage because you are a rich cunt, eat the rich!");
         }
     }
