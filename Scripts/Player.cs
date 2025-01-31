@@ -82,6 +82,7 @@ public partial class Player : CharacterBody2D
 	public List<PassiveItem> MovingPassiveItems = new();
 	public List<PassiveItem> EndTurnPassiveItems = new();
 	public List<PassiveItem> PassingPassiveItems = new();
+	public List<PassiveItem> TakeDamagePassiveItems = new();
 	public void AddPassiveItem(PassiveItem item)
 	{
 		AllPassiveItems.Add(item);
@@ -105,6 +106,10 @@ public partial class Player : CharacterBody2D
 				case PassiveItem.WhenActive.PassingPlayer:
 					PassingPassiveItems.Add(item);
 					break;
+					case PassiveItem.WhenActive.takeDamage:
+					TakeDamagePassiveItems.Add(item);
+					break;
+					
 
 			}
 		}
@@ -135,6 +140,12 @@ public partial class Player : CharacterBody2D
 		foreach (PassiveItem item in PassingPassiveItems)
 		{
 			item.RunOnPassingPlayer();
+		}
+	}
+	public void UseTakenDamageItems(int damage){
+		foreach (PassiveItem item in PassingPassiveItems)
+		{
+			item.RunOnTakingDamage(damage);
 		}
 	}
 
@@ -317,9 +328,10 @@ public partial class Player : CharacterBody2D
 		//
 	}
 
-	public void takeDamage()
+	public void takeDamage(int damage)
 	{
-		//
+		health -= damage;
+		UseTakenDamageItems(damage);
 		Update();
 	}
 

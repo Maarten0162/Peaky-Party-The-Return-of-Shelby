@@ -25,7 +25,8 @@ public partial class PassiveItem : Node2D
         StartofTurn,
         WhenMoving,
         EndofTurn,
-        PassingPlayer
+        PassingPlayer,
+        takeDamage
     }
     public List<WhenActive> WhenToRun = new(); 
     public string Texturepath;
@@ -55,6 +56,9 @@ public partial class PassiveItem : Node2D
     }
 
     public virtual void RunOnPassingPlayer()
+    {
+    }
+        public virtual void RunOnTakingDamage(int takendamage)
     {
     }
 }

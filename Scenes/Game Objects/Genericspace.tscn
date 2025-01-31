@@ -12,9 +12,9 @@ texture = ExtResource("1_3evav")
 
 [node name="Label" type="Label" parent="."]
 offset_left = -20.0
-offset_top = -31.4286
+offset_top = -35.7143
 offset_right = 20.0
-offset_bottom = -8.42857
+offset_bottom = -12.7143
 text = "NaN"
 horizontal_alignment = 1
 script = ExtResource("2_sm7l7")

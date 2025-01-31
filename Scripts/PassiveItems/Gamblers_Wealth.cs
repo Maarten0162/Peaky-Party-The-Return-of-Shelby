@@ -4,15 +4,6 @@ using System;
 public partial class Gamblers_Wealth : PassiveItem
 {
 
-    public Gamblers_Wealth(Player _player)
-    {
-        POwner = _player;
-        itemName = "Gamblers Wealth";
-        Desc = "Gain 5 income, when you have more than 20 income, take 5 damage every turn";
-        WhenToRun.Add(WhenActive.Pickup);
-        WhenToRun.Add(WhenActive.EndofTurn);
-        Texturepath = "res://Assets/Items/Passive/GamblersWealth.png";
-    }
     public Gamblers_Wealth()
     {
         itemName = "Gamblers Wealth";

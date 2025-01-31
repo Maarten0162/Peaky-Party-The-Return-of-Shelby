@@ -8,7 +8,7 @@
 script = ExtResource("1_6ep5b")
 
 [node name="Board" parent="." instance=ExtResource("2_nqgyo")]
-position = Vector2(96, 0)
+position = Vector2(95, -20)
 scale = Vector2(1, 0.859)
 
 [node name="AllHuds" parent="." instance=ExtResource("3_yef75")]
