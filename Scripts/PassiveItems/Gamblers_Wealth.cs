@@ -14,7 +14,7 @@ public partial class Gamblers_Wealth : PassiveItem
     }
     public override void RunOnPickup()
     {
-        POwner.Income += 5;
+        POwner.ChangeIncome(5);
     }
     public override void RunOnEndofTurn()
     {

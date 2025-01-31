@@ -365,6 +365,16 @@ public partial class Player : CharacterBody2D
 	public void ObtainCurrency(int amount)
 	{
 		currency += amount;
+		UseObtainCurrencyPassiveItems(amount);
+	}
+	public void LoseCurrency(int amount){
+		currency -= amount;
+	}
+	public void ChangeIncome(int amount){
+		income += amount;
+	}
+	public void ChangeRollAdjust(int amount){
+		rollAdjust += amount;
 	}
 	private void useItem(ActiveItem item, Player player)
 	{
