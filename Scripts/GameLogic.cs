@@ -34,7 +34,11 @@ public partial class GameLogic : Node
     private Player player2;
     private Player player3;
     private Player player4;
-    private List<Player> PList;
+    private List<Player> PList
+    {
+        get { return GlobalVar.Plist; }
+        set { GlobalVar.Plist = value; }
+    }
     int whatPlayer;
     Player currentPlayer;
     private int TurnCount
@@ -132,6 +136,23 @@ public partial class GameLogic : Node
     public int CreatePlayers(int amount)
     {
         int players = 0;
+        // foreach (Player player in PList) later ff uitzoeken omdit met een foreach te doen.
+        // {
+        //     PList[players] = (Player)Playerscene.Instantiate();
+        //     AddChild(player);
+        //     BallAndChain bac = new();
+        //     BallAndChain bac2 = new();
+        //     BallAndChain bac3 = new();
+        //     BallAndChain bac4 = new();
+        //     BallAndChain bac5 = new();
+        //     PList[players].itemList.Add(bac);
+        //     player.itemList.Add(bac2);
+        //     PList[players].itemList.Add(bac3);
+        //     PList[players].itemList.Add(bac4);
+        //     PList[players].itemList.Add(bac5);
+        //     players++;
+        // }
+
         if (amount >= 1)
         {
             player1 = (Player)Playerscene.Instantiate();
@@ -199,7 +220,7 @@ public partial class GameLogic : Node
         return players;
     }
     public void CreatePlayerOrder(int amount)
-    {
+    {   
         PList = new();
         //hier moet een playerordering scene komen, voor nu gwn niks.
         if (amount == 2)
@@ -227,7 +248,8 @@ public partial class GameLogic : Node
 
 
     private void Turn()
-    {               currentPlayer.AddPassiveItem(new Gamblers_Wealth());
+    {
+        currentPlayer.AddPassiveItem(new Gamblers_Wealth());
         currentPlayer.EarnIncome();
         currentPlayer.UseStartPItems();
         if (currentPlayer.isAlive && !currentPlayer.SkipTurn)
@@ -290,33 +312,32 @@ public partial class GameLogic : Node
         currentInputMode = InputMode.None;
 
     }
-    private async void UseDice()
-    {
-        GD.Print("in use dice");
-        int roll = normalDice.Roll();
-        if (currentPlayer.CheckRollAdjust(roll))
-        {   GD.Print("hier");
+    // private async void UseDice()
+    // {
+    //     GD.Print("in use dice");
+    //     int roll = normalDice.Roll();
+    //     if (currentPlayer.CheckRollAdjust(roll))
+    //     {
+    //         roll += currentPlayer.RollAdjust;
+    //         int target = currentPlayer.currSpace + roll;
+    //         GD.Print($"You threw {target - currentPlayer.currSpace}");
+    //         await currentPlayer.Movement(Board, roll);
 
-            roll += currentPlayer.RollAdjust;
-            int target = currentPlayer.currSpace + roll;
-            GD.Print($"You threw {target - currentPlayer.currSpace}");
-            await currentPlayer.Movement(Board, roll);
+    //         NextTurn();
 
-            NextTurn();
-
-        }
-        else
-        {
-            GD.Print("Sorry you cant move with these legs");
-            NextTurn();
-        }
-    }
+    //     }
+    //     else
+    //     {
+    //         GD.Print("Sorry you cant move with these legs");
+    //         NextTurn();
+    //     }
+    // }
 
     private void ShopInputs(InputEvent @event)
     {
         if (@event.IsActionPressed("yes"))
         {
-            UseDice();
+           
 
         }
         else if (@event.IsActionPressed("no"))
@@ -370,7 +391,7 @@ public partial class GameLogic : Node
         currentInputMode = InputMode.None;
         openTurnHudMenu();
         ItemButton.Disabled = true;
-        
+
 
     }
 
@@ -426,13 +447,13 @@ public partial class GameLogic : Node
 
     private async void OnDiceSelected(Dice dice)
     {
-        
+
         GD.Print("in use dice");
         int roll = dice.Roll();
         if (currentPlayer.CheckRollAdjust(roll))
         {
 
-            
+
             GD.Print($"You threw {roll}");
             diceInstance.QueueFree();
             await currentPlayer.Movement(Board, roll);
@@ -443,6 +464,7 @@ public partial class GameLogic : Node
         {
             GD.Print("Sorry you cant move with these legs");
             diceInstance.QueueFree();
+            await Task.Delay(100);
             NextTurn();
         }
     }

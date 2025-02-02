@@ -45,13 +45,6 @@ public partial class Board : Node2D
 		{
 			path.Points[i] = spacesInfo[i].SpacePos;
 		}
-		GD.Print($"Board Position in _Ready(): {this.GlobalPosition}");
-foreach (var space in spacesInfo)
-{
-    GD.Print($"Space {space.Number} -> SpacePos: {space.SpacePos}, Marker Pos: {space.Node.Position}, Marker GlobalPos: {space.Node.GlobalPosition}");
-}
-GD.Print($"Board Global Position: {this.GlobalPosition}, Board Local Position: {this.Position}");
-
 	}
 
  
