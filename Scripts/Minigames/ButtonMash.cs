@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 public partial class ButtonMash : Minigame
 {
     // Renamed signal to avoid conflict with method name
-    [Signal] public delegate void ButtonReleasedSignalEventHandler(Player player, bool RightButton);
-    
+    [Signal] public delegate void ButtonReleasedSignalEventHandler(CharacterBody2D player, bool RightButton);
+
     private Random rnd = new();
     private enum currentKey
     {
@@ -27,13 +27,9 @@ public partial class ButtonMash : Minigame
         players.Add(player1);
 
         // Connect the signal to the method
-        Connect("ButtonReleasedSignal", Callable.From((Player player, bool RightButton) => ButtonReleased(player, RightButton)));
-        
-        chooseRndButton();
-    }
+        Connect("ButtonReleasedSignal", Callable.From((CharacterBody2D player, bool RightButton) => ButtonReleased(player, RightButton)));
 
-    public override void _Process(double delta)
-    {
+        chooseRndButton();
         switch (CurrentKey)
         {
             case currentKey.A:
@@ -45,6 +41,10 @@ public partial class ButtonMash : Minigame
             case currentKey.Y:
                 break;
         }
+    }
+
+    public override void _Process(double delta)
+    {
         checkKeyInput(player1);
     }
 
@@ -88,22 +88,26 @@ public partial class ButtonMash : Minigame
                 break;
         }
 
+
+
         string input = playerName + inputName;
+        
         if (Input.IsAnythingPressed())
         {
             if (Input.IsActionJustPressed(input))
             {
-                player.Position += new Vector2(30, 0);
-                // EmitSignal(nameof(ButtonReleasedSignal), player, true);  // Emitting signal when correct button is pressed
+                player.Position += new Vector2(30, 0);          
+                EmitSignal(nameof(ButtonReleasedSignal), player, true);
             }
             else
             {
-                //EmitSignal(nameof(ButtonReleasedSignal), player, false); // Emitting signal when wrong button is pressed
+                EmitSignal(nameof(ButtonReleasedSignal), player, false);
+                player.Position += new Vector2(-30, 0);
                 await Task.Delay(500);
             }
         }
     }
-    private void ButtonReleased(Player player, bool RightButton)
+    private void ButtonReleased(CharacterBody2D player, bool RightButton)
     {
         GD.Print($"{player.Name} pressed the {RightButton} button");
     }
