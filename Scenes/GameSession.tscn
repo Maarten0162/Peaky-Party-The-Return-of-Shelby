@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Scripts/GameLogic.cs" id="1_6ep5b"]
 [ext_resource type="PackedScene" uid="uid://cfxrb8rsnjvid" path="res://Scenes/Boards/board.tscn" id="2_nqgyo"]
-[ext_resource type="PackedScene" uid="uid://da4xmq5ffi4fv" path="res://Scenes/UI/AllHuds.tscn" id="3_yef75"]
 [ext_resource type="PackedScene" uid="uid://ui5k60m000ex" path="res://Scenes/GameScenes/camera.tscn" id="4_020nx"]
+[ext_resource type="PackedScene" uid="uid://dhh0oqat3tdyq" path="res://Scenes/UI/all_huds.tscn" id="4_ax05i"]
 
 [node name="Node" type="Node"]
 script = ExtResource("1_6ep5b")
@@ -12,11 +12,9 @@ script = ExtResource("1_6ep5b")
 position = Vector2(93, -9.53674e-07)
 scale = Vector2(2, 1.718)
 
-[node name="AllHuds" parent="." instance=ExtResource("3_yef75")]
-offset_left = 124.0
-offset_top = 45.0
-offset_right = 124.0
-offset_bottom = 45.0
-
 [node name="Camera" parent="." instance=ExtResource("4_020nx")]
 position = Vector2(681, 308)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Camera"]
+
+[node name="AllHuds" parent="Camera/CanvasLayer" instance=ExtResource("4_ax05i")]

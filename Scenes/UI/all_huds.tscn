@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhh0oqat3tdyq"]
+
+[ext_resource type="PackedScene" uid="uid://beuonvet12kb8" path="res://Scenes/UI/player_hud.tscn" id="1_j5wse"]
+
+[node name="AllHuds" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_direction = 2
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 80.0
+offset_top = -66.0
+offset_right = 1206.0
+offset_bottom = -28.0
+grow_vertical = 0
+
+[node name="PlayerHud1" parent="HBoxContainer" instance=ExtResource("1_j5wse")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PlayerHud2" parent="HBoxContainer" instance=ExtResource("1_j5wse")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PlayerHud" parent="HBoxContainer" instance=ExtResource("1_j5wse")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PlayerHud3" parent="HBoxContainer" instance=ExtResource("1_j5wse")]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3

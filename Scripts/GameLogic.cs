@@ -79,7 +79,7 @@ public partial class GameLogic : Node
 
 
         Board = GetNode<Board>("Board");
-        HBoxContainer hud = GetNode<HBoxContainer>("AllHuds");
+        HBoxContainer hud = GetNode<HBoxContainer>("Camera/CanvasLayer/AllHuds/HBoxContainer");
         if (TurnCount == 0)
         {
 
@@ -417,7 +417,8 @@ public partial class GameLogic : Node
     private void openTurnHudMenu()
     {
         turnhud = (Hud)TurnHudScene.Instantiate();
-        this.AddChild(turnhud);
+        GetNode("Camera/CanvasLayer").AddChild(turnhud);
+        
         ItemButton = turnhud.GetNode<TextureButton>("VBoxContainer/ItemButton");
         turnhud.Connect("HudSelection", Callable.From((string message) => OnHudSelection(message)));
 
