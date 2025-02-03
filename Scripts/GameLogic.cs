@@ -312,26 +312,28 @@ public partial class GameLogic : Node
         currentInputMode = InputMode.None;
 
     }
-    // private async void UseDice()
-    // {
-    //     GD.Print("in use dice");
-    //     int roll = normalDice.Roll();
-    //     if (currentPlayer.CheckRollAdjust(roll))
-    //     {
-    //         roll += currentPlayer.RollAdjust;
-    //         int target = currentPlayer.currSpace + roll;
-    //         GD.Print($"You threw {target - currentPlayer.currSpace}");
-    //         await currentPlayer.Movement(Board, roll);
+    private async void UseDice()
+    {
+        GD.Print("in use dice");
+        int roll = normalDice.Roll();
+        if (currentPlayer.CheckRollAdjust(roll))
+        {
+            GD.Print("hier");
 
-    //         NextTurn();
+            roll += currentPlayer.RollAdjust;
+            int target = currentPlayer.currSpace + roll;
+            GD.Print($"You threw {target - currentPlayer.currSpace}");
+            await currentPlayer.Movement(Board, roll);
 
-    //     }
-    //     else
-    //     {
-    //         GD.Print("Sorry you cant move with these legs");
-    //         NextTurn();
-    //     }
-    // }
+            NextTurn();
+
+        }
+        else
+        {
+            GD.Print("Sorry you cant move with these legs");
+            NextTurn();
+        }
+    }
 
     private void ShopInputs(InputEvent @event)
     {
