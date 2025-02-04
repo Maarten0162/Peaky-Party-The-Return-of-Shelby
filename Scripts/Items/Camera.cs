@@ -24,8 +24,7 @@ public partial class Camera : Camera2D
         LimitLeft = (int)rectPosition.X;
         LimitRight = (int)(rectPosition.X + rectSize.X);
         LimitTop = (int)rectPosition.Y;
-        LimitBottom = (int)(rectPosition.Y + rectSize.Y);
-        LimitBottom *= (int)Startzoom.Y;
+        LimitBottom = (int)((rectPosition.Y + rectSize.Y) + viewportSize.Y * ZoomOut);
         GD.Print(LimitBottom + "is limitbottom");
         viewportSize = GetViewportRect().Size;
 
@@ -103,7 +102,7 @@ public partial class Camera : Camera2D
 
             // Clamp position to stay within the board's boundaries
             newPosition.X = Mathf.Clamp(newPosition.X, LimitLeft, LimitRight - (viewportSize.X / ZoomOut));
-            newPosition.Y = Mathf.Clamp(newPosition.Y, LimitTop, LimitBottom - (viewportSize.Y * 0.5f * ZoomOut));
+            newPosition.Y = Mathf.Clamp(newPosition.Y, LimitTop, LimitBottom);
 
             GD.Print($"Viewport Size: {viewportSize}");
 GD.Print($"ZoomOut: {ZoomOut}");
