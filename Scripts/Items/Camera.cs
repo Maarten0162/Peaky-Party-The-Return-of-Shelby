@@ -10,8 +10,11 @@ public partial class Camera : Camera2D
     Player activePlayer;
     Board Board;
     Vector2 Startzoom;
+    [Export]
+    float ZoomOut = 0.8f;
     public override void _Ready()
-    {   Startzoom = Zoom;
+    {
+        Startzoom = Zoom;
         Session = GetNode<GameLogic>("/root/Node");
         Board board = GetNode<Board>("../../Board");
         TextureRect Background = board.GetNode<TextureRect>("TextureRect");
@@ -22,6 +25,8 @@ public partial class Camera : Camera2D
         LimitRight = (int)(rectPosition.X + rectSize.X);
         LimitTop = (int)rectPosition.Y;
         LimitBottom = (int)(rectPosition.Y + rectSize.Y);
+        LimitBottom *= (int)Startzoom.Y;
+        GD.Print(LimitBottom + "is limitbottom");
         viewportSize = GetViewportRect().Size;
 
         Vector2 boardCenter = rectPosition + (rectSize / 2);
@@ -34,7 +39,7 @@ public partial class Camera : Camera2D
     private Vector2 cameraMovement = Vector2.Zero;
     private Vector2 velocity = Vector2.Zero;  // For smooth deceleration
 
-    public override async void _Input(InputEvent @event)
+    public override void _Input(InputEvent @event)
     {
         if (freemove)
         {
@@ -76,7 +81,7 @@ public partial class Camera : Camera2D
 
                 freemove = false;
                 Session.openTurnHudMenu();
-               await ChangeZoom(Startzoom);
+                ChangeZoom(Startzoom);
             }
         }
     }
@@ -89,16 +94,24 @@ public partial class Camera : Camera2D
             Vector2 movementDirection = velocity.Normalized();
 
             // Smooth deceleration (velocity gradually decreases to zero)
-            cameraMovement = movementDirection.Lerp(Vector2.Zero, 0.1f); // Adjust 0.1f to control deceleration speed
+            cameraMovement = movementDirection.Lerp(Vector2.Zero, 0.01f); // Adjust 0.1f to control deceleration speed
 
             // Apply movement
-            Vector2 newPosition = Position + cameraMovement * 300 * (float)delta;
+            Vector2 newPosition = Position + cameraMovement * 500 * (float)delta;
+
+          
 
             // Clamp position to stay within the board's boundaries
-            newPosition.X = Mathf.Clamp(newPosition.X, LimitLeft, LimitRight - (int)viewportSize.X);
-            newPosition.Y = Mathf.Clamp(newPosition.Y, LimitTop, LimitBottom - (int)viewportSize.Y);
+            newPosition.X = Mathf.Clamp(newPosition.X, LimitLeft, LimitRight - (viewportSize.X / ZoomOut));
+            newPosition.Y = Mathf.Clamp(newPosition.Y, LimitTop, LimitBottom - (viewportSize.Y * 0.5f * ZoomOut));
+
+            GD.Print($"Viewport Size: {viewportSize}");
+GD.Print($"ZoomOut: {ZoomOut}");
+GD.Print($"LimitTop: {LimitTop}, LimitBottom: {LimitBottom}");
+GD.Print($"Computed Bottom Clamp: {LimitBottom - (viewportSize.Y / ZoomOut)}");
 
             Position = newPosition; // Apply the clamped position
+            GD.Print(Position);
         }
         else
         {
@@ -111,10 +124,10 @@ public partial class Camera : Camera2D
         }
 
     }
-    public async Task Freecam()
+    public void Freecam()
     {
         freemove = true;
-       await ChangeZoom(new(0.8f,0.8f));
+        ChangeZoom(new(ZoomOut, ZoomOut));
     }
     public void FollowPlayer(Player player)
     {
@@ -126,18 +139,18 @@ public partial class Camera : Camera2D
     {
         this.Board = board;
     }
-    private async Task ChangeZoom(Vector2 target)
-{
-    
-    float zoomSpeed = 0.1f; // Adjust speed as needed
-
-    while (Zoom.DistanceTo(target) > 0.01f) // Stop when close to target
+    private async void ChangeZoom(Vector2 target)
     {
-        Zoom = Zoom.Lerp(target, zoomSpeed);
-        await Task.Delay(16); // Wait ~1 frame (16ms for ~60 FPS)
-    }
 
-    Zoom = target; // Ensure exact final value
-}
+        float zoomSpeed = 0.1f; // Adjust speed as needed
+
+        while (Zoom.DistanceTo(target) > 0.01f) // Stop when close to target
+        {
+            Zoom = Zoom.Lerp(target, zoomSpeed);
+            await Task.Delay(16); // Wait ~1 frame (16ms for ~60 FPS)
+        }
+
+        Zoom = target; // Ensure exact final value
+    }
 
 }

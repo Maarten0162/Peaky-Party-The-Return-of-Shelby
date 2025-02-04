@@ -419,7 +419,7 @@ public partial class GameLogic : Node
 
     }
 
-    private async Task OnHudSelection(string message)
+    private void OnHudSelection(string message)
     {
         switch (message)
         {
@@ -436,7 +436,7 @@ public partial class GameLogic : Node
                 break;
             case "MAP":
             turnhud.QueueFree();
-               await camera.Freecam();
+               camera.Freecam();
                 
                 break;
         }
