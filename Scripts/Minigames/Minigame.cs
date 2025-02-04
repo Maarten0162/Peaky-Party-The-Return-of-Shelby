@@ -11,6 +11,9 @@ public partial class Minigame : Node
     {
         get { return GlobalVar.Plist; }
     }
+    protected List<Player> Minigamers = new();
+
+    
 
     protected void Finish(List<Player> winnerslist)
     {

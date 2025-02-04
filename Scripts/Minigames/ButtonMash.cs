@@ -24,21 +24,36 @@ public partial class ButtonMash : Minigame
 
     private List<CharacterBody2D> players = new();
     CharacterBody2D player1;
-    int ScorePL1 = 0;                           
+    int ScorePL1 = 0;
     CharacterBody2D player2;
     int ScorePL2 = 0;
     CharacterBody2D player3;
     int ScorePL3 = 0;
     CharacterBody2D player4;
     int ScorePL4 = 0;
+    CollisionShape2D coliShape;
 
+    float movementAmount;
+
+    // public ButtonMash(List<Player>Players)
+    // {
+    //     Minigamers = Players;
+    // }
     public override void _Ready()
     {
         player1 = GetNode<CharacterBody2D>("CharacterBody2D");
         players.Add(player1);
-
-        // Connect the signal to the method
-        Connect("ButtonReleasedSignal", Callable.From((CharacterBody2D player, bool RightButton) => ButtonReleased(player, RightButton)));
+        player2 = GetNode<CharacterBody2D>("CharacterBody2D2");
+        players.Add(player2);
+        player3 = GetNode<CharacterBody2D>("CharacterBody2D3");
+        players.Add(player3);
+        player4 = GetNode<CharacterBody2D>("CharacterBody2D4");
+        players.Add(player4);
+        player1.Position = new Vector2(58, 200);
+        player2.Position = new Vector2(58, player1.Position.Y +200);
+        player3.Position = new Vector2(58, player1.Position.Y +400);
+        player4.Position = new Vector2(58, player1.Position.Y +600);
+        coliShape = GetNode<CollisionShape2D>("Area2D/CollisionShape2D");
         chooseRndButton();
         switch (CurrentKey)
         {
@@ -54,15 +69,20 @@ public partial class ButtonMash : Minigame
 
     }
 
-    public override async void _Process(double delta)
+    public override void _Process(double delta)
     {
-        await checkKeyInput(player1);
+        checkKeyInput(player1);
+        // checkKeyInput(player2);
+        // checkKeyInput(player3);
+        // checkKeyInput(player4);
     }
 
     private void chooseRndButton()
     {
         currentKey newkey = currentKey.A;
-        for (int i = 0; i < 10; i++)
+        keyList.Add(newkey);
+
+        for (int i = 0; i < 9; i++)
         {
             int ii = rnd.Next(0, 4);
 
@@ -82,25 +102,51 @@ public partial class ButtonMash : Minigame
                     break;
             }
             keyList.Add(newkey);
-            
+
         }
-        GD.Print(keyList.Count);
+        for (int i = 0; i < 9; i++)
+        {
+            GD.Print(keyList[i]);
+        }
+
+        movementAmount = (coliShape.Position.X - player1.Position.X)/keyList.Count;
+
     }
 
     private Dictionary<CharacterBody2D, bool> lastPressedState = new();
     private Dictionary<CharacterBody2D, bool> canPressAgain = new();
 
-    private async Task checkKeyInput(CharacterBody2D player)
+    private async void checkKeyInput(CharacterBody2D player)
     {
         if (GameFinished) return;
 
         string inputName = "";
         string playerName = "";
+        int Score = 0;
 
-        if (player == player1) playerName = "PL1_";
-        else if (player == player2) playerName = "PL2_";
-        else if (player == player3) playerName = "PL3_";
-        else if (player == player4) playerName = "PL4_";
+        if (player == player1)
+        {
+            playerName = "PL1_";
+            Score = ScorePL1;
+        }
+        else if (player == player2)
+        {
+            playerName = "PL2_";
+            Score = ScorePL2;
+        }
+        else if (player == player3)
+        {
+            playerName = "PL3_";
+            Score = ScorePL3;
+        }
+        else if (player == player4)
+        {
+            playerName = "PL4_";
+            Score = ScorePL4;
+        }
+
+        CurrentKey = keyList[Score];
+
 
         switch (CurrentKey)
         {
@@ -120,7 +166,12 @@ public partial class ButtonMash : Minigame
         // **Detect correct button press**
         if (isCorrectPressed && !lastPressedState[player] && canPressAgain[player])
         {
-            player.Position += new Vector2(30, 0);
+            if (Score < keyList.Count-1) Score++;
+            if (player == player1) ScorePL1 = Score;
+            else if (player == player2) ScorePL2 = Score;
+            else if (player == player3) ScorePL3 = Score;
+            else if (player == player4) ScorePL4 = Score;
+            player.Position += new Vector2(movementAmount, 0);
             EmitSignal(nameof(ButtonReleasedSignal), player, true);
 
             lastPressedState[player] = true;
@@ -130,9 +181,16 @@ public partial class ButtonMash : Minigame
         // **Detect wrong button press**
         if (Input.IsAnythingPressed() && !isCorrectPressed && !lastPressedState[player] && canPressAgain[player])
         {
-            GD.Print($"{player.Name} pressed the wrong button!");
+            if (Score >= 1)
+            {
+                Score--;
+                player.Position -= new Vector2(movementAmount, 0); // Move player backward as penalty
+            }
+            if (player == player1) ScorePL1 = Score;
+            else if (player == player2) ScorePL2 = Score;
+            else if (player == player3) ScorePL3 = Score;
+            else if (player == player4) ScorePL4 = Score;
 
-            player.Position -= new Vector2(30, 0); // Move player backward as penalty
             EmitSignal(nameof(ButtonReleasedSignal), player, false);
 
             lastPressedState[player] = true;
@@ -150,10 +208,19 @@ public partial class ButtonMash : Minigame
         }
     }
 
-
-
-    private void ButtonReleased(CharacterBody2D player, bool RightButton)
+    private void OnFinishEntered(Node2D node)
     {
-        GD.Print($"{player.Name} pressed the {RightButton} button");
+        if (node == player1) winners.Add(PList[0]);
+        else if (node == player2) winners.Add(PList[1]);
+        else if (node == player3) winners.Add(PList[2]);
+        else if (node == player4) winners.Add(PList[3]);
+        GameFinished = true;
+        GD.Print($"The winner is {(Player)node}");
+        
+
     }
+
+
+
+
 }

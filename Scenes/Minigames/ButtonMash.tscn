@@ -3,11 +3,11 @@
 [ext_resource type="Script" path="res://Scripts/Minigames/ButtonMash.cs" id="1_tba1l"]
 [ext_resource type="Texture2D" uid="uid://d033mcg2dpeje" path="res://icon.svg" id="2_4t4um"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_leajn"]
-size = Vector2(78, 127.807)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kd5uq"]
 size = Vector2(134, 31.4918)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_leajn"]
+size = Vector2(78, 127.807)
 
 [node name="ButtonMash" type="Control"]
 layout_mode = 3
@@ -17,8 +17,15 @@ offset_bottom = 1124.0
 scale = Vector2(1, 0.579)
 script = ExtResource("1_tba1l")
 
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1049, 560.803)
+scale = Vector2(1, 35.6805)
+shape = SubResource("RectangleShape2D_kd5uq")
+
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-position = Vector2(58, 200.345)
+position = Vector2(-66, 82.9016)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 shape = SubResource("RectangleShape2D_leajn")
@@ -27,9 +34,34 @@ shape = SubResource("RectangleShape2D_leajn")
 scale = Vector2(0.613281, 1)
 texture = ExtResource("2_4t4um")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="CharacterBody2D2" type="CharacterBody2D" parent="."]
+position = Vector2(-66, 82.9016)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(1049, 560.803)
-scale = Vector2(1, 35.6805)
-shape = SubResource("RectangleShape2D_kd5uq")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D2"]
+shape = SubResource("RectangleShape2D_leajn")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D2"]
+scale = Vector2(0.613281, 1)
+texture = ExtResource("2_4t4um")
+
+[node name="CharacterBody2D3" type="CharacterBody2D" parent="."]
+position = Vector2(-66, 82.9016)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D3"]
+shape = SubResource("RectangleShape2D_leajn")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D3"]
+scale = Vector2(0.613281, 1)
+texture = ExtResource("2_4t4um")
+
+[node name="CharacterBody2D4" type="CharacterBody2D" parent="."]
+position = Vector2(-66, 82.9016)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D4"]
+shape = SubResource("RectangleShape2D_leajn")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D4"]
+scale = Vector2(0.613281, 1)
+texture = ExtResource("2_4t4um")
+
+[connection signal="body_entered" from="Area2D" to="." method="OnFinishEntered"]
