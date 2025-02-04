@@ -230,30 +230,9 @@ public partial class Player : CharacterBody2D
 		isAlive = true;
 		SkipTurn = false;
 		Name = "Jeff";
-	}
-	public Player(Sprite2D _skin, string _name)
-	{
-		BallAndChain BAC = new();
-		Skin = _skin;
-		Currency = StartCurrency;
-		Income = StartIncome;
-		Health = StartHealth;
-		isAlive = true;
-		SkipTurn = false;
-		itemList.Add(BAC);
-		Name = _name;
+	GD.Print(Position);
 	}
 
-	public Player()
-	{
-		BallAndChain BAC = new();
-		Currency = StartCurrency;
-		Health = StartHealth;
-		Income = StartIncome;
-		isAlive = true;
-		SkipTurn = false;
-		Name = "Jeff";
-	}
 
 	public void Sethud(PlayerHud _hud)
 	{
@@ -266,7 +245,7 @@ public partial class Player : CharacterBody2D
 	public async Task Movement(Board board, int roll)
 	{
 		roll += rollAdjust;
-
+		
 		if (roll > 0)
 		{
 			if (roll > board.spacesInfo.Length)
@@ -291,7 +270,7 @@ public partial class Player : CharacterBody2D
 
 
 		while (currSpace != target)
-		{
+		{	
 
 			Vector2 targetPosition = board.spacesInfo[currSpace].SpacePos;
 			Vector2 direction = targetPosition - Position;

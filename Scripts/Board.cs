@@ -34,7 +34,7 @@ public partial class Board : Node2D
 			{
 
 				spacesInfo[x] = (this.ToGlobal(marker.Position), marker, x + 1, Child.Name, Child.Name);
-				
+				GD.Print(spacesInfo[x]);
 
 
 				x++;

@@ -9,7 +9,7 @@
 script = ExtResource("1_6ep5b")
 
 [node name="Board" parent="." instance=ExtResource("2_nqgyo")]
-position = Vector2(93, -9.53674e-07)
+position = Vector2(165, 131)
 scale = Vector2(2, 1.718)
 
 [node name="Camera" parent="." instance=ExtResource("4_020nx")]

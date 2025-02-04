@@ -12,7 +12,7 @@ public partial class GameLogic : Node
 {
 
 
-
+    Camera camera;
     private PackedScene Playerscene = (PackedScene)GD.Load("res://Scenes/Game Objects/Player.tscn");
     PackedScene itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseItem.tscn");
     PackedScene diceScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseDice.tscn");
@@ -71,6 +71,9 @@ public partial class GameLogic : Node
 
     public override void _Ready()
     {
+        camera = GetNode<Camera>("Camera/Camera2D");
+        Board = GetNode<Board>("Board");
+        camera.SetBoard(Board);
         DiceList.Add(normalDice);
         DiceList.Add(betterDice);
         DiceList.Add(SuperDice);
@@ -78,7 +81,7 @@ public partial class GameLogic : Node
 
 
 
-        Board = GetNode<Board>("Board");
+        
         HBoxContainer hud = GetNode<HBoxContainer>("Camera/CanvasLayer/AllHuds/HBoxContainer");
         if (TurnCount == 0)
         {
@@ -87,7 +90,7 @@ public partial class GameLogic : Node
             CreatePlayerOrder(playeramount);
             for (int i = 0; i < PList.Count; i++)
             {
-                SetPlayerPos(PList[i], Board.spacesInfo[0].SpacePos);
+                SetPlayerPos(PList[i], Board.spacesInfo[50].SpacePos);
                 PlayerHud phud = (PlayerHud)hud.GetChild(i);
                 phud.AddPlayer(PList[i]);
                 PList[i].Sethud(phud);
@@ -108,7 +111,7 @@ public partial class GameLogic : Node
             CreatePlayers(PList.Count);
             for (int i = 0; i < PList.Count; i++)
             {
-                SetPlayerPos(PList[i], Board.spacesInfo[0].SpacePos);
+                SetPlayerPos(PList[i], Board.spacesInfo[50].SpacePos);
                 PlayerHud phud = (PlayerHud)hud.GetChild(i);
                 phud.AddPlayer(PList[i]);
                 PList[i].Sethud(phud);
@@ -129,9 +132,13 @@ public partial class GameLogic : Node
 
     }
     private void SetPlayerPos(Player player, Vector2 space)
-    {
+    {   
         player.Position = space;
-        player.currSpace = 1;
+        GD.Print(player.Position);
+        
+        GD.Print(player.Position);
+        player.currSpace = 51;
+       
     }
     public int CreatePlayers(int amount)
     {
@@ -168,6 +175,7 @@ public partial class GameLogic : Node
             player1.itemList.Add(bac4);
             player1.itemList.Add(bac5);
             players++;
+            
         }
         if (amount >= 2)
         {
@@ -220,7 +228,7 @@ public partial class GameLogic : Node
         return players;
     }
     public void CreatePlayerOrder(int amount)
-    {   
+    {
         PList = new();
         //hier moet een playerordering scene komen, voor nu gwn niks.
         if (amount == 2)
@@ -248,16 +256,16 @@ public partial class GameLogic : Node
 
 
     private void Turn()
-    {
+    {   camera.FollowPlayer(currentPlayer);
         currentPlayer.AddPassiveItem(new Gamblers_Wealth());
         currentPlayer.EarnIncome();
         currentPlayer.UseStartPItems();
+        
         if (currentPlayer.isAlive && !currentPlayer.SkipTurn)
         {
             GD.Print("do you want to use an item?");
             Label label = GetNode<Label>($"{currentPlayer.Name}/Label");
             label.Text = $"{whatPlayer + 1}";
-            checkStartItems(currentPlayer);
             openTurnHudMenu();
 
         }
@@ -339,7 +347,7 @@ public partial class GameLogic : Node
     {
         if (@event.IsActionPressed("yes"))
         {
-           
+
 
         }
         else if (@event.IsActionPressed("no"))
@@ -397,28 +405,13 @@ public partial class GameLogic : Node
 
     }
 
-    private void checkStartItems(Player player)
-    {
-
-    }
-
-    private void checkMidItems(Player player)
-    {
-
-    }
-
-
-    private void checkEndItems(Player player)
-    {
-
-    }
 
     //hudcode
-    private void openTurnHudMenu()
+    public void openTurnHudMenu()
     {
         turnhud = (Hud)TurnHudScene.Instantiate();
         GetNode("Camera/CanvasLayer").AddChild(turnhud);
-        
+
         ItemButton = turnhud.GetNode<TextureButton>("VBoxContainer/ItemButton");
         turnhud.Connect("HudSelection", Callable.From((string message) => OnHudSelection(message)));
 
@@ -426,12 +419,13 @@ public partial class GameLogic : Node
 
     }
 
-    private void OnHudSelection(string message)
+    private async Task OnHudSelection(string message)
     {
         switch (message)
         {
             case "DICE":
                 currentInputMode = InputMode.Dice;
+                turnhud.QueueFree();
                 break;
             case "ITEM":
                 GD.Print($"Received signal with message: {message} ");
@@ -441,10 +435,12 @@ public partial class GameLogic : Node
                 currentInputMode = InputMode.Dice;
                 break;
             case "MAP":
-                currentInputMode = InputMode.Dice;
+            turnhud.QueueFree();
+               await camera.Freecam();
+                
                 break;
         }
-        turnhud.QueueFree();
+
 
     }
 
