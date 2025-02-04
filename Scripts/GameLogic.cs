@@ -13,6 +13,7 @@ public partial class GameLogic : Node
 
 
     Camera camera;
+    CanvasLayer CamCanvas;
     private PackedScene Playerscene = (PackedScene)GD.Load("res://Scenes/Game Objects/Player.tscn");
     PackedScene itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseItem.tscn");
     PackedScene diceScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseDice.tscn");
@@ -72,6 +73,8 @@ public partial class GameLogic : Node
     public override void _Ready()
     {
         camera = GetNode<Camera>("Camera/Camera2D");
+        CamCanvas = GetNode<CanvasLayer>("Camera/CanvasLayer");
+
         Board = GetNode<Board>("Board");
         camera.SetBoard(Board);
         DiceList.Add(normalDice);
@@ -309,7 +312,7 @@ public partial class GameLogic : Node
         diceInstance = diceScene.Instantiate();
 
         // Voeg de instantie van de scène toe aan de hoofdscene
-        AddChild(diceInstance);
+        CamCanvas.AddChild(diceInstance);
 
         // Verkrijg toegang tot het script van de geïnstantieerde scène
         diceScript = (SelectUseDice)diceInstance;
@@ -371,7 +374,7 @@ public partial class GameLogic : Node
             itemInstance = itemScene.Instantiate();
 
             // Voeg de instantie van de scène toe aan de hoofdscene
-            AddChild(itemInstance);
+            CamCanvas.AddChild(itemInstance);
 
             // Verkrijg toegang tot het script van de geïnstantieerde scène
             itemScript = (SelectUseItem)itemInstance;
