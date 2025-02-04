@@ -390,7 +390,6 @@ public partial class GameLogic : Node
         else
         {
             GD.Print("You have no items to use");
-            currentInputMode = InputMode.Dice;
         }
 
     }
@@ -404,8 +403,6 @@ public partial class GameLogic : Node
         currentInputMode = InputMode.None;
         openTurnHudMenu();
         ItemButton.Disabled = true;
-
-
     }
 
 
@@ -413,7 +410,7 @@ public partial class GameLogic : Node
     public void openTurnHudMenu()
     {
         turnhud = (Hud)TurnHudScene.Instantiate();
-        GetNode("Camera/CanvasLayer").AddChild(turnhud);
+        CamCanvas.AddChild(turnhud);
 
         ItemButton = turnhud.GetNode<TextureButton>("VBoxContainer/ItemButton");
         turnhud.Connect("HudSelection", Callable.From((string message) => OnHudSelection(message)));
@@ -432,15 +429,15 @@ public partial class GameLogic : Node
                 break;
             case "ITEM":
                 GD.Print($"Received signal with message: {message} ");
+                turnhud.QueueFree();
                 currentInputMode = InputMode.Item;
                 break;
             case "PLAYERS":
                 currentInputMode = InputMode.Dice;
                 break;
             case "MAP":
-            turnhud.QueueFree();
-               camera.Freecam();
-                
+                turnhud.QueueFree();
+                camera.Freecam();
                 break;
         }
 
