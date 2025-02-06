@@ -11,6 +11,7 @@ size = Vector2(134, 31.4918)
 size = Vector2(78, 127.807)
 
 [node name="ButtonMash" type="Control"]
+z_index = 12
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1121.0
@@ -69,5 +70,8 @@ shape = SubResource("RectangleShape2D_leajn")
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D4"]
 scale = Vector2(0.613281, 1)
 texture = ExtResource("2_4t4um")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(559, 564.767)
 
 [connection signal="body_entered" from="Area2D" to="." method="OnFinishEntered"]

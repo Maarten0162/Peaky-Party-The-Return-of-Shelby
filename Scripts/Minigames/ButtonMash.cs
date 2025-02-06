@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 public partial class ButtonMash : Minigame
@@ -72,9 +73,9 @@ public partial class ButtonMash : Minigame
     public override void _Process(double delta)
     {
         checkKeyInput(player1);
-        // checkKeyInput(player2);
-        // checkKeyInput(player3);
-        // checkKeyInput(player4);
+            // checkKeyInput(player2);
+            // checkKeyInput(player3);
+            // checkKeyInput(player4);
     }
 
     private void chooseRndButton()
@@ -210,13 +211,14 @@ public partial class ButtonMash : Minigame
 
     private void OnFinishEntered(Node2D node)
     {
-        if (node == player1) winners.Add(PList[0]);
-        else if (node == player2) winners.Add(PList[1]);
-        else if (node == player3) winners.Add(PList[2]);
-        else if (node == player4) winners.Add(PList[3]);
+        // if (node == player1) winners.Add(PList[0]);
+        // else if (node == player2) winners.Add(PList[1]);
+        // else if (node == player3) winners.Add(PList[2]);
+        // else if (node == player4) winners.Add(PList[3]);
         GameFinished = true;
-        GD.Print($"The winner is {(Player)node}");
         
+        GD.Print($"The winner is {node}");
+        GetTree().ChangeSceneToFile("res://Scenes/GameSession.tscn");
 
     }
 

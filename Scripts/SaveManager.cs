@@ -6,6 +6,7 @@ public static class SaveManager
 {
 	private static List<Player> Playerlist;
 	private static Board Board;
+	
 	public static void Save(List<Player> _plist, Board _board)
 	{
 		Playerlist = _plist;
