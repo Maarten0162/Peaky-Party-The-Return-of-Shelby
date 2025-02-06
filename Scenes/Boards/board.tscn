@@ -14,7 +14,6 @@ offset_right = 1152.0
 offset_bottom = 648.0
 texture = ExtResource("1_romse")
 expand_mode = 1
-metadata/_edit_use_anchors_ = true
 
 [node name="Path" type="Line2D" parent="."]
 points = PackedVector2Array(1, 1)
