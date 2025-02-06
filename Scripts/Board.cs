@@ -6,15 +6,13 @@ public partial class Board : Node2D
 {
 
 	public (Vector2 SpacePos, Marker2D Node, int Number, string Name, string OriginalName)[] spacesInfo;
-	private Line2D path;
-	private Player tempplayer;
-	private bool isMoving = false; // To control when to move the player
-	int target;
+	public Line2D path;
+
 
 	public override void _Ready()
 	{
 		path = GetNode<Line2D>("Path");
-		Vector2 boardScale = this.Scale;
+		
 
 		int count = 0;
 		foreach (Node child in path.GetChildren())

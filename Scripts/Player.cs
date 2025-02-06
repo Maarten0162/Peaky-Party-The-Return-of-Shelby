@@ -64,10 +64,10 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	public bool isAlive { get; private set; }
-	public bool SkipTurn { get; private set; }
-	public PlayerHud hud { get; private set; }
-
+	public bool isAlive { get;  set; }
+	public bool SkipTurn { get;  set; }
+	public PlayerHud hud { get;  set; }
+	public string PlayerName{get; set;}
 
 	private bool isMoving;
 
@@ -77,8 +77,8 @@ public partial class Player : CharacterBody2D
 	//debuffs
 
 	// Active & Passive items
-	public List<ActiveItem> itemList { get; private set; } = new();
-	public List<PassiveItem> AllPassiveItems { get; private set; } = new();
+	public List<ActiveItem> itemList { get;  set; } = new();
+	public List<PassiveItem> AllPassiveItems { get;  set; } = new();
 	public List<PassiveItem> StartPassiveItems = new();
 	public List<PassiveItem> MovingPassiveItems = new();
 	public List<PassiveItem> EndTurnPassiveItems = new();
@@ -229,8 +229,8 @@ public partial class Player : CharacterBody2D
 		Income = StartIncome;
 		isAlive = true;
 		SkipTurn = false;
-		Name = "Jeff";
-	GD.Print(Position);
+		PlayerName = "Jeff";
+	
 	}
 
 

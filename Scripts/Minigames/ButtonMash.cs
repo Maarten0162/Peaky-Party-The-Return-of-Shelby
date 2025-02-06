@@ -218,7 +218,7 @@ public partial class ButtonMash : Minigame
         GameFinished = true;
         
         GD.Print($"The winner is {node}");
-        GetTree().ChangeSceneToFile("res://Scenes/GameSession.tscn");
+        GetTree().ChangeSceneToFile("res://Scenes/Session.tscn");
 
     }
 

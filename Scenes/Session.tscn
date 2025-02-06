@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://crkmpn7k0addx"]
+
+[ext_resource type="Script" path="res://Scripts/GameLogic.cs" id="1_lrx1p"]
+[ext_resource type="PackedScene" uid="uid://ui5k60m000ex" path="res://Scenes/GameScenes/camera.tscn" id="3_8ejy2"]
+[ext_resource type="PackedScene" uid="uid://dhh0oqat3tdyq" path="res://Scenes/UI/all_huds.tscn" id="4_fwatl"]
+
+[node name="Node" type="Node"]
+script = ExtResource("1_lrx1p")
+
+[node name="Camera" parent="." instance=ExtResource("3_8ejy2")]
+position = Vector2(681, 308)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Camera"]
+
+[node name="AllHuds" parent="Camera/CanvasLayer" instance=ExtResource("4_fwatl")]

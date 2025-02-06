@@ -17,6 +17,7 @@ public partial class GameLogic : Node
     private PackedScene Playerscene = (PackedScene)GD.Load("res://Scenes/Game Objects/Player.tscn");
     PackedScene itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseItem.tscn");
     PackedScene diceScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseDice.tscn");
+    PackedScene BoardScene = (PackedScene)ResourceLoader.Load("res://Scenes/Boards/board.tscn");
 
 
     //hud scenes
@@ -76,19 +77,19 @@ public partial class GameLogic : Node
         camera = GetNode<Camera>("Camera/Camera2D");
         CamCanvas = GetNode<CanvasLayer>("Camera/CanvasLayer");
 
-        Board = GetNode<Board>("Board");
-        camera.SetBoard(Board);
+
+
         DiceList.Add(normalDice);
         DiceList.Add(betterDice);
         DiceList.Add(SuperDice);
         DiceList.Add(peakyDice);
 
-
-
-        
         HBoxContainer hud = GetNode<HBoxContainer>("Camera/CanvasLayer/AllHuds/HBoxContainer");
+
         if (TurnCount == 0)
         {
+            AddChild(BoardScene.Instantiate());
+            Board = GetNode<Board>("Board");
 
             int playeramount = CreatePlayers(4); // hier moet aantal spelers dat gekozen is, wrs global variable, maar natuurlijk proberen die zo min mogelijk te gebruiken.
             CreatePlayerOrder(playeramount);
@@ -108,40 +109,64 @@ public partial class GameLogic : Node
             }
 
         }
-        else
+
+        if (TurnCount != 0)
         {
-            Board = SaveManager.LoadBoard();
-            PList = SaveManager.LoadPlayers();
-            CreatePlayers(PList.Count);
+            AddChild(BoardScene.Instantiate());
+            Board = GetNode<Board>("Board");
+
+            Board newBoard = SaveManager.LoadBoard();
+            Board.path = newBoard.path;
+            Board.spacesInfo = newBoard.spacesInfo;
+            List<Player> newPList = SaveManager.LoadPlayers();
+            PList = newPList;
+
+            TurnCount = 0;
+
             for (int i = 0; i < PList.Count; i++)
             {
-                SetPlayerPos(PList[i], Board.spacesInfo[50].SpacePos);
+                if (i == 0)
+                {   
+                    player1 = PList[i];
+                    
+                }
+                else if (i == 1)
+                {
+                    player2 = PList[i];
+                    
+                }
+                else if (i == 2)
+                {
+                    player3 = PList[i];
+                    
+                }
+                else if (i == 3)
+                {
+                    player4 = PList[i];
+                    ;
+                }
+                SetPlayerPos(PList[i], Board.spacesInfo[PList[i].currSpace].SpacePos);
+                
                 PlayerHud phud = (PlayerHud)hud.GetChild(i);
                 phud.AddPlayer(PList[i]);
                 PList[i].Sethud(phud);
                 PList[i].hud.Update();
             }
-            for (int i = PList.Count; i < hud.GetChildCount(); i++)
-            {
-                Node child = hud.GetChild(i);
-                child.QueueFree();
-
-            }
         }
-
+        camera.SetBoard(Board);
         whatPlayer = 0;
         currentPlayer = PList[whatPlayer];
         Turn();
 
     }
     private void SetPlayerPos(Player player, Vector2 space)
-    {   
+    {
         player.Position = space;
         GD.Print(player.Position);
-        
+
         GD.Print(player.Position);
         player.currSpace = 51;
-       
+
     }
     public int CreatePlayers(int amount)
     {
@@ -178,7 +203,7 @@ public partial class GameLogic : Node
             player1.itemList.Add(bac4);
             player1.itemList.Add(bac5);
             players++;
-            
+
         }
         if (amount >= 2)
         {
@@ -259,7 +284,7 @@ public partial class GameLogic : Node
 
 
     private void Turn()
-    {   
+    {
         if (TurnCount % 4 == 0 && TurnCount > 0)
         {
             ChooseRandomMiniGame();
@@ -268,12 +293,12 @@ public partial class GameLogic : Node
         currentPlayer.AddPassiveItem(new Gamblers_Wealth());
         currentPlayer.EarnIncome();
         currentPlayer.UseStartPItems();
-        
+
         if (currentPlayer.isAlive && !currentPlayer.SkipTurn)
         {
             GD.Print("do you want to use an item?");
-            Label label = GetNode<Label>($"{currentPlayer.Name}/Label");
-            label.Text = $"{whatPlayer + 1}";
+            // Label label = GetNode<Label>($"{currentPlayer.Name}/Label");
+            // label.Text = $"{whatPlayer + 1}";
             openTurnHudMenu();
 
         }
@@ -281,7 +306,7 @@ public partial class GameLogic : Node
     }
     private void NextTurn()
     {
-        
+
         TurnCount++;
         whatPlayer++;
         if (whatPlayer >= PList.Count)

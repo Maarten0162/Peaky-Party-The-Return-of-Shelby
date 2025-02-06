@@ -16,21 +16,7 @@ public partial class Camera : Camera2D
     {
         Startzoom = Zoom;
         Session = GetNode<GameLogic>("/root/Node");
-        Board board = GetNode<Board>("../../Board");
-        TextureRect Background = board.GetNode<TextureRect>("TextureRect");
-        Vector2 rectPosition = Background.GlobalPosition;
-        Vector2 rectSize = Background.Size * board.Scale;
-        // Set the background boundaries
-        LimitLeft = (int)rectPosition.X;
-        LimitRight = (int)(rectPosition.X + rectSize.X);
-        LimitTop = (int)rectPosition.Y;
-        LimitBottom = (int)(rectPosition.Y + rectSize.Y);
-        GD.Print(LimitBottom + "is limitbottom");
-        viewportSize = GetViewportRect().Size;
-
-        Vector2 boardCenter = rectPosition + (rectSize / 2);
-        GlobalPosition = boardCenter;
-
+        
     }
     private Vector2 dragStart;
 
@@ -98,16 +84,16 @@ public partial class Camera : Camera2D
             // Apply movement
             Vector2 newPosition = Position + cameraMovement * 500 * (float)delta;
 
-          
+
 
             // Clamp position to stay within the board's boundaries
             newPosition.X = Mathf.Clamp(newPosition.X, LimitLeft, LimitRight - (viewportSize.X / ZoomOut));
             newPosition.Y = Mathf.Clamp(newPosition.Y, LimitTop, LimitBottom - (viewportSize.Y * ZoomOut));
 
             GD.Print($"Viewport Size: {viewportSize}");
-GD.Print($"ZoomOut: {ZoomOut}");
-GD.Print($"LimitTop: {LimitTop}, LimitBottom: {LimitBottom}");
-GD.Print($"Computed Bottom Clamp: {LimitBottom - (viewportSize.Y / ZoomOut)}");
+            GD.Print($"ZoomOut: {ZoomOut}");
+            GD.Print($"LimitTop: {LimitTop}, LimitBottom: {LimitBottom}");
+            GD.Print($"Computed Bottom Clamp: {LimitBottom - (viewportSize.Y / ZoomOut)}");
 
             Position = newPosition; // Apply the clamped position
             GD.Print(Position);
@@ -137,6 +123,21 @@ GD.Print($"Computed Bottom Clamp: {LimitBottom - (viewportSize.Y / ZoomOut)}");
     public void SetBoard(Board board)
     {
         this.Board = board;
+        
+        TextureRect Background = board.GetNode<TextureRect>("TextureRect");
+        Vector2 rectPosition = Background.GlobalPosition;
+        Vector2 rectSize = Background.Size * board.Scale;
+        // Set the background boundaries
+        LimitLeft = (int)rectPosition.X;
+        LimitRight = (int)(rectPosition.X + rectSize.X);
+        LimitTop = (int)rectPosition.Y;
+        LimitBottom = (int)(rectPosition.Y + rectSize.Y);
+        GD.Print(LimitBottom + "is limitbottom");
+        viewportSize = GetViewportRect().Size;
+
+        Vector2 boardCenter = rectPosition + (rectSize / 2);
+        GlobalPosition = boardCenter;
+
     }
     private async void ChangeZoom(Vector2 target)
     {
