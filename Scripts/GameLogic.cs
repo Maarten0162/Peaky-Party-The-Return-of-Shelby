@@ -18,6 +18,7 @@ public partial class GameLogic : Node
     PackedScene itemScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseItem.tscn");
     PackedScene diceScene = (PackedScene)ResourceLoader.Load("res://Scenes/selectUseDice.tscn");
 
+
     //hud scenes
     PackedScene TurnHudScene = (PackedScene)ResourceLoader.Load("res://Scenes/UI/TurnHUD.tscn");
     Node turnhud;
@@ -130,7 +131,6 @@ public partial class GameLogic : Node
 
         whatPlayer = 0;
         currentPlayer = PList[whatPlayer];
-
         Turn();
 
     }
@@ -259,7 +259,12 @@ public partial class GameLogic : Node
 
 
     private void Turn()
-    {   camera.FollowPlayer(currentPlayer);
+    {   
+        if (TurnCount % 4 == 0 && TurnCount > 0)
+        {
+            ChooseRandomMiniGame();
+        }
+        camera.FollowPlayer(currentPlayer);
         currentPlayer.AddPassiveItem(new Gamblers_Wealth());
         currentPlayer.EarnIncome();
         currentPlayer.UseStartPItems();
@@ -276,6 +281,8 @@ public partial class GameLogic : Node
     }
     private void NextTurn()
     {
+        
+        TurnCount++;
         whatPlayer++;
         if (whatPlayer >= PList.Count)
         {
@@ -466,6 +473,13 @@ public partial class GameLogic : Node
             await Task.Delay(100);
             NextTurn();
         }
+    }
+
+    private async void ChooseRandomMiniGame()
+    {
+        SaveManager.Save(PList, Board);
+        await Task.Delay(100);
+        GetTree().ChangeSceneToFile("res://Scenes/Minigames/ButtonMash.tscn");
     }
 
 }
