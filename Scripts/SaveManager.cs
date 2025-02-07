@@ -32,7 +32,6 @@ public static class SaveManager
         newPlayer.RollAdjust = savedPlayer.RollAdjust;
         newPlayer.isAlive = savedPlayer.isAlive;
         newPlayer.SkipTurn = savedPlayer.SkipTurn;
-        newPlayer.hud = savedPlayer.hud; // Assuming the HUD is also saved and loaded
 
         // Copy passive and active items
         newPlayer.itemList = new List<ActiveItem>(savedPlayer.itemList);
