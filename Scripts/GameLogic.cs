@@ -95,7 +95,7 @@ public partial class GameLogic : Node
             CreatePlayerOrder(playeramount);
             for (int i = 0; i < PList.Count; i++)
             {
-                SetPlayerPos(PList[i], Board.spacesInfo[50].SpacePos);
+                SetPlayerPos(PList[i], Board.spacesInfo[50].SpacePos, 51);
                 PlayerHud phud = (PlayerHud)hud.GetChild(i);
                 phud.AddPlayer(PList[i]);
                 PList[i].Sethud(phud);
@@ -128,29 +128,36 @@ public partial class GameLogic : Node
                 if (i == 0)
                 {   
                     player1 = PList[i];
-                    
+                    AddChild(player1);
                 }
                 else if (i == 1)
                 {
                     player2 = PList[i];
-                    
+                    AddChild(player2);
                 }
                 else if (i == 2)
                 {
                     player3 = PList[i];
-                    
+                    AddChild(player3);
                 }
                 else if (i == 3)
                 {
                     player4 = PList[i];
-                    ;
+                    AddChild(player4);
                 }
-                SetPlayerPos(PList[i], Board.spacesInfo[PList[i].currSpace].SpacePos);
+                PList[i].Position = Board.spacesInfo[PList[i].currSpace - 1].SpacePos;
                 
                 PlayerHud phud = (PlayerHud)hud.GetChild(i);
                 phud.AddPlayer(PList[i]);
                 PList[i].Sethud(phud);
                 PList[i].hud.Update();
+                
+            }
+             for (int i = PList.Count; i < hud.GetChildCount(); i++)
+            {
+                Node child = hud.GetChild(i);
+                child.QueueFree();
+
             }
         }
         camera.SetBoard(Board);
@@ -159,13 +166,13 @@ public partial class GameLogic : Node
         Turn();
 
     }
-    private void SetPlayerPos(Player player, Vector2 space)
+    private void SetPlayerPos(Player player, Vector2 space, int spacenumber)
     {
         player.Position = space;
         GD.Print(player.Position);
 
         GD.Print(player.Position);
-        player.currSpace = 51;
+        player.currSpace = spacenumber; //should be 51 atm
 
     }
     public int CreatePlayers(int amount)

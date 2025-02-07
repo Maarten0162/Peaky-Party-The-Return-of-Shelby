@@ -51,9 +51,9 @@ public partial class ButtonMash : Minigame
         player4 = GetNode<CharacterBody2D>("CharacterBody2D4");
         players.Add(player4);
         player1.Position = new Vector2(58, 200);
-        player2.Position = new Vector2(58, player1.Position.Y +200);
-        player3.Position = new Vector2(58, player1.Position.Y +400);
-        player4.Position = new Vector2(58, player1.Position.Y +600);
+        player2.Position = new Vector2(58, player1.Position.Y + 200);
+        player3.Position = new Vector2(58, player1.Position.Y + 400);
+        player4.Position = new Vector2(58, player1.Position.Y + 600);
         coliShape = GetNode<CollisionShape2D>("Area2D/CollisionShape2D");
         chooseRndButton();
         switch (CurrentKey)
@@ -73,9 +73,9 @@ public partial class ButtonMash : Minigame
     public override void _Process(double delta)
     {
         checkKeyInput(player1);
-            // checkKeyInput(player2);
-            // checkKeyInput(player3);
-            // checkKeyInput(player4);
+        // checkKeyInput(player2);
+        // checkKeyInput(player3);
+        // checkKeyInput(player4);
     }
 
     private void chooseRndButton()
@@ -110,7 +110,7 @@ public partial class ButtonMash : Minigame
             GD.Print(keyList[i]);
         }
 
-        movementAmount = (coliShape.Position.X - player1.Position.X)/keyList.Count;
+        movementAmount = (coliShape.Position.X - player1.Position.X) / keyList.Count;
 
     }
 
@@ -167,7 +167,7 @@ public partial class ButtonMash : Minigame
         // **Detect correct button press**
         if (isCorrectPressed && !lastPressedState[player] && canPressAgain[player])
         {
-            if (Score < keyList.Count-1) Score++;
+            if (Score < keyList.Count - 1) Score++;
             if (player == player1) ScorePL1 = Score;
             else if (player == player2) ScorePL2 = Score;
             else if (player == player3) ScorePL3 = Score;
@@ -216,10 +216,15 @@ public partial class ButtonMash : Minigame
         // else if (node == player3) winners.Add(PList[2]);
         // else if (node == player4) winners.Add(PList[3]);
         GameFinished = true;
-        
-        GD.Print($"The winner is {node}");
-        GetTree().ChangeSceneToFile("res://Scenes/Session.tscn");
 
+        GD.Print($"The winner is {node}");
+        CallDeferred("ChangeToSession");
+
+
+    }
+    private void ChangeToSession()
+    {
+        GetTree().ChangeSceneToFile("res://Scenes/Session.tscn");
     }
 
 
