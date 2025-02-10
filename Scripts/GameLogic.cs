@@ -298,8 +298,8 @@ public partial class GameLogic : Node
 
     private void Turn()
     {
-        if (TurnCount % PList.Count == 0 && TurnCount > 0)
-        {
+        if (TurnCount % 4 == 0 && TurnCount > 0)
+        {   GlobalVar.GlobalTurn ++;
             ChooseRandomMiniGame();
         }
         camera.FollowPlayer(currentPlayer);
