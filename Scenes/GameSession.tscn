@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Scripts/GameLogic.cs" id="1_6ep5b"]
 [ext_resource type="PackedScene" uid="uid://cfxrb8rsnjvid" path="res://Scenes/Boards/board.tscn" id="2_nqgyo"]
-[ext_resource type="PackedScene" path="res://Scenes/GameScenes/camera.tscn" id="4_020nx"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/all_huds.tscn" id="4_ax05i"]
+[ext_resource type="PackedScene" uid="uid://ui5k60m000ex" path="res://Scenes/GameScenes/camera.tscn" id="4_020nx"]
+[ext_resource type="PackedScene" uid="uid://dhh0oqat3tdyq" path="res://Scenes/UI/all_huds.tscn" id="4_ax05i"]
 
 [node name="Node" type="Node"]
 script = ExtResource("1_6ep5b")

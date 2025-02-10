@@ -108,55 +108,38 @@ public partial class GameLogic : Node
                 child.QueueFree();
 
             }
-            
-            
+
+
 
         }
 
         if (TurnCount != 0)
         {
+            GD.Print("hier");
             AddChild(BoardScene.Instantiate());
             Board = GetNode<Board>("Board");
 
             Board newBoard = SaveManager.LoadBoard();
             Board.path = newBoard.path;
             Board.spacesInfo = newBoard.spacesInfo;
-            List<Player> newPList = SaveManager.LoadPlayers();
-            PList = newPList;
-
+            
             TurnCount = 0;
+            
 
+            int playeramount = CreatePlayers(4);
+            CreatePlayerOrder(playeramount);
+            PList = SaveManager.LoadPlayers();
             for (int i = 0; i < PList.Count; i++)
             {
-                if (i == 0)
-                {   
-                    player1 = PList[i];
-                    AddChild(player1);
-                }
-                else if (i == 1)
-                {
-                    player2 = PList[i];
-                    AddChild(player2);
-                }
-                else if (i == 2)
-                {
-                    player3 = PList[i];
-                    AddChild(player3);
-                }
-                else if (i == 3)
-                {
-                    player4 = PList[i];
-                    AddChild(player4);
-                }
-                PList[i].Position = Board.spacesInfo[PList[i].currSpace - 1].SpacePos;
-                
+                PList[i].Position = Board.spacesInfo[PList[i].currSpace -1].SpacePos;
+                AddChild(PList[i]);
                 PlayerHud phud = (PlayerHud)hud.GetChild(i);
                 phud.AddPlayer(PList[i]);
                 PList[i].Sethud(phud);
                 PList[i].hud.Update();
-                
+
             }
-             for (int i = PList.Count; i < hud.GetChildCount(); i++)
+            for (int i = PList.Count; i < hud.GetChildCount(); i++)
             {
                 Node child = hud.GetChild(i);
                 child.QueueFree();
@@ -169,7 +152,7 @@ public partial class GameLogic : Node
         for (int i = 0; i < PList.Count; i++)
         {
             Label label = GetNode<Label>($"{PList[i].Name}/Label");
-            label.Text = $"{i+1}";
+            label.Text = $"{i + 1}";
         }
         Turn();
 
@@ -300,7 +283,8 @@ public partial class GameLogic : Node
     private void Turn()
     {
         if (TurnCount % 4 == 0 && TurnCount > 0)
-        {   GlobalVar.GlobalTurn ++;
+        {
+            GlobalVar.GlobalTurn++;
             ChooseRandomMiniGame();
         }
         camera.FollowPlayer(currentPlayer);
