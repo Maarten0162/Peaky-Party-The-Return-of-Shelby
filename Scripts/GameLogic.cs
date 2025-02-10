@@ -33,6 +33,7 @@ public partial class GameLogic : Node
     Node itemInstance;
     Node diceInstance;
     Board Board;
+    private Minigame minigame;
     private Player player1;
     private Player player2;
     private Player player3;
@@ -107,6 +108,12 @@ public partial class GameLogic : Node
                 child.QueueFree();
 
             }
+            for (int i = 0; i < PList.Count; i++)
+            {
+                Label label = GetNode<Label>($"{PList[i].Name}/Label");
+                label.Text = $"{i+1}";
+            }
+            
 
         }
 
@@ -210,7 +217,6 @@ public partial class GameLogic : Node
             player1.itemList.Add(bac4);
             player1.itemList.Add(bac5);
             players++;
-
         }
         if (amount >= 2)
         {
@@ -292,7 +298,7 @@ public partial class GameLogic : Node
 
     private void Turn()
     {
-        if (TurnCount % 4 == 0 && TurnCount > 0)
+        if (TurnCount % PList.Count == 0 && TurnCount > 0)
         {
             ChooseRandomMiniGame();
         }
@@ -304,8 +310,6 @@ public partial class GameLogic : Node
         if (currentPlayer.isAlive && !currentPlayer.SkipTurn)
         {
             GD.Print("do you want to use an item?");
-            // Label label = GetNode<Label>($"{currentPlayer.Name}/Label");
-            // label.Text = $"{whatPlayer + 1}";
             openTurnHudMenu();
 
         }

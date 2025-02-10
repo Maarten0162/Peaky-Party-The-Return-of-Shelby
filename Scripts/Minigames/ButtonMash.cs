@@ -11,6 +11,7 @@ public partial class ButtonMash : Minigame
     [Signal] public delegate void ButtonReleasedSignalEventHandler(CharacterBody2D player, bool RightButton);
 
     bool GameFinished = false;
+    int playerCount;
     private Random rnd = new();
     private enum currentKey
     {
@@ -40,20 +41,13 @@ public partial class ButtonMash : Minigame
     // {
     //     Minigamers = Players;
     // }
+    public ButtonMash()
+    {
+        playerCount = PList.Count;
+    }
     public override void _Ready()
     {
-        player1 = GetNode<CharacterBody2D>("CharacterBody2D");
-        players.Add(player1);
-        player2 = GetNode<CharacterBody2D>("CharacterBody2D2");
-        players.Add(player2);
-        player3 = GetNode<CharacterBody2D>("CharacterBody2D3");
-        players.Add(player3);
-        player4 = GetNode<CharacterBody2D>("CharacterBody2D4");
-        players.Add(player4);
-        player1.Position = new Vector2(58, 200);
-        player2.Position = new Vector2(58, player1.Position.Y + 200);
-        player3.Position = new Vector2(58, player1.Position.Y + 400);
-        player4.Position = new Vector2(58, player1.Position.Y + 600);
+        CreatePlayer();
         coliShape = GetNode<CollisionShape2D>("Area2D/CollisionShape2D");
         chooseRndButton();
         switch (CurrentKey)
@@ -67,7 +61,6 @@ public partial class ButtonMash : Minigame
             case currentKey.Y:
                 break;
         }
-
     }
 
     public override void _Process(double delta)
@@ -225,6 +218,34 @@ public partial class ButtonMash : Minigame
     private void ChangeToSession()
     {
         GetTree().ChangeSceneToFile("res://Scenes/Session.tscn");
+    }
+
+    private void CreatePlayer()
+    {
+        if (playerCount >= 1)
+        {
+            player1 = GetNode<CharacterBody2D>("CharacterBody2D");
+            players.Add(player1);
+            player1.Position = new Vector2(58, 200);
+        }
+        if (playerCount >= 2)
+        {
+            player2 = GetNode<CharacterBody2D>("CharacterBody2D2");
+            players.Add(player2);
+            player2.Position = new Vector2(58, player1.Position.Y + 200);
+        }
+        if (playerCount >= 3)
+        {
+            player3 = GetNode<CharacterBody2D>("CharacterBody2D3");
+            players.Add(player3);
+            player3.Position = new Vector2(58, player1.Position.Y + 400);
+        }
+        if (playerCount >= 4)
+        {
+            player4 = GetNode<CharacterBody2D>("CharacterBody2D4");
+            players.Add(player4);
+            player4.Position = new Vector2(58, player1.Position.Y + 600);
+        }
     }
 
 
