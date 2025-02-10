@@ -108,11 +108,7 @@ public partial class GameLogic : Node
                 child.QueueFree();
 
             }
-            for (int i = 0; i < PList.Count; i++)
-            {
-                Label label = GetNode<Label>($"{PList[i].Name}/Label");
-                label.Text = $"{i+1}";
-            }
+            
             
 
         }
@@ -170,6 +166,11 @@ public partial class GameLogic : Node
         camera.SetBoard(Board);
         whatPlayer = 0;
         currentPlayer = PList[whatPlayer];
+        for (int i = 0; i < PList.Count; i++)
+        {
+            Label label = GetNode<Label>($"{PList[i].Name}/Label");
+            label.Text = $"{i+1}";
+        }
         Turn();
 
     }
