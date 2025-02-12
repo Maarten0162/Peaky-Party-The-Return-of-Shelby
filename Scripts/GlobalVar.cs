@@ -6,5 +6,6 @@ public static class GlobalVar
 {
     public static int TurnCount;
     public static List<Player> Plist = new();
+    public static List<Player> WinnerList = new();
     public static int GlobalTurn;
 }

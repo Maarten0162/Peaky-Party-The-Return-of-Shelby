@@ -154,6 +154,7 @@ public partial class GameLogic : Node
             Label label = GetNode<Label>($"{PList[i].Name}/Label");
             label.Text = $"{i + 1}";
         }
+        checkMinigameWinners();
         Turn();
 
     }
@@ -503,4 +504,17 @@ public partial class GameLogic : Node
         GetTree().ChangeSceneToFile("res://Scenes/Minigames/ButtonMash.tscn");
     }
 
+    private void checkMinigameWinners()
+    {
+        foreach (Player player in PList)
+        {
+            if (player.isWinner)
+            {
+                player.ObtainCurrency(333);
+                player.isWinner = false;
+            }
+            
+        }
+        GlobalVar.WinnerList.Clear();
+    }
 }

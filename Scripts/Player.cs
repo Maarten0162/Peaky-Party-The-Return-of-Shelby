@@ -70,6 +70,7 @@ public partial class Player : CharacterBody2D
 	public string PlayerName{get; set;}
 
 	private bool isMoving;
+	public bool isWinner;
 
 	[Export] private float moveSpeed; // Movement speed (pixels per second)
 

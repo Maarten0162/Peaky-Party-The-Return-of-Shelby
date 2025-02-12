@@ -32,6 +32,7 @@ public static class SaveManager
         newPlayer.RollAdjust = savedPlayer.RollAdjust;
         newPlayer.isAlive = savedPlayer.isAlive;
         newPlayer.SkipTurn = savedPlayer.SkipTurn;
+		newPlayer.isWinner = savedPlayer.isWinner;
 
         // Copy passive and active items
         newPlayer.itemList = new List<ActiveItem>(savedPlayer.itemList);
@@ -60,4 +61,3 @@ public static class SaveManager
 		return Board;
 	}
 }
-	

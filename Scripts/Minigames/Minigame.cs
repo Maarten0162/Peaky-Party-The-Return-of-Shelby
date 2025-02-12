@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public partial class Minigame : Node
 {
+
     protected List<Player> winners = new();
     protected PackedScene Playerscene;
 
@@ -12,19 +13,6 @@ public partial class Minigame : Node
         get { return GlobalVar.Plist; }
     }
     protected List<Player> Minigamers = new();
-
     
-
-    protected void Finish(List<Player> winnerslist)
-    {
-        if (winnerslist.Count > 0)
-        {
-            foreach (Player player in winnerslist)
-        {
-            player.Currency += 333;
-        }
-        }     
-      
-    }
 
 }

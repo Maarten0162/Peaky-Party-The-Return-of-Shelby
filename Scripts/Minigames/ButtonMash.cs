@@ -36,11 +36,6 @@ public partial class ButtonMash : Minigame
     CollisionShape2D coliShape;
 
     float movementAmount;
-
-    // public ButtonMash(List<Player>Players)
-    // {
-    //     Minigamers = Players;
-    // }
     public ButtonMash()
     {
         playerCount = PList.Count;
@@ -66,7 +61,7 @@ public partial class ButtonMash : Minigame
     public override void _Process(double delta)
     {
         checkKeyInput(player1);
-        // checkKeyInput(player2);
+        checkKeyInput(player2);
         // checkKeyInput(player3);
         // checkKeyInput(player4);
     }
@@ -174,7 +169,12 @@ public partial class ButtonMash : Minigame
 
         // **Detect wrong button press**
         if (Input.IsAnythingPressed() && !isCorrectPressed && !lastPressedState[player] && canPressAgain[player])
-        {
+        {      
+            if (!Input.IsActionJustPressed(playerName + "A") || !Input.IsActionJustPressed(playerName + "_B") ||
+             !Input.IsActionJustPressed(playerName + "X") || !Input.IsActionJustPressed(playerName + "_Y"))
+            {
+                return;
+            }
             if (Score >= 1)
             {
                 Score--;
@@ -204,13 +204,14 @@ public partial class ButtonMash : Minigame
 
     private void OnFinishEntered(Node2D node)
     {
-        // if (node == player1) winners.Add(PList[0]);
-        // else if (node == player2) winners.Add(PList[1]);
-        // else if (node == player3) winners.Add(PList[2]);
-        // else if (node == player4) winners.Add(PList[3]);
+        if (node == player1) PList[0].isWinner = true;
+        else if (node == player2) PList[1].isWinner = true;
+        else if (node == player3) PList[2].isWinner = true;
+        else if (node == player4) PList[3].isWinner = true;
         GameFinished = true;
 
         GD.Print($"The winner is {node}");
+    
         CallDeferred("ChangeToSession");
 
 
