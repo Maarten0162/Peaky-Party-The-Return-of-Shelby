@@ -18,6 +18,7 @@ offset_right = 1121.0
 offset_bottom = 1124.0
 scale = Vector2(1, 0.579)
 script = ExtResource("1_tba1l")
+AmountToPress = 0
 
 [node name="Area2D" type="Area2D" parent="."]
 

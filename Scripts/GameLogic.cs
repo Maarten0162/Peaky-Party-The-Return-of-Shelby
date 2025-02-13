@@ -128,15 +128,16 @@ public partial class GameLogic : Node
 
             int playeramount = CreatePlayers(4);
             CreatePlayerOrder(playeramount);
-            PList = SaveManager.LoadPlayers();
+            SaveManager.LoadPlayer(PList);
             for (int i = 0; i < PList.Count; i++)
             {
                 PList[i].Position = Board.spacesInfo[PList[i].currSpace -1].SpacePos;
-                AddChild(PList[i]);
+                
                 PlayerHud phud = (PlayerHud)hud.GetChild(i);
                 phud.AddPlayer(PList[i]);
                 PList[i].Sethud(phud);
                 PList[i].hud.Update();
+                PList[i].ShowAllPassiveItems();
 
             }
             for (int i = PList.Count; i < hud.GetChildCount(); i++)
@@ -283,11 +284,7 @@ public partial class GameLogic : Node
 
     private void Turn()
     {
-        if (TurnCount % 4 == 0 && TurnCount > 0)
-        {
-            GlobalVar.GlobalTurn++;
-            ChooseRandomMiniGame();
-        }
+        
         camera.FollowPlayer(currentPlayer);
         currentPlayer.AddPassiveItem(new Gamblers_Wealth());
         currentPlayer.EarnIncome();
@@ -301,9 +298,9 @@ public partial class GameLogic : Node
         }
         else GD.Print("player is dead or has to skip a turn");
     }
-    private void NextTurn()
+    private async void NextTurn()
     {
-
+        
         TurnCount++;
         whatPlayer++;
         if (whatPlayer >= PList.Count)
@@ -311,7 +308,12 @@ public partial class GameLogic : Node
             whatPlayer = 0;
         }
         currentPlayer = PList[whatPlayer];
-        Turn();
+        if (TurnCount % 4 == 0 && TurnCount > 0)
+        {
+            GlobalVar.GlobalTurn++;
+           await ChooseRandomMiniGame();
+        }
+        else Turn();
     }
 
 
@@ -497,7 +499,7 @@ public partial class GameLogic : Node
         }
     }
 
-    private async void ChooseRandomMiniGame()
+    private async Task ChooseRandomMiniGame()
     {
         SaveManager.Save(PList, Board);
         await Task.Delay(100);

@@ -1,12 +1,12 @@
 [gd_scene load_steps=4 format=3 uid="uid://df4xx16f6sxyl"]
 
-[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_k1l30"]
-[ext_resource type="Texture2D" uid="uid://d033mcg2dpeje" path="res://icon.svg" id="2_tuklk"]
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_eqab3"]
+[ext_resource type="Texture2D" uid="uid://d033mcg2dpeje" path="res://icon.svg" id="2_yukn8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ucuc4"]
 
 [node name="Player" type="CharacterBody2D"]
-script = ExtResource("1_k1l30")
+script = ExtResource("1_eqab3")
 moveSpeed = 150.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -14,7 +14,7 @@ shape = SubResource("RectangleShape2D_ucuc4")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.2, 0.2)
-texture = ExtResource("2_tuklk")
+texture = ExtResource("2_yukn8")
 
 [node name="Label" type="Label" parent="."]
 offset_left = -5.0

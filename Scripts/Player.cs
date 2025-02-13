@@ -136,6 +136,11 @@ public partial class Player : CharacterBody2D
 			}
 		}
 	}
+	public void ShowAllPassiveItems(){
+		foreach(PassiveItem item in AllPassiveItems){
+			hud.AddPassiveToHud(item);
+		}
+	}
 	public void UseStartPItems()
 	{
 		foreach (PassiveItem item in StartPassiveItems)

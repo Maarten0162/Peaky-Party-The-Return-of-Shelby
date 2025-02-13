@@ -9,6 +9,8 @@ public partial class ButtonMash : Minigame
 {
     // Renamed signal to avoid conflict with method name
     [Signal] public delegate void ButtonReleasedSignalEventHandler(CharacterBody2D player, bool RightButton);
+    [Export] int AmountToPress = 9;
+    
 
     bool GameFinished = false;
     int playerCount;
@@ -71,7 +73,7 @@ public partial class ButtonMash : Minigame
         currentKey newkey = currentKey.A;
         keyList.Add(newkey);
 
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < AmountToPress; i++)
         {
             int ii = rnd.Next(0, 4);
 
@@ -93,7 +95,7 @@ public partial class ButtonMash : Minigame
             keyList.Add(newkey);
 
         }
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < AmountToPress; i++)
         {
             GD.Print(keyList[i]);
         }
